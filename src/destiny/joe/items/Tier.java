@@ -1,7 +1,7 @@
 package destiny.joe.items;
 
 public enum Tier implements Column {
-    NULL, EXOTIC, LEGENDARY;
+    NULL, RARE, LEGENDARY, EXOTIC;
 
     public static Column identifyColumn(String s) {
         for (Column c : Tier.values()) {

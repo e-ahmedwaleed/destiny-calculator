@@ -50,10 +50,8 @@ public class Item {
         stats.put(Stat.INTELLECT, 0);
         stats.put(Stat.STRENGTH, 0);
     }
-    
-    @Override
+
     public String toString() {
-        
         return name + "\n";
     }
 

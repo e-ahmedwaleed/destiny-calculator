@@ -1,14 +1,20 @@
 package destiny.joe.items;
 
 public enum Type implements Column {
-    NULL, HELMET, ARM, CHEST, LEG;
+    NULL(""), HELMET("Helmet"), GAUNTLETS("Gauntlets"), CHEST_ARMOR("Chest Armor"), LEG("Leg Armor");
+
+    private final String string;
+
+    Type(String string) {
+        this.string = string;
+    }
 
     public static Column identifyColumn(String s) {
-        for (Column c : Type.values()) {
-            if (c.toString().compareToIgnoreCase(s.trim()) == 0)
+        for (Type c : Type.values()) {
+            if (c.string.compareTo(s.trim()) == 0)
                 return c;
         }
-        System.out.println("Unkown type!");
+        System.out.println("Unkown type! " + s);
         return NULL;
     }
 }
