@@ -1,10 +1,9 @@
 package destiny.joe.gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -15,14 +14,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Monitor;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.widgets.ExpandBar;
 
 public class MainWindow {
 
@@ -35,7 +29,7 @@ public class MainWindow {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
         Shell shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
-        shlDestinyCalculator.setMinimumSize(new Point(640, 480));
+        shlDestinyCalculator.setMinimumSize(new Point(640, 570));
         shlDestinyCalculator.setImage(loadImage("destiny-2.ico"));
         shlDestinyCalculator.setSize(640, 480);
         shlDestinyCalculator.setText("Destiny Calculator");
@@ -43,54 +37,51 @@ public class MainWindow {
 
         Group grpItemPicker = new Group(shlDestinyCalculator, SWT.NONE);
         FormData fd_grpItemPicker = new FormData();
-        fd_grpItemPicker.left = new FormAttachment(0, 10);
         fd_grpItemPicker.top = new FormAttachment(0, 10);
+        fd_grpItemPicker.left = new FormAttachment(0, 10);
         grpItemPicker.setLayoutData(fd_grpItemPicker);
         grpItemPicker.setText("Item Picker");
-        grpItemPicker.setLayout(new GridLayout(16, false));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
+        grpItemPicker.setLayout(new GridLayout(13, false));
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
 
         Label lblMob = new Label(grpItemPicker, SWT.NONE);
         lblMob.setToolTipText("Mobility");
-        lblMob.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\mobility.png"));
+        lblMob.setImage(loadImage("mobility.png"));
         lblMob.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblMob.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         Label lblRes = new Label(grpItemPicker, SWT.NONE);
         lblRes.setToolTipText("Resilience");
-        lblRes.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\resiliance.png"));
+        lblRes.setImage(loadImage("resiliance.png"));
         lblRes.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblRes.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         Label lblRec = new Label(grpItemPicker, SWT.NONE);
         lblRec.setToolTipText("Recovery");
-        lblRec.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\recovery.png"));
+        lblRec.setImage(loadImage("recovery.png"));
         lblRec.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblRec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         Label lblDis = new Label(grpItemPicker, SWT.NONE);
         lblDis.setToolTipText("Discipline");
-        lblDis.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\discipline.png"));
+        lblDis.setImage(loadImage("discipline.png"));
         lblDis.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblDis.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         Label lblInt = new Label(grpItemPicker, SWT.NONE);
         lblInt.setToolTipText("Intellect");
-        lblInt.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\intellect.png"));
+        lblInt.setImage(loadImage("intellect.png"));
         lblInt.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblInt.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         Label lblStr = new Label(grpItemPicker, SWT.NONE);
         lblStr.setToolTipText("Strength");
-        lblStr.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\strength.png"));
+        lblStr.setImage(loadImage("strength.png"));
         lblStr.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
         lblStr.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        
+
         Label v_bar = new Label(grpItemPicker, SWT.SEPARATOR | SWT.VERTICAL);
         GridData gd_v_bar = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
         gd_v_bar.heightHint = 14;
@@ -103,15 +94,13 @@ public class MainWindow {
         lblTier.setText("Tier ");
 
         Label vLine_0 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        vLine_0.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1));
+        vLine_0.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1));
 
         Label lblHelmet = new Label(grpItemPicker, SWT.NONE);
         lblHelmet.setText("Helmet");
-        new Label(grpItemPicker, SWT.NONE);
-                
-                        Label lblHelmetName = new Label(grpItemPicker, SWT.NONE);
-                        lblHelmetName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-                        lblHelmetName.setText("Item Name");
+
+        Label lblHelmetName = new Label(grpItemPicker, SWT.NONE);
+        lblHelmetName.setText("Item Name");
 
         Button btnHelmet = new Button(grpItemPicker, SWT.NONE);
         btnHelmet.setToolTipText("Choose item.");
@@ -158,9 +147,6 @@ public class MainWindow {
         lblHelmetTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetTier.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
         lblHelmetTier.setText("E");
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -218,15 +204,13 @@ public class MainWindow {
         lblHelmetTier_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_1 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        vLine_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1));
+        vLine_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1));
 
         Label lblGauntlets = new Label(grpItemPicker, SWT.NONE);
         lblGauntlets.setText("Gauntlets");
-        new Label(grpItemPicker, SWT.NONE);
-                
-                        Label lblGauntletsName = new Label(grpItemPicker, SWT.NONE);
-                        lblGauntletsName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-                        lblGauntletsName.setText("Item Name");
+
+        Label lblGauntletsName = new Label(grpItemPicker, SWT.NONE);
+        lblGauntletsName.setText("Item Name");
 
         Button btnGauntlets = new Button(grpItemPicker, SWT.NONE);
         btnGauntlets.setToolTipText("Choose item.");
@@ -273,9 +257,6 @@ public class MainWindow {
         lblGauntletsTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsTier.setText("E");
         lblGauntletsTier.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -333,15 +314,13 @@ public class MainWindow {
         lblGauntletsTier_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_2 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        vLine_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1));
+        vLine_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1));
 
         Label lblChest = new Label(grpItemPicker, SWT.NONE);
         lblChest.setText("Chest");
-        new Label(grpItemPicker, SWT.NONE);
-                
-                        Label lblChestName = new Label(grpItemPicker, SWT.NONE);
-                        lblChestName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-                        lblChestName.setText("Item Name");
+
+        Label lblChestName = new Label(grpItemPicker, SWT.NONE);
+        lblChestName.setText("Item Name");
 
         Button btnChest = new Button(grpItemPicker, SWT.NONE);
         btnChest.setToolTipText("Choose item.");
@@ -388,9 +367,6 @@ public class MainWindow {
         lblChestTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestTier.setText("E");
         lblChestTier.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -448,15 +424,13 @@ public class MainWindow {
         lblChestTier_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_3 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        vLine_3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1));
+        vLine_3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1));
 
         Label lblLeg = new Label(grpItemPicker, SWT.NONE);
         lblLeg.setText("Leg");
-        new Label(grpItemPicker, SWT.NONE);
-                
-                        Label lblLegName = new Label(grpItemPicker, SWT.NONE);
-                        lblLegName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-                        lblLegName.setText("Item Name");
+
+        Label lblLegName = new Label(grpItemPicker, SWT.NONE);
+        lblLegName.setText("Item Name");
 
         Button btnLeg = new Button(grpItemPicker, SWT.NONE);
         btnLeg.setToolTipText("Choose item.");
@@ -503,9 +477,6 @@ public class MainWindow {
         lblLegTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegTier.setText("E");
         lblLegTier.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -563,18 +534,16 @@ public class MainWindow {
         lblLegTier_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_4 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        GridData gd_vLine_4 = new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1);
+        GridData gd_vLine_4 = new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1);
         gd_vLine_4.widthHint = 486;
         vLine_4.setLayoutData(gd_vLine_4);
 
         Label lblExtra = new Label(grpItemPicker, SWT.NONE);
         lblExtra.setText("Class");
-        new Label(grpItemPicker, SWT.NONE);
-                
-                        Label lblExtraName = new Label(grpItemPicker, SWT.NONE);
-                        lblExtraName.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-                        lblExtraName.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
-                        lblExtraName.setText("Helm of the Emperor's Champion");
+
+        Label lblExtraName = new Label(grpItemPicker, SWT.NONE);
+        lblExtraName.setForeground(SWTResourceManager.getColor(SWT.COLOR_WIDGET_BACKGROUND));
+        lblExtraName.setText("Helm of the Emperor's Champion");
         new Label(grpItemPicker, SWT.NONE);
 
         Label lblExtraStat = new Label(grpItemPicker, SWT.NONE);
@@ -612,9 +581,6 @@ public class MainWindow {
         lblExtraStat_6.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStat_6.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStat_6.setText("0");
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -679,299 +645,360 @@ public class MainWindow {
         comboCharacter.setText("Character");
 
         Label vLine_5 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
-        vLine_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 16, 1));
-        
+        vLine_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 13, 1));
+
+        /* CUSTOM CODE: START */
+        shellCenter(display, shlDestinyCalculator);
+        fd_grpItemPicker.bottom = new FormAttachment(100, -10);
+
+        Group grpTotalStats = new Group(grpItemPicker, SWT.NONE);
+        grpTotalStats.setText("Mods");
+        grpTotalStats.setLayout(new GridLayout(8, false));
+        GridData gd_grpTotalStats = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
+        gd_grpTotalStats.heightHint = 174;
+        gd_grpTotalStats.widthHint = 205;
+        grpTotalStats.setLayoutData(gd_grpTotalStats);
+
+        Label lblTotalStatTxt = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+        lblTotalStatTxt.setText("Mobility");
+
+        Label lblMob_1 = new Label(grpTotalStats, SWT.NONE);
+        lblMob_1.setToolTipText("Mobility");
+        lblMob_1.setImage(loadImage("mobility.png"));
+        lblMob_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt_ = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_.setText(":");
+        lblTotalStatTxt_.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+        lblTotalStat.setText("0");
+        lblTotalStat.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod.setToolTipText("Add minor mobility mod.");
+        btnAddMinorMod.setText("+5");
+        btnAddMinorMod.setSize(new Point(100, 100));
+        btnAddMinorMod.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod.setToolTipText("Add mobility mod.");
+        btnAddMod.setText("+10");
+        btnAddMod.setSize(new Point(100, 100));
+        btnAddMod.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods.setToolTipText("Remove mobility mods.");
+        btnClearMods.setText("x");
+        btnClearMods.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Label lblTotalStatTxt_1 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_1.setText("Resilience");
+        lblTotalStatTxt_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblRes_1 = new Label(grpTotalStats, SWT.NONE);
+        lblRes_1.setToolTipText("Resilience");
+        lblRes_1.setImage(loadImage("resiliance.png"));
+        lblRes_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt__1 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt__1.setText(":");
+        lblTotalStatTxt__1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat_1 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat_1.setText("0");
+        lblTotalStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod_1 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod_1.setToolTipText("Add minor resilience mod.");
+        btnAddMinorMod_1.setText("+5");
+        btnAddMinorMod_1.setSize(new Point(100, 100));
+        btnAddMinorMod_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod_1 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod_1.setToolTipText("Add resilience mod.");
+        btnAddMod_1.setText("+10");
+        btnAddMod_1.setSize(new Point(100, 100));
+        btnAddMod_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods_1 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1.setToolTipText("Remove resilience mods.");
+        btnClearMods_1.setText("x");
+        btnClearMods_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Label lblTotalStatTxt_2 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_2.setText("Recovery");
+        lblTotalStatTxt_2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblRec_1 = new Label(grpTotalStats, SWT.NONE);
+        lblRec_1.setToolTipText("Recovery");
+        lblRec_1.setImage(loadImage("recovery.png"));
+        lblRec_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt__2 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt__2.setText(":");
+        lblTotalStatTxt__2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat_2 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat_2.setText("0");
+        lblTotalStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod_2 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod_2.setToolTipText("Add minor recovery mod.");
+        btnAddMinorMod_2.setText("+5");
+        btnAddMinorMod_2.setSize(new Point(100, 100));
+        btnAddMinorMod_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod_2 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod_2.setToolTipText("Add recovery mod.");
+        btnAddMod_2.setText("+10");
+        btnAddMod_2.setSize(new Point(100, 100));
+        btnAddMod_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods_1_1 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1_1.setToolTipText("Remove recovery mods.");
+        btnClearMods_1_1.setText("x");
+        btnClearMods_1_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Label lblTotalStatTxt_3 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_3.setText("Discipline");
+        lblTotalStatTxt_3.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblDis_1 = new Label(grpTotalStats, SWT.NONE);
+        lblDis_1.setToolTipText("Discipline");
+        lblDis_1.setImage(loadImage("discipline.png"));
+        lblDis_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt__3 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt__3.setText(":");
+        lblTotalStatTxt__3.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat_3 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat_3.setText("0");
+        lblTotalStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod_3 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod_3.setToolTipText("Add minor discipline mod.");
+        btnAddMinorMod_3.setText("+5");
+        btnAddMinorMod_3.setSize(new Point(100, 100));
+        btnAddMinorMod_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod_3 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod_3.setToolTipText("Add discipline mod.");
+        btnAddMod_3.setText("+10");
+        btnAddMod_3.setSize(new Point(100, 100));
+        btnAddMod_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods_1_2 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1_2.setToolTipText("Remove discipline mods.");
+        btnClearMods_1_2.setText("x");
+        btnClearMods_1_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Label lblTotalStatTxt_3_1 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_3_1.setText("Intellect");
+        lblTotalStatTxt_3_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblInt_1 = new Label(grpTotalStats, SWT.NONE);
+        lblInt_1.setToolTipText("Intellect");
+        lblInt_1.setImage(loadImage("intellect.png"));
+        lblInt_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt__3_1 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt__3_1.setText(":");
+        lblTotalStatTxt__3_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat_4 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat_4.setText("0");
+        lblTotalStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod_4 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod_4.setToolTipText("Add minor intellect mod.");
+        btnAddMinorMod_4.setText("+5");
+        btnAddMinorMod_4.setSize(new Point(100, 100));
+        btnAddMinorMod_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod_4 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod_4.setToolTipText("Add intellect mod.");
+        btnAddMod_4.setText("+10");
+        btnAddMod_4.setSize(new Point(100, 100));
+        btnAddMod_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods_1_3 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1_3.setToolTipText("Remove intellect mods.");
+        btnClearMods_1_3.setText("x");
+        btnClearMods_1_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Label lblTotalStatTxt_3_2 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt_3_2.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+        lblTotalStatTxt_3_2.setText("Strength");
+        lblTotalStatTxt_3_2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblStr_1 = new Label(grpTotalStats, SWT.NONE);
+        lblStr_1.setToolTipText("Strength");
+        lblStr_1.setImage(loadImage("strength.png"));
+        lblStr_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStatTxt__5 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStatTxt__5.setText(":");
+        lblTotalStatTxt__5.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
+
+        Label lblTotalStat_5 = new Label(grpTotalStats, SWT.NONE);
+        lblTotalStat_5.setText("0");
+        lblTotalStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Button btnAddMinorMod_5 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMinorMod_5.setToolTipText("Add minor strength mod.");
+        btnAddMinorMod_5.setText("+5");
+        btnAddMinorMod_5.setSize(new Point(100, 100));
+        btnAddMinorMod_5.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+
+        Button btnAddMod_5 = new Button(grpTotalStats, SWT.NONE);
+        btnAddMod_5.setToolTipText("Add strength mod.");
+        btnAddMod_5.setText("+10");
+        btnAddMod_5.setSize(new Point(100, 100));
+        btnAddMod_5.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpTotalStats, SWT.NONE);
+
+        Button btnClearMods_1_4 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1_4.setToolTipText("Remove strength mods.");
+        btnClearMods_1_4.setText("x");
+        btnClearMods_1_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        new Label(grpItemPicker, SWT.NONE);
+
+        Label lblTotalStats = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats.setText("0");
+        lblTotalStats.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Label lblTotalStats_1 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_1.setText("0");
+        lblTotalStats_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Label lblTotalStats_2 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_2.setText("0");
+        lblTotalStats_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Label lblTotalStats_3 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_3.setText("0");
+        lblTotalStats_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Label lblTotalStats_4 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_4.setText("0");
+        lblTotalStats_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+
+        Label lblTotalStats_5 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_5.setText("0");
+        lblTotalStats_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+        new Label(grpItemPicker, SWT.NONE);
+
+        Label lblTotalStats_6 = new Label(grpItemPicker, SWT.NONE);
+        lblTotalStats_6.setText("0");
+        lblTotalStats_6.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+
+        Button btnReset_1 = new Button(grpItemPicker, SWT.NONE);
+        btnReset_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        btnReset_1.setText("Reset");
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+
+        Button btnAbout = new Button(shlDestinyCalculator, SWT.NONE);
+        btnAbout.setText("About");
+        FormData fd_btnAbout = new FormData();
+        fd_btnAbout.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
+        fd_btnAbout.bottom = new FormAttachment(grpItemPicker, 0, SWT.BOTTOM);
+        fd_btnAbout.left = new FormAttachment(grpItemPicker, 6);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+        new Label(grpItemPicker, SWT.NONE);
+
         Group grpModsCount = new Group(grpItemPicker, SWT.NONE);
+        grpModsCount.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, false, 6, 1));
         grpModsCount.setText("Mods Count");
-        grpModsCount.setLayout(new GridLayout(7, false));
-        GridData gd_grpModsCount = new GridData(SWT.FILL, SWT.TOP, false, false, 4, 4);
-        gd_grpModsCount.widthHint = 160;
-        gd_grpModsCount.heightHint = 70;
-        grpModsCount.setLayoutData(gd_grpModsCount);
-        new Label(grpModsCount, SWT.NONE);
-        
+        grpModsCount.setLayout(new GridLayout(6, false));
+
         Label lblMob_2 = new Label(grpModsCount, SWT.NONE);
         lblMob_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblMob_2.setToolTipText("Mobility Mods");
-        lblMob_2.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\mobility.png"));
+        lblMob_2.setImage(loadImage("mobility.png"));
         lblMob_2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
+
         Label lblRes_2 = new Label(grpModsCount, SWT.NONE);
         lblRes_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblRes_2.setToolTipText("Resilience Mods");
-        lblRes_2.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\resiliance.png"));
+        lblRes_2.setImage(loadImage("resiliance.png"));
         lblRes_2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
+
         Label lblRec_1_1 = new Label(grpModsCount, SWT.NONE);
         lblRec_1_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblRec_1_1.setToolTipText("Recovery Mods");
-        lblRec_1_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\recovery.png"));
+        lblRec_1_1.setImage(loadImage("recovery.png"));
         lblRec_1_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
+
         Label lblDis_1_1 = new Label(grpModsCount, SWT.NONE);
         lblDis_1_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblDis_1_1.setToolTipText("Discipline Mods");
-        lblDis_1_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\discipline.png"));
+        lblDis_1_1.setImage(loadImage("discipline.png"));
         lblDis_1_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
+
         Label lblInt_1_1 = new Label(grpModsCount, SWT.NONE);
         lblInt_1_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblInt_1_1.setToolTipText("Intellect Mods");
-        lblInt_1_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\intellect.png"));
+        lblInt_1_1.setImage(loadImage("intellect.png"));
         lblInt_1_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
+
         Label lblStr_1_1 = new Label(grpModsCount, SWT.NONE);
         lblStr_1_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStr_1_1.setToolTipText("Strength Mods");
-        lblStr_1_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\strength.png"));
+        lblStr_1_1.setImage(loadImage("strength.png"));
         lblStr_1_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblModsP5 = new Label(grpModsCount, SWT.NONE);
-        lblModsP5.setText("+05");
-        lblModsP5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount = new Label(grpModsCount, SWT.NONE);
-        lblModsCount.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount.setText("0");
-        lblModsCount.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount_1 = new Label(grpModsCount, SWT.NONE);
-        lblModsCount_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount_1.setText("0");
-        lblModsCount_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount_2 = new Label(grpModsCount, SWT.NONE);
-        lblModsCount_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount_2.setText("0");
-        lblModsCount_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount_3 = new Label(grpModsCount, SWT.NONE);
-        lblModsCount_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount_3.setText("0");
-        lblModsCount_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount_4 = new Label(grpModsCount, SWT.NONE);
-        lblModsCount_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount_4.setText("0");
-        lblModsCount_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsCount_5 = new Label(grpModsCount, SWT.NONE);
-        lblModsCount_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblModsCount_5.setText("0");
-        lblModsCount_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
-        Label lblModsP10 = new Label(grpModsCount, SWT.NONE);
-        lblModsP10.setText("+10");
-        lblModsP10.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount.setText("0");
         lblBigModsCount.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount_1 = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount_1.setText("0");
         lblBigModsCount_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount_2 = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount_2.setText("0");
         lblBigModsCount_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount_3 = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount_3.setText("0");
         lblBigModsCount_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount_4 = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount_4.setText("0");
         lblBigModsCount_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        
+
         Label lblBigModsCount_5 = new Label(grpModsCount, SWT.NONE);
         lblBigModsCount_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblBigModsCount_5.setText("0");
         lblBigModsCount_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        
-        Label lblMob_1 = new Label(grpItemPicker, SWT.NONE);
-        lblMob_1.setToolTipText("Mobility");
-        lblMob_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\mobility.png"));
-        lblMob_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblRes_1 = new Label(grpItemPicker, SWT.NONE);
-        lblRes_1.setToolTipText("Resilience");
-        lblRes_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\resiliance.png"));
-        lblRes_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblRec_1 = new Label(grpItemPicker, SWT.NONE);
-        lblRec_1.setToolTipText("Recovery");
-        lblRec_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\recovery.png"));
-        lblRec_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblDis_1 = new Label(grpItemPicker, SWT.NONE);
-        lblDis_1.setToolTipText("Discipline");
-        lblDis_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\discipline.png"));
-        lblDis_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblInt_1 = new Label(grpItemPicker, SWT.NONE);
-        lblInt_1.setToolTipText("Intellect");
-        lblInt_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\intellect.png"));
-        lblInt_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label lblStr_1 = new Label(grpItemPicker, SWT.NONE);
-        lblStr_1.setToolTipText("Strength");
-        lblStr_1.setImage(SWTResourceManager.getImage("D:\\eclipse-workspace\\destiny-calculator\\bin\\strength.png"));
-        lblStr_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
-        
-        Label v_bar_1 = new Label(grpItemPicker, SWT.SEPARATOR);
-        GridData gd_v_bar_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-        gd_v_bar_1.heightHint = 14;
-        v_bar_1.setLayoutData(gd_v_bar_1);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        
-        Button btnModUp = new Button(grpItemPicker, SWT.NONE);
-        btnModUp.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            }
-        });
-        btnModUp.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        btnModUp.setText("+");
-        btnModUp.setSize(new Point(100,100));
-        
-        Button btnModUp_1 = new Button(grpItemPicker, SWT.NONE);
-        btnModUp_1.setText("+");
-        btnModUp_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModUp_2 = new Button(grpItemPicker, SWT.NONE);
-        btnModUp_2.setText("+");
-        btnModUp_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModUp_3 = new Button(grpItemPicker, SWT.NONE);
-        btnModUp_3.setText("+");
-        btnModUp_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModUp_4 = new Button(grpItemPicker, SWT.NONE);
-        btnModUp_4.setText("+");
-        btnModUp_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModUp_5 = new Button(grpItemPicker, SWT.NONE);
-        btnModUp_5.setText("+");
-        btnModUp_5.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-
-        Label lblTotalStats = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStats.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-        lblTotalStats.setText("Total Stats");
-        new Label(grpItemPicker, SWT.NONE);
-
-        Label lblTotalStat = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat.setText("0");
-        lblTotalStat.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-
-        Label lblTotalStat_1 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_1.setText("0");
-        lblTotalStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-
-        Label lblTotalStat_2 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_2.setText("0");
-        lblTotalStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-
-        Label lblTotalStat_3 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_3.setText("0");
-        lblTotalStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-
-        Label lblTotalStat_4 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_4.setText("0");
-        lblTotalStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-
-        Label lblTotalStat_5 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_5.setText("0");
-        lblTotalStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        new Label(grpItemPicker, SWT.NONE);
-
-        Label lblTotalStat_6 = new Label(grpItemPicker, SWT.NONE);
-        lblTotalStat_6.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblTotalStat_6.setText("0");
-        lblTotalStat_6.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        
-        Button btnModDown = new Button(grpItemPicker, SWT.NONE);
-        btnModDown.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        btnModDown.setText("-");
-        
-        Button btnModDown_1 = new Button(grpItemPicker, SWT.NONE);
-        btnModDown_1.setText("-");
-        btnModDown_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModDown_2 = new Button(grpItemPicker, SWT.NONE);
-        btnModDown_2.setText("-");
-        btnModDown_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModDown_3 = new Button(grpItemPicker, SWT.NONE);
-        btnModDown_3.setText("-");
-        btnModDown_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModDown_4 = new Button(grpItemPicker, SWT.NONE);
-        btnModDown_4.setText("-");
-        btnModDown_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        
-        Button btnModDown_5 = new Button(grpItemPicker, SWT.NONE);
-        btnModDown_5.setText("-");
-        btnModDown_5.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
-
-        Button btnReset = new Button(shlDestinyCalculator, SWT.NONE);
-        fd_grpItemPicker.bottom = new FormAttachment(btnReset, 0, SWT.BOTTOM);
-        FormData fd_btnReset = new FormData();
-        fd_btnReset.right = new FormAttachment(0, 614);
-        fd_btnReset.top = new FormAttachment(0, 406);
-        fd_btnReset.left = new FormAttachment(0, 516);
-        btnReset.setLayoutData(fd_btnReset);
-        btnReset.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            }
-        });
-        btnReset.setText("Reset");
-
-        Button btnAbout = new Button(shlDestinyCalculator, SWT.NONE);
-        FormData fd_btnAbout = new FormData();
-        fd_btnAbout.right = new FormAttachment(0, 614);
-        fd_btnAbout.top = new FormAttachment(0, 375);
-        fd_btnAbout.left = new FormAttachment(0, 516);
         btnAbout.setLayoutData(fd_btnAbout);
-        btnAbout.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            }
-        });
-        btnAbout.setText("About");
-
-        /* CUSTOM CODE: START */
-        shellCenter(display, shlDestinyCalculator);
         /* CUSTOM CODE: END */
 
         shlDestinyCalculator.open();
@@ -985,8 +1012,13 @@ public class MainWindow {
     }
 
     private static Image loadImage(String file) {
-        return new Image(Display.getDefault(),
-                MainWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6) + file);
+
+        String jarDir = MainWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
+
+        if (jarDir.contains("destiny-calculator.jar"))
+            jarDir = jarDir.replace("destiny-calculator.jar", "destiny-calculator_media/");
+
+        return new Image(Display.getDefault(), jarDir + file);
     }
 
     // http://www.java2s.com/Tutorial/Java/0280__SWT/Centerashellontheprimarymonitor.htm
