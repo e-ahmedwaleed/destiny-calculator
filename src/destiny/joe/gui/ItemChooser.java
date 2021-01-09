@@ -1,5 +1,6 @@
 package destiny.joe.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,19 +23,31 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 import destiny.joe.items.Item;
+import destiny.joe.items.ItemComparator;
 import destiny.joe.items.ItemsFactory;
-import destiny.joe.items.Stat;
 import destiny.joe.items.enums.Character;
+import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.MasterWork;
+import destiny.joe.items.enums.Stat;
+import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileReader;
 import destiny.joe.utils.GUI;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 
 public class ItemChooser extends Dialog {
 
-    private final List<Item> items;
+    private List<Item> items;
+    private final Type type;
+    private final Character character;
 
+    private static ItemComparator comparator;
     private static Map<Character, Map<Type, List<Item>>> availableItems;
     static {
+        comparator = new ItemComparator();
         try {
             availableItems = ItemsFactory.parseItems(new FileReader("destiny.csv", ",").read());
         } catch (Exception e) {
@@ -42,7 +55,7 @@ public class ItemChooser extends Dialog {
         }
     }
 
-    protected Object result = Item.NULL;
+    protected Item result = Item.NULL;
     protected Shell shlChooseItem;
     private Table table;
     private TableColumn tblclmnTier;
@@ -65,11 +78,11 @@ public class ItemChooser extends Dialog {
     private Label lblStat_4;
     private Label lblStat_5;
     private Text textStat;
-    private Text text;
-    private Text text_1;
-    private Text text_2;
-    private Text text_3;
-    private Text text_4;
+    private Text textStat_1;
+    private Text textStat_2;
+    private Text textStat_3;
+    private Text textStat_4;
+    private Text textStat_5;
 
     /**
      * Create the dialog.
@@ -79,8 +92,15 @@ public class ItemChooser extends Dialog {
      */
     public ItemChooser(Shell parent, int style, Type type, Character character) {
         super(parent, style);
-        items = availableItems.get(character).get(type);
+        this.type = type;
+        this.character = character;
+        intializeItemList();
         setText("SWT Dialog");
+    }
+
+    private void intializeItemList() {
+        items = new ArrayList<>(availableItems.get(character).get(type));
+        items.sort(comparator);
     }
 
     /**
@@ -88,11 +108,8 @@ public class ItemChooser extends Dialog {
      * 
      * @return the result
      */
-    public Object open() {
+    public Item open() {
         createContents();
-        /* CUSTOM CODE: START */
-        GUI.shellCenter(getParent().getDisplay(), shlChooseItem);
-        /* CUSTOM CODE: END */
         shlChooseItem.setLayout(new GridLayout(1, false));
 
         table = new Table(shlChooseItem, SWT.BORDER | SWT.FULL_SELECTION);
@@ -105,8 +122,7 @@ public class ItemChooser extends Dialog {
                 if (index == -1)
                     return; // no row selected
 
-                TableItem item = table.getItem(index);
-                result = item.getText();
+                result = items.get(index);
                 shlChooseItem.dispose();
             }
 
@@ -168,11 +184,6 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
         tblclmnStat_5.setResizable(false);
         tblclmnStat_5.setWidth(26);
-
-        /* CUSTOM CODE: START */
-        for (Item i : items)
-            addTableEntry(i);
-        /* CUSTOM CODE: END */
 
         grpFilter = new Group(shlChooseItem, SWT.NONE);
         grpFilter.setLayout(new GridLayout(14, false));
@@ -236,33 +247,80 @@ public class ItemChooser extends Dialog {
         new Label(grpFilter, SWT.NONE);
 
         textStat = new Text(grpFilter, SWT.BORDER);
+        textStat.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat.setText("");
+            }
+        });
         textStat.setText("00");
         textStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 
-        text = new Text(grpFilter, SWT.BORDER);
-        text.setText("00");
-        text.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_1 = new Text(grpFilter, SWT.BORDER);
+        textStat_1.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat_1.setText("");
+            }
+        });
+        textStat_1.setText("00");
+        textStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 
-        text_1 = new Text(grpFilter, SWT.BORDER);
-        text_1.setText("00");
-        text_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_2 = new Text(grpFilter, SWT.BORDER);
+        textStat_2.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat_2.setText("");
+            }
+        });
+        textStat_2.setText("00");
+        textStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 
-        text_2 = new Text(grpFilter, SWT.BORDER);
-        text_2.setText("00");
-        text_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_3 = new Text(grpFilter, SWT.BORDER);
+        textStat_3.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat_3.setText("");
+            }
+        });
+        textStat_3.setText("00");
+        textStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 
-        text_3 = new Text(grpFilter, SWT.BORDER);
-        text_3.setText("00");
-        text_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_4 = new Text(grpFilter, SWT.BORDER);
+        textStat_4.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat_4.setText("");
+            }
+        });
+        textStat_4.setText("00");
+        textStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 
-        text_4 = new Text(grpFilter, SWT.BORDER);
-        text_4.setText("00");
-        text_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+        textStat_5 = new Text(grpFilter, SWT.BORDER);
+        textStat_5.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textStat_5.setText("");
+            }
+        });
+        textStat_5.setText("00");
+        textStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         new Label(grpFilter, SWT.NONE);
 
         btnSearch = new Button(grpFilter, SWT.NONE);
+        btnSearch.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                filterTable();
+            }
+        });
         btnSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
         btnSearch.setText("Search");
+
+        /* CUSTOM CODE: START */
+        populateTable();
+        GUI.shellCenter(getParent().getDisplay(), shlChooseItem);
+        /* CUSTOM CODE: END */
 
         shlChooseItem.open();
         shlChooseItem.layout();
@@ -273,6 +331,12 @@ public class ItemChooser extends Dialog {
             }
         }
         return result;
+    }
+
+    private void populateTable() {
+        table.removeAll();
+        for (Item i : items)
+            addTableEntry(i);
     }
 
     // http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/CreateaSWTtablecolumnsheaderslines.htm
@@ -287,6 +351,48 @@ public class ItemChooser extends Dialog {
         tableItem.setText(6, i.stats.get(Stat.DISCIPLINE).toString());
         tableItem.setText(7, i.stats.get(Stat.INTELLECT).toString());
         tableItem.setText(8, i.stats.get(Stat.STRENGTH).toString());
+    }
+
+    private void filterTable() {
+        intializeItemList();
+
+        for (int i = items.size() - 1; i >= 0; i--)
+            if (toBeFiltered(items.get(i)))
+                items.remove(i);
+
+        populateTable();
+    }
+
+    private boolean toBeFiltered(Item item) {
+
+        MasterWork filterType = (MasterWork) Column.identifyColumn(comboType.getText(), MasterWork.NULL);
+        Tier filterTier = (Tier) Column.identifyColumn(comboTier.getText(), Tier.NULL);
+
+        int[] stats = { parseInt(textStat), parseInt(textStat_1), parseInt(textStat_2), parseInt(textStat_3),
+                parseInt(textStat_4), parseInt(textStat_5) };
+
+        if ((filterType != MasterWork.NULL && filterType != item.masterWork)
+                || (filterTier != Tier.NULL && filterTier != item.tier))
+            return true;
+
+        for (Stat s : Stat.values())
+            if (s != Stat.NULL && s != Stat.MASTER_WORK && item.stats.get(s) < stats[s.ordinal() - 1])
+                return true;
+
+        return false;
+    }
+
+    private int parseInt(Text textbox) {
+        int i;
+        try {
+            i = Integer.parseInt(textbox.getText());
+            if (i > 100)
+                throw new Exception("Out of bounds!");
+        } catch (Exception e) {
+            i = 0;
+        }
+        textbox.setText(String.format("%02d", i));
+        return i;
     }
 
     /**

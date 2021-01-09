@@ -6,6 +6,7 @@ import java.util.Map;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Column;
 import destiny.joe.items.enums.MasterWork;
+import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
 

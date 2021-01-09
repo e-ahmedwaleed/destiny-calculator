@@ -1084,7 +1084,6 @@ public class MainWindow {
         /* CUSTOM CODE: END */
 
         shlDestinyCalculator.open();
-
         shlDestinyCalculator.layout();
         while (!shlDestinyCalculator.isDisposed()) {
             if (!display.readAndDispatch()) {

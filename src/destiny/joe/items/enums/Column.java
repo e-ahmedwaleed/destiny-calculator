@@ -10,7 +10,8 @@ public interface Column {
 
     public static Column identifyColumn(String s, Column enumType) {
         for (Column c : enumType.getValues()) {
-            if (c.getString().compareTo(s.trim()) == 0)
+            if ((c.getString().compareTo(s.trim()) == 0)
+                    || (enumType instanceof MasterWork && ((MasterWork) c).type.compareTo(s.trim()) == 0))
                 return c;
         }
         if (!isIgnored(s, enumType) && !(enumType instanceof Character))
@@ -18,9 +19,15 @@ public interface Column {
         return enumType.getNull();
     }
 
+    static final String[] IGNORED = { "Type", "Tier", "Any" };
+
     static boolean isIgnored(String s, Column enumType) {
-        if (enumType instanceof Type)
+        if (enumType instanceof Type) {
             for (String ignored : Type.IGNORED)
+                if (s.equals(ignored))
+                    return true;
+        } else
+            for (String ignored : IGNORED)
                 if (s.equals(ignored))
                     return true;
         return false;
