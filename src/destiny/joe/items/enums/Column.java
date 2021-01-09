@@ -13,7 +13,7 @@ public interface Column {
             if (c.getString().compareTo(s.trim()) == 0)
                 return c;
         }
-        if (!isIgnored(s, enumType))
+        if (!isIgnored(s, enumType) && !(enumType instanceof Character))
             System.out.println("Unkown " + enumType.getClass().getName() + "! (" + s + ")");
         return enumType.getNull();
     }

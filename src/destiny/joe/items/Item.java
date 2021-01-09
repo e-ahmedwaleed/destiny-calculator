@@ -62,7 +62,7 @@ public class Item {
     }
 
     public String toString() {
-        return name + "\n";
+        return name;
     }
 
 }

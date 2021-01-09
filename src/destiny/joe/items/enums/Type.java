@@ -1,7 +1,7 @@
 package destiny.joe.items.enums;
 
 public enum Type implements Column {
-    NULL("-"), HELMET("Helmet"), GAUNTLETS("Gauntlets"), CHEST_ARMOR("Chest Armor"), LEG("Leg Armor");
+    NULL("-"), HELMET("Helmet"), GAUNTLETS("Gauntlets"), CHEST_ARMOR("Chest Armor"), LEG_ARMOR("Leg Armor");
 
     static final String[] IGNORED = { "Hunter Cloak", "Titan Mark", "Warlock Bond" };
 

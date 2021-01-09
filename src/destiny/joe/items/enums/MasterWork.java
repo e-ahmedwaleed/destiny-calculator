@@ -1,11 +1,14 @@
 package destiny.joe.items.enums;
 
 public enum MasterWork implements Column {
-    NULL("-"), ARC("Arc Energy Capacity"), SOLAR("Solar Energy Capacity"), VOID("Void Energy Capacity");
+    NULL("-", "-"), ARC("Arc Energy Capacity", "Arc"), SOLAR("Solar Energy Capacity", "Solar"),
+    VOID("Void Energy Capacity", "Void");
 
+    public final String type;
     private final String string;
 
-    MasterWork(String string) {
+    MasterWork(String string, String type) {
+        this.type = type;
         this.string = string;
     }
 
