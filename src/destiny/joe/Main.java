@@ -3,10 +3,10 @@ package destiny.joe;
 import java.util.List;
 import java.util.Map;
 
-import destiny.joe.items.Character;
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemsFactory;
-import destiny.joe.items.Type;
+import destiny.joe.items.enums.Character;
+import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileReader;
 
 public class Main {

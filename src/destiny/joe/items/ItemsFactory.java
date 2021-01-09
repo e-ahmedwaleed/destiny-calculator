@@ -6,11 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import destiny.joe.items.enums.Character;
+import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.MasterWork;
+import destiny.joe.items.enums.Tier;
+import destiny.joe.items.enums.Type;
+
 public class ItemsFactory {
 
-    private static final String[] REQUIRED = { "Name", "Tier", "Type", "Equippable", "Masterwork Tier",
+    private static final String[] REQUIRED = { "Name", "Tier", "Type", "Equippable", "Masterwork Type",
             "Mobility (Base)", "Resilience (Base)", "Recovery (Base)", "Discipline (Base)", "Intellect (Base)",
-            "Strength (Base)" };
+            "Strength (Base)", "Masterwork Tier" };
 
     private ItemsFactory() {
     }
@@ -22,8 +28,6 @@ public class ItemsFactory {
         for (int i = 0; i < dataFile[0].length; i++)
             if (isRequired(dataFile[0][i]))
                 indices.put(dataFile[0][i], i);
-
-        // Item[] items = new Item[];
 
         Map<Character, Map<Type, List<Item>>> items = new EnumMap<>(Character.class);
 
@@ -56,18 +60,19 @@ public class ItemsFactory {
             String itemName = data[indices.get("Name")];
 
             Column[] itemProperties = new Column[4];
-            itemProperties[0] = Tier.identifyColumn(data[indices.get("Tier")]);
-            itemProperties[1] = Type.identifyColumn(data[indices.get("Type")]);
-            itemProperties[2] = Character.identifyColumn(data[indices.get("Equippable")]);
-            itemProperties[3] = MasterWork.identifyColumn(data[indices.get("Masterwork Tier")]);
+            itemProperties[0] = Column.identifyColumn(data[indices.get("Tier")], Tier.NULL);
+            itemProperties[1] = Column.identifyColumn(data[indices.get("Type")], Type.NULL);
+            itemProperties[2] = Column.identifyColumn(data[indices.get("Equippable")], Character.NULL);
+            itemProperties[3] = Column.identifyColumn(data[indices.get("Masterwork Type")], MasterWork.NULL);
 
-            int[] itemStats = new int[6];
+            int[] itemStats = new int[7];
             itemStats[0] = Integer.parseInt(data[indices.get("Mobility (Base)")]);
             itemStats[1] = Integer.parseInt(data[indices.get("Resilience (Base)")]);
             itemStats[2] = Integer.parseInt(data[indices.get("Recovery (Base)")]);
             itemStats[3] = Integer.parseInt(data[indices.get("Discipline (Base)")]);
             itemStats[4] = Integer.parseInt(data[indices.get("Intellect (Base)")]);
             itemStats[5] = Integer.parseInt(data[indices.get("Strength (Base)")]);
+            itemStats[6] = Integer.parseInt(data[indices.get("Masterwork Tier")]);
 
             return new Item(itemName, itemProperties, itemStats);
         } catch (Exception e) {

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class FileReader {
 
@@ -21,12 +22,17 @@ public class FileReader {
     public String[][] read() throws IOException {
         int dataRowsCount = lineCounter();
         Scanner inputScanner = new Scanner(new File(fileLocation));
-        return readFile(inputScanner, dataRowsCount);
+        String[][] data = readFile(inputScanner, dataRowsCount);
+        inputScanner.close();
+        return data;
     }
 
     private int lineCounter() throws IOException {
         Path path = Paths.get(fileLocation);
-        return (int) Files.lines(path).count();
+        Stream<String> stream = Files.lines(path);
+        int lineNum = (int) stream.count();
+        stream.close();
+        return lineNum;
     }
 
     private String[] readLine(Scanner input) {

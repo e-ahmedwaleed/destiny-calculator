@@ -3,6 +3,12 @@ package destiny.joe.items;
 import java.util.EnumMap;
 import java.util.Map;
 
+import destiny.joe.items.enums.Character;
+import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.MasterWork;
+import destiny.joe.items.enums.Tier;
+import destiny.joe.items.enums.Type;
+
 public class Item {
 
     public static final Item NULL = new Item();
@@ -17,6 +23,7 @@ public class Item {
     public final Map<Stat, Integer> stats;
 
     public Item(String itemName, Column[] itemProperties, int[] itemStats) {
+
         name = itemName;
 
         tier = (Tier) itemProperties[0];
@@ -31,6 +38,8 @@ public class Item {
         stats.put(Stat.DISCIPLINE, itemStats[3]);
         stats.put(Stat.INTELLECT, itemStats[4]);
         stats.put(Stat.STRENGTH, itemStats[5]);
+        stats.put(Stat.MASTER_WORK, itemStats[6]);
+
     }
 
     private Item() {
@@ -39,7 +48,7 @@ public class Item {
         tier = Tier.NULL;
         type = Type.NULL;
         character = Character.NULL;
-        masterWork = MasterWork.MW_0;
+        masterWork = MasterWork.NULL;
 
         stats = new EnumMap<>(Stat.class);
 
@@ -49,6 +58,7 @@ public class Item {
         stats.put(Stat.DISCIPLINE, 0);
         stats.put(Stat.INTELLECT, 0);
         stats.put(Stat.STRENGTH, 0);
+        stats.put(Stat.MASTER_WORK, 0);
     }
 
     public String toString() {
