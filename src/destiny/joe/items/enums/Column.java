@@ -19,6 +19,7 @@ public interface Column {
         return enumType.getNull();
     }
 
+    /// TODO: Mutable fields should not be "public static".
     static final String[] IGNORED = { "Type", "Tier", "Any" };
 
     static boolean isIgnored(String s, Column enumType) {

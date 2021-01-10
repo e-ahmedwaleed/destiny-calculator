@@ -1,7 +1,6 @@
 package destiny.joe.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +13,7 @@ public class FileReader {
     private final String fileLocation;
     private final String delimiter;
 
-    public FileReader(String fileLocation, String delimiter) throws FileNotFoundException {
+    public FileReader(String fileLocation, String delimiter) {
         this.fileLocation = fileLocation;
         this.delimiter = delimiter;
     }

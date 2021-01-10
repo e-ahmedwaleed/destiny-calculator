@@ -1,10 +1,12 @@
 package destiny.joe.gui;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -31,12 +33,7 @@ import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
-import destiny.joe.utils.FileReader;
 import destiny.joe.utils.GUI;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 
 public class ItemChooser extends Dialog {
 
@@ -44,20 +41,12 @@ public class ItemChooser extends Dialog {
     private final Type type;
     private final Character character;
 
-    private static ItemComparator comparator;
-    private static Map<Character, Map<Type, List<Item>>> availableItems;
-    static {
-        comparator = new ItemComparator();
-        try {
-            availableItems = ItemsFactory.parseItems(new FileReader("destiny.csv", ",").read());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private static ItemComparator comparator = new ItemComparator();
 
     protected Item result = Item.NULL;
     protected Shell shlChooseItem;
     private Table table;
+    private TableColumn tblclmnName;
     private TableColumn tblclmnTier;
     private TableColumn tblclmnType;
     private TableColumn tblclmnStat;
@@ -99,7 +88,7 @@ public class ItemChooser extends Dialog {
     }
 
     private void intializeItemList() {
-        items = new ArrayList<>(availableItems.get(character).get(type));
+        items = ItemsFactory.getItems(type, character);
         items.sort(comparator);
     }
 
@@ -134,52 +123,106 @@ public class ItemChooser extends Dialog {
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
 
-        TableColumn tblclmnName = new TableColumn(table, SWT.LEFT);
+        tblclmnName = new TableColumn(table, SWT.LEFT);
+        tblclmnName.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Name");
+            }
+        });
         tblclmnName.setResizable(false);
         tblclmnName.setWidth(205);
         tblclmnName.setText("Name");
 
         tblclmnTier = new TableColumn(table, SWT.NONE);
+        tblclmnTier.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Tier");
+            }
+        });
         tblclmnTier.setResizable(false);
         tblclmnTier.setWidth(75);
         tblclmnTier.setText("Tier");
 
         tblclmnType = new TableColumn(table, SWT.NONE);
+        tblclmnType.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Type");
+            }
+        });
         tblclmnType.setResizable(false);
         tblclmnType.setWidth(55);
         tblclmnType.setText("Type");
 
         tblclmnStat = new TableColumn(table, SWT.CENTER);
+        tblclmnStat.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Mobility");
+            }
+        });
         tblclmnStat.setToolTipText("Mobility");
         tblclmnStat.setImage(GUI.loadImage(getParent().getDisplay(), "mobility.png"));
         tblclmnStat.setResizable(false);
         tblclmnStat.setWidth(26);
 
         tblclmnStat_1 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_1.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Resilience");
+            }
+        });
         tblclmnStat_1.setToolTipText("Resilience");
         tblclmnStat_1.setImage(GUI.loadImage(getParent().getDisplay(), "resiliance.png"));
         tblclmnStat_1.setResizable(false);
         tblclmnStat_1.setWidth(26);
 
         tblclmnStat_2 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_2.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Recovery");
+            }
+        });
         tblclmnStat_2.setToolTipText("Recovery");
         tblclmnStat_2.setImage(GUI.loadImage(getParent().getDisplay(), "recovery.png"));
         tblclmnStat_2.setResizable(false);
         tblclmnStat_2.setWidth(26);
 
         tblclmnStat_3 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_3.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Discipline");
+            }
+        });
         tblclmnStat_3.setToolTipText("Discipline");
         tblclmnStat_3.setImage(GUI.loadImage(getParent().getDisplay(), "discipline.png"));
         tblclmnStat_3.setResizable(false);
         tblclmnStat_3.setWidth(26);
 
         tblclmnStat_4 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_4.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Intellect");
+            }
+        });
         tblclmnStat_4.setToolTipText("Intellect");
         tblclmnStat_4.setImage(GUI.loadImage(getParent().getDisplay(), "intellect.png"));
         tblclmnStat_4.setResizable(false);
         tblclmnStat_4.setWidth(26);
 
         tblclmnStat_5 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_5.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                System.out.println("Strength");
+            }
+        });
         tblclmnStat_5.setToolTipText("Strength");
         tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
         tblclmnStat_5.setResizable(false);
@@ -317,14 +360,25 @@ public class ItemChooser extends Dialog {
         btnSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
         btnSearch.setText("Search");
 
+        Display display = getParent().getDisplay();
+
         /* CUSTOM CODE: START */
         populateTable();
-        GUI.shellCenter(getParent().getDisplay(), shlChooseItem);
+        GUI.scaleColumnDisplay(display, tblclmnName);
+        GUI.scaleColumnDisplay(display, tblclmnTier);
+        GUI.scaleColumnDisplay(display, tblclmnType);
+        GUI.scaleColumnDisplay(display, tblclmnStat);
+        GUI.scaleColumnDisplay(display, tblclmnStat_1);
+        GUI.scaleColumnDisplay(display, tblclmnStat_2);
+        GUI.scaleColumnDisplay(display, tblclmnStat_3);
+        GUI.scaleColumnDisplay(display, tblclmnStat_4);
+        GUI.scaleColumnDisplay(display, tblclmnStat_5);
+        GUI.scaleWindowDisplay(display, shlChooseItem);
+        GUI.shellCenter(display, shlChooseItem);
         /* CUSTOM CODE: END */
 
         shlChooseItem.open();
         shlChooseItem.layout();
-        Display display = getParent().getDisplay();
         while (!shlChooseItem.isDisposed()) {
             if (!display.readAndDispatch()) {
                 display.sleep();

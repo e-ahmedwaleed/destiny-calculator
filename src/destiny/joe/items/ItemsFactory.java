@@ -11,6 +11,7 @@ import destiny.joe.items.enums.Column;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
+import destiny.joe.utils.FileReader;
 
 public class ItemsFactory {
 
@@ -18,10 +19,23 @@ public class ItemsFactory {
             "Mobility (Base)", "Resilience (Base)", "Recovery (Base)", "Discipline (Base)", "Intellect (Base)",
             "Strength (Base)", "Masterwork Tier" };
 
+    private static Map<Character, Map<Type, List<Item>>> availableItems;
+    static {
+        try {
+            availableItems = ItemsFactory.parseItems(new FileReader("destinyArmor.csv", ",").read());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private ItemsFactory() {
     }
 
-    public static Map<Character, Map<Type, List<Item>>> parseItems(String[][] dataFile) {
+    public static List<Item> getItems(Type type, Character character) {
+        return new ArrayList<>(availableItems.get(character).get(type));
+    }
+
+    private static Map<Character, Map<Type, List<Item>>> parseItems(String[][] dataFile) {
 
         Map<String, Integer> indices = new HashMap<>();
 
