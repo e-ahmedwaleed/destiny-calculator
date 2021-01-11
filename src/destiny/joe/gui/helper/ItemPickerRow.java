@@ -1,5 +1,7 @@
 package destiny.joe.gui.helper;
 
+import java.util.Observable;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,8 +15,10 @@ import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 
-public class ItemPickerRow {
+public class ItemPickerRow extends Observable {
 
+    private Item item;
+    private boolean mw;
     private final Type type;
 
     /**
@@ -32,11 +36,11 @@ public class ItemPickerRow {
         this.buttons = buttons;
         this.labels = labels;
         this.type = type;
-        updateItem(Item.NULL);
+        clearItem();
         buttons[0].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                updateItem(Item.NULL);
+                clearItem();
             }
         });
         buttons[1].addSelectionListener(new SelectionAdapter() {
@@ -51,7 +55,24 @@ public class ItemPickerRow {
         updateItem(new ItemChooser(shell, SWT.CLOSE, type, selectedChar).open());
     }
 
-    public void updateItem(Item item) {
+    public void clearItem() {
+        updateItem(Item.NULL);
+    }
+
+    public int getStat(Stat stat) {
+        return item.stats.get(stat) + (mw ? 2 : 0);
+    }
+
+    public int getTotalStats() {
+        int total = 0;
+        for (int i = 1; i < 7; i++)
+            total += item.stats.get(Stat.values()[i]);
+        return total + (mw ? 12 : 0);
+    }
+
+    private void updateItem(Item item) {
+        this.item = item;
+
         labels[0].setText(item.name);
         labels[1].setText(item.tier.getString());
 
@@ -83,11 +104,21 @@ public class ItemPickerRow {
     }
 
     private void masterworkToggle(boolean on) {
+        mw = on;
         buttons[1].setSelection(on);
         for (int i = 1; i < 8; i++) {
             labels[i + 1].setEnabled(!on);
             labels[i + 8].setEnabled(on);
         }
+        // All functions end up calling masterworkToggle.
+        notifyObservers();
+    }
+
+    // https://stackoverflow.com/questions/21962276/observable-observer-not-working
+    @Override
+    public void notifyObservers() {
+        setChanged();
+        super.notifyObservers();
     }
 
 }

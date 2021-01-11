@@ -308,7 +308,7 @@ public class ItemChooser extends Dialog {
                     comboTier.setText("Tier");
             }
         });
-        comboTier.setItems(new String[] {"Any", "Exotic", "Legendary", "Rare"});
+        comboTier.setItems(new String[] { "Any", "Exotic", "Legendary", "Rare" });
         comboTier.setText("Tier");
         new Label(grpSearch, SWT.NONE);
 

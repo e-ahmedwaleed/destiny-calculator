@@ -16,8 +16,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.gui.helper.ItemPickerRow;
+import destiny.joe.gui.helper.ModsRow;
+import destiny.joe.gui.helper.StatTotal;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.GUI;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -649,38 +652,38 @@ public class MainWindow {
         Label lblExtraStatMW = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW.setText("2");
+        lblExtraStatMW.setText("02");
 
         Label lblExtraStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_1.setText("2");
+        lblExtraStatMW_1.setText("02");
 
         Label lblExtraStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_2.setText("2");
+        lblExtraStatMW_2.setText("02");
 
         Label lblExtraStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_3.setText("2");
+        lblExtraStatMW_3.setText("02");
 
         Label lblExtraStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_4.setText("2");
+        lblExtraStatMW_4.setText("02");
 
         Label lblExtraStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_5.setText("2");
+        lblExtraStatMW_5.setText("02");
         new Label(grpItemPicker, SWT.NONE);
 
         Label lblExtraStatMW_6 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_6.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_6.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        lblExtraStatMW_6.setText("12");
+        lblExtraStatMW_6.setText("012");
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
 
@@ -754,6 +757,7 @@ public class MainWindow {
         lblBigModsCount.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Button btnClearMods = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods.setEnabled(false);
         btnClearMods.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
         btnClearMods.setToolTipText("Remove mobility mods.");
         btnClearMods.setText("x");
@@ -799,6 +803,7 @@ public class MainWindow {
         lblBigModsCount_1.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Button btnClearMods_1 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_1.setEnabled(false);
         btnClearMods_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
         btnClearMods_1.setToolTipText("Remove resilience mods.");
         btnClearMods_1.setText("x");
@@ -843,11 +848,12 @@ public class MainWindow {
         lblBigModsCount_2.setText("0");
         lblBigModsCount_2.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
-        Button btnClearMods_1_1 = new Button(grpTotalStats, SWT.NONE);
-        btnClearMods_1_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-        btnClearMods_1_1.setToolTipText("Remove recovery mods.");
-        btnClearMods_1_1.setText("x");
-        btnClearMods_1_1.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        Button btnClearMods_2 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_2.setEnabled(false);
+        btnClearMods_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+        btnClearMods_2.setToolTipText("Remove recovery mods.");
+        btnClearMods_2.setText("x");
+        btnClearMods_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label lblTotalStatTxt_3 = new Label(grpTotalStats, SWT.NONE);
         lblTotalStatTxt_3.setText("Discipline");
@@ -888,11 +894,12 @@ public class MainWindow {
         lblBigModsCount_3.setText("0");
         lblBigModsCount_3.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
-        Button btnClearMods_1_2 = new Button(grpTotalStats, SWT.NONE);
-        btnClearMods_1_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-        btnClearMods_1_2.setToolTipText("Remove discipline mods.");
-        btnClearMods_1_2.setText("x");
-        btnClearMods_1_2.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        Button btnClearMods_3 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_3.setEnabled(false);
+        btnClearMods_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+        btnClearMods_3.setToolTipText("Remove discipline mods.");
+        btnClearMods_3.setText("x");
+        btnClearMods_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label lblTotalStatTxt_3_1 = new Label(grpTotalStats, SWT.NONE);
         lblTotalStatTxt_3_1.setText("Intellect");
@@ -933,11 +940,12 @@ public class MainWindow {
         lblBigModsCount_4.setText("0");
         lblBigModsCount_4.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
-        Button btnClearMods_1_3 = new Button(grpTotalStats, SWT.NONE);
-        btnClearMods_1_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-        btnClearMods_1_3.setToolTipText("Remove intellect mods.");
-        btnClearMods_1_3.setText("x");
-        btnClearMods_1_3.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        Button btnClearMods_4 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_4.setEnabled(false);
+        btnClearMods_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+        btnClearMods_4.setToolTipText("Remove intellect mods.");
+        btnClearMods_4.setText("x");
+        btnClearMods_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label lblTotalStatTxt_3_2 = new Label(grpTotalStats, SWT.NONE);
         lblTotalStatTxt_3_2.setText("Strength");
@@ -978,11 +986,12 @@ public class MainWindow {
         lblBigModsCount_5.setText("0");
         lblBigModsCount_5.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
-        Button btnClearMods_1_4 = new Button(grpTotalStats, SWT.NONE);
-        btnClearMods_1_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-        btnClearMods_1_4.setToolTipText("Remove strength mods.");
-        btnClearMods_1_4.setText("x");
-        btnClearMods_1_4.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
+        Button btnClearMods_5 = new Button(grpTotalStats, SWT.NONE);
+        btnClearMods_5.setEnabled(false);
+        btnClearMods_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+        btnClearMods_5.setToolTipText("Remove strength mods.");
+        btnClearMods_5.setText("x");
+        btnClearMods_5.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label lblTotalStatNULL = new Label(grpTotalStats, SWT.NONE);
         lblTotalStatNULL.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
@@ -1049,12 +1058,13 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
 
-        Button btnAbout = new Button(shlDestinyCalculator, SWT.NONE);
-        btnAbout.setText("About");
-        FormData fd_btnAbout = new FormData();
-        fd_btnAbout.bottom = new FormAttachment(100, -10);
-        fd_btnAbout.left = new FormAttachment(grpItemPicker, 6);
-        fd_btnAbout.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
+        Button btnOptimal = new Button(shlDestinyCalculator, SWT.NONE);
+        btnOptimal.setEnabled(false);
+        btnOptimal.setText("Optimal Build");
+        FormData fd_btnOptimal = new FormData();
+        fd_btnOptimal.bottom = new FormAttachment(100, -10);
+        fd_btnOptimal.left = new FormAttachment(grpItemPicker, 6);
+        fd_btnOptimal.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -1064,7 +1074,7 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
-        btnAbout.setLayoutData(fd_btnAbout);
+        btnOptimal.setLayoutData(fd_btnOptimal);
 
         /* CUSTOM CODE: START */
         GUI.scaleSQRWindowDisplay(display, shlDestinyCalculator);
@@ -1089,13 +1099,53 @@ public class MainWindow {
                 lblChestStat_3, lblChestStat_4, lblChestStat_5, lblChestStat_6, lblChestStatMW, lblChestStatMW_1,
                 lblChestStatMW_2, lblChestStatMW_3, lblChestStatMW_4, lblChestStatMW_5, lblChestStatMW_6, lblChestMW,
                 lblChestMWTier };
-        chest = new ItemPickerRow(Type.HELMET, chestBtns, chestLabels);
+        chest = new ItemPickerRow(Type.CHEST_ARMOR, chestBtns, chestLabels);
 
         Button[] legBtns = { btnLegClear, chkBtnLegMW };
         Label[] legLabels = { lblLegName, lblLegTier, lblLegStat, lblLegStat_1, lblLegStat_2, lblLegStat_3,
                 lblLegStat_4, lblLegStat_5, lblLegStat_6, lblLegStatMW, lblLegStatMW_1, lblLegStatMW_2, lblLegStatMW_3,
                 lblLegStatMW_4, lblLegStatMW_5, lblLegStatMW_6, lblLegMW, lblLegMWTier };
-        leg = new ItemPickerRow(Type.HELMET, legBtns, legLabels);
+        leg = new ItemPickerRow(Type.LEG_ARMOR, legBtns, legLabels);
+
+        ItemPickerRow[] items = { helmet, gauntlets, chest, leg };
+        Label[] lblstatTotals = { lblTotalStats, lblTotalStats_1, lblTotalStats_2, lblTotalStats_3, lblTotalStats_4,
+                lblTotalStats_5, lblTotalStats_6 };
+
+        StatTotal[] statTotal = new StatTotal[7];
+
+        for (int i = 1; i < 8; i++)
+            statTotal[i - 1] = new StatTotal(Stat.values()[i % 7], lblstatTotals[i - 1], items);
+
+        Label[][] lblMods = { { lblTotalStat, lblMinorModsCount, lblBigModsCount },
+                { lblTotalStat_1, lblMinorModsCount_1, lblBigModsCount_1 },
+                { lblTotalStat_2, lblMinorModsCount_2, lblBigModsCount_2 },
+                { lblTotalStat_3, lblMinorModsCount_3, lblBigModsCount_3 },
+                { lblTotalStat_4, lblMinorModsCount_4, lblBigModsCount_4 },
+                { lblTotalStat_5, lblMinorModsCount_5, lblBigModsCount_5 } };
+
+        Button[][] modsBtns = { { btnAddMinorMod, btnAddMod, btnClearMods },
+                { btnAddMinorMod_1, btnAddMod_1, btnClearMods_1 }, { btnAddMinorMod_2, btnAddMod_2, btnClearMods_2 },
+                { btnAddMinorMod_3, btnAddMod_3, btnClearMods_3 }, { btnAddMinorMod_4, btnAddMod_4, btnClearMods_4 },
+                { btnAddMinorMod_5, btnAddMod_5, btnClearMods_5 } };
+
+        ModsRow[] mods = new ModsRow[6];
+        for (int i = 0; i < 6; i++)
+            mods[i] = new ModsRow(statTotal[i], lblMods[i], modsBtns[i]);
+
+        btnReset_1.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                for (ItemPickerRow item : items)
+                    item.clearItem();
+                for (ModsRow mod : mods)
+                    mod.clearMod();
+            }
+        });
+
+        Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
+                lblExtraStatMW_5, lblExtraStatMW_6 };
+
+        uglyFastFixes(lblClass);
 
         /* CUSTOM CODE: END */
 
@@ -1107,6 +1157,13 @@ public class MainWindow {
             }
         }
 
+    }
+
+    private static void uglyFastFixes(Label[] lblClass) {
+        for (int i = 0; i < 6; i++)
+            lblClass[i].setText("2");
+        lblClass[6].setText("12");
+        helmet.notifyObservers();
     }
 
 }
