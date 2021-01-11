@@ -1,6 +1,6 @@
 package destiny.joe.items.enums;
 
-public interface Column {
+public interface Column extends ItemProperty {
 
     Column getNull();
 

@@ -1,16 +1,18 @@
 package destiny.joe.gui;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
@@ -41,8 +43,6 @@ public class ItemChooser extends Dialog {
     private final Type type;
     private final Character character;
 
-    private static ItemComparator comparator = new ItemComparator();
-
     protected Item result = Item.NULL;
     protected Shell shlChooseItem;
     private Table table;
@@ -56,10 +56,8 @@ public class ItemChooser extends Dialog {
     private TableColumn tblclmnStat_4;
     private TableColumn tblclmnStat_5;
     private Group grpFilter;
-    private Button btnSearch;
     private Combo comboTier;
     private Combo comboType;
-    private Label lblAtLeast;
     private Label lblStat;
     private Label lblStat_1;
     private Label lblStat_2;
@@ -72,6 +70,7 @@ public class ItemChooser extends Dialog {
     private Text textStat_3;
     private Text textStat_4;
     private Text textStat_5;
+    private Text txtItemName;
 
     /**
      * Create the dialog.
@@ -89,7 +88,7 @@ public class ItemChooser extends Dialog {
 
     private void intializeItemList() {
         items = ItemsFactory.getItems(type, character);
-        items.sort(comparator);
+        items.sort(new ItemComparator(null));
     }
 
     /**
@@ -127,7 +126,7 @@ public class ItemChooser extends Dialog {
         tblclmnName.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Name");
+                resortTable(new ItemComparator(null));
             }
         });
         tblclmnName.setResizable(false);
@@ -138,7 +137,7 @@ public class ItemChooser extends Dialog {
         tblclmnTier.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Tier");
+                resortTable(new ItemComparator(Tier.NULL));
             }
         });
         tblclmnTier.setResizable(false);
@@ -149,7 +148,7 @@ public class ItemChooser extends Dialog {
         tblclmnType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Type");
+                resortTable(new ItemComparator(MasterWork.NULL));
             }
         });
         tblclmnType.setResizable(false);
@@ -160,7 +159,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Mobility");
+                resortTable(new ItemComparator(Stat.MOBILITY));
             }
         });
         tblclmnStat.setToolTipText("Mobility");
@@ -172,7 +171,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Resilience");
+                resortTable(new ItemComparator(Stat.RESILIENCE));
             }
         });
         tblclmnStat_1.setToolTipText("Resilience");
@@ -184,7 +183,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_2.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Recovery");
+                resortTable(new ItemComparator(Stat.RECOVERY));
             }
         });
         tblclmnStat_2.setToolTipText("Recovery");
@@ -196,7 +195,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_3.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Discipline");
+                resortTable(new ItemComparator(Stat.DISCIPLINE));
             }
         });
         tblclmnStat_3.setToolTipText("Discipline");
@@ -208,7 +207,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_4.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Intellect");
+                resortTable(new ItemComparator(Stat.INTELLECT));
             }
         });
         tblclmnStat_4.setToolTipText("Intellect");
@@ -220,7 +219,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                System.out.println("Strength");
+                resortTable(new ItemComparator(Stat.STRENGTH));
             }
         });
         tblclmnStat_5.setToolTipText("Strength");
@@ -229,7 +228,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.setWidth(26);
 
         grpFilter = new Group(shlChooseItem, SWT.NONE);
-        grpFilter.setLayout(new GridLayout(14, false));
+        grpFilter.setLayout(new GridLayout(12, false));
         GridData gd_grpFilter = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
         gd_grpFilter.widthHint = 486;
         grpFilter.setLayoutData(gd_grpFilter);
@@ -270,95 +269,198 @@ public class ItemChooser extends Dialog {
         lblStat_5.setToolTipText("Strength");
         lblStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
-        new Label(grpFilter, SWT.NONE);
+
+        txtItemName = new Text(grpFilter, SWT.BORDER);
+        txtItemName.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (txtItemName.getText().isEmpty() || txtItemName.getText().contains("Item name"))
+                    return;
+                filterTable();
+            }
+        });
+        txtItemName.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                txtItemName.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtItemName.getText().isEmpty())
+                    txtItemName.setText("Item name");
+            }
+        });
+        txtItemName.setText("Item name");
+        txtItemName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         new Label(grpFilter, SWT.NONE);
 
         comboTier = new Combo(grpFilter, SWT.NONE);
+        comboTier.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (contained(comboTier.getText(), comboTier.getItems()))
+                    filterTable();
+            }
+        });
+        comboTier.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (comboTier.getText().contains("Any"))
+                    comboTier.setText("Tier");
+            }
+        });
         comboTier.setItems(new String[] { "Any", "Rare", "Legendary", "Exotic" });
-        comboTier.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         comboTier.setText("Tier");
         new Label(grpFilter, SWT.NONE);
 
         comboType = new Combo(grpFilter, SWT.NONE);
+        comboType.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (contained(comboType.getText(), comboType.getItems()))
+                    filterTable();
+            }
+        });
+        comboType.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (comboType.getText().contains("Any"))
+                    comboType.setText("Type");
+            }
+        });
         comboType.setItems(new String[] { "Any", "Arc", "Solar", "Void" });
-        comboType.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         comboType.setText("Type");
         new Label(grpFilter, SWT.NONE);
 
-        lblAtLeast = new Label(grpFilter, SWT.NONE);
-        lblAtLeast.setText("At least:");
-        new Label(grpFilter, SWT.NONE);
-
         textStat = new Text(grpFilter, SWT.BORDER);
+        textStat.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat.getText().isEmpty() && parseInt(textStat) > -1)
+                    filterTable();
+            }
+        });
         textStat.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat.getText().isEmpty())
+                    textStat.setText("00");
+            }
         });
         textStat.setText("00");
-        textStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         textStat_1 = new Text(grpFilter, SWT.BORDER);
+        textStat_1.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat_1.getText().isEmpty() && parseInt(textStat_1) > -1)
+                    filterTable();
+            }
+        });
         textStat_1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat_1.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat_1.getText().isEmpty())
+                    textStat_1.setText("00");
+            }
         });
         textStat_1.setText("00");
-        textStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         textStat_2 = new Text(grpFilter, SWT.BORDER);
+        textStat_2.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat_2.getText().isEmpty() && parseInt(textStat_2) > -1)
+                    filterTable();
+            }
+        });
         textStat_2.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat_2.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat_2.getText().isEmpty())
+                    textStat_2.setText("00");
+            }
         });
         textStat_2.setText("00");
-        textStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         textStat_3 = new Text(grpFilter, SWT.BORDER);
+        textStat_3.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat_3.getText().isEmpty() && parseInt(textStat_3) > -1)
+                    filterTable();
+            }
+        });
         textStat_3.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat_3.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat_3.getText().isEmpty())
+                    textStat_3.setText("00");
+            }
         });
         textStat_3.setText("00");
-        textStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         textStat_4 = new Text(grpFilter, SWT.BORDER);
+        textStat_4.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat_4.getText().isEmpty() && parseInt(textStat_4) > -1)
+                    filterTable();
+            }
+        });
         textStat_4.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat_4.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat_4.getText().isEmpty())
+                    textStat_4.setText("00");
+            }
         });
         textStat_4.setText("00");
-        textStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+        textStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
         textStat_5 = new Text(grpFilter, SWT.BORDER);
+        textStat_5.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!textStat_5.getText().isEmpty() && parseInt(textStat_5) > -1)
+                    filterTable();
+            }
+        });
         textStat_5.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 textStat_5.setText("");
             }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textStat_5.getText().isEmpty())
+                    textStat_5.setText("00");
+            }
         });
         textStat_5.setText("00");
         textStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-        new Label(grpFilter, SWT.NONE);
-
-        btnSearch = new Button(grpFilter, SWT.NONE);
-        btnSearch.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                filterTable();
-            }
-        });
-        btnSearch.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-        btnSearch.setText("Search");
 
         Display display = getParent().getDisplay();
 
@@ -387,6 +489,21 @@ public class ItemChooser extends Dialog {
         return result;
     }
 
+    private void resortTable(Comparator<Item> comparator) {
+        items.sort(comparator);
+        populateTable();
+    }
+
+    private void filterTable() {
+        intializeItemList();
+
+        for (int i = items.size() - 1; i >= 0; i--)
+            if (toBeFiltered(items.get(i)))
+                items.remove(i);
+
+        populateTable();
+    }
+
     private void populateTable() {
         table.removeAll();
         for (Item i : items)
@@ -407,28 +524,22 @@ public class ItemChooser extends Dialog {
         tableItem.setText(8, i.stats.get(Stat.STRENGTH).toString());
     }
 
-    private void filterTable() {
-        intializeItemList();
-
-        for (int i = items.size() - 1; i >= 0; i--)
-            if (toBeFiltered(items.get(i)))
-                items.remove(i);
-
-        populateTable();
-    }
-
     private boolean toBeFiltered(Item item) {
 
+        if (!txtItemName.getText().equals("Item name")
+                && !item.name.toLowerCase().contains(txtItemName.getText().toLowerCase()))
+            return true;
+
         MasterWork filterType = (MasterWork) Column.identifyColumn(comboType.getText(), MasterWork.NULL);
+        if (filterType != MasterWork.NULL && filterType != item.masterWork)
+            return true;
+
         Tier filterTier = (Tier) Column.identifyColumn(comboTier.getText(), Tier.NULL);
+        if (filterTier != Tier.NULL && filterTier != item.tier)
+            return true;
 
         int[] stats = { parseInt(textStat), parseInt(textStat_1), parseInt(textStat_2), parseInt(textStat_3),
                 parseInt(textStat_4), parseInt(textStat_5) };
-
-        if ((filterType != MasterWork.NULL && filterType != item.masterWork)
-                || (filterTier != Tier.NULL && filterTier != item.tier))
-            return true;
-
         for (Stat s : Stat.values())
             if (s != Stat.NULL && s != Stat.MASTER_WORK && item.stats.get(s) < stats[s.ordinal() - 1])
                 return true;
@@ -437,16 +548,28 @@ public class ItemChooser extends Dialog {
     }
 
     private int parseInt(Text textbox) {
-        int i;
+
+        int i = -1;
+
+        if (textbox == null)
+            return i;
+
         try {
             i = Integer.parseInt(textbox.getText());
             if (i > 100)
                 throw new Exception("Out of bounds!");
         } catch (Exception e) {
-            i = 0;
+            i = -1;
+            textbox.setText("00");
         }
-        textbox.setText(String.format("%02d", i));
         return i;
+    }
+
+    private boolean contained(String s, String[] arr) {
+        for (String a : arr)
+            if (a.equals(s))
+                return true;
+        return false;
     }
 
     /**
@@ -456,7 +579,7 @@ public class ItemChooser extends Dialog {
         shlChooseItem = new Shell(getParent(), getStyle());
         shlChooseItem.setMinimumSize(new Point(540, 470));
         shlChooseItem.setImage(GUI.loadImage(getParent().getDisplay(), "destiny-2.ico"));
-        shlChooseItem.setSize(434, 230);
+        shlChooseItem.setSize(540, 470);
         shlChooseItem.setText("Choose an item");
 
     }
