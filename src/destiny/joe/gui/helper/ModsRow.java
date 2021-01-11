@@ -7,6 +7,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 
 public class ModsRow implements Observer {
 
@@ -25,7 +26,7 @@ public class ModsRow implements Observer {
      */
     private final Button[] buttons;
 
-    public ModsRow(StatTotal stat, Label[] labels, Button[] buttons) {
+    public ModsRow(StatTotal stat, Label[] labels, Button[] buttons, Shell shell) {
         this.stat = stat;
         this.labels = labels;
         this.buttons = buttons;
@@ -35,6 +36,7 @@ public class ModsRow implements Observer {
             public void widgetSelected(SelectionEvent e) {
                 p5++;
                 update(null, null);
+                shell.forceFocus();
             }
         });
         buttons[1].addSelectionListener(new SelectionAdapter() {
@@ -42,12 +44,14 @@ public class ModsRow implements Observer {
             public void widgetSelected(SelectionEvent e) {
                 p10++;
                 update(null, null);
+                shell.forceFocus();
             }
         });
         buttons[2].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 clearMod();
+                shell.forceFocus();
             }
         });
     }

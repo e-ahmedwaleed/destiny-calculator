@@ -39,13 +39,14 @@ import destiny.joe.utils.GUI;
 
 public class ItemChooser extends Dialog {
 
-    private List<Item> items;
-    private final Type type;
-    private final Character character;
+    List<Item> items;
 
-    protected Item result = Item.NULL;
-    protected Shell shlChooseItem;
-    private Table table;
+    private final Type type;
+    final Character character;
+
+    private Item result = null;
+    Shell shlChooseItem;
+    Table table;
     private TableColumn tblclmnName;
     private TableColumn tblclmnTier;
     private TableColumn tblclmnType;
@@ -84,10 +85,9 @@ public class ItemChooser extends Dialog {
         this.type = type;
         this.character = character;
         intializeItemList();
-        setText("SWT Dialog");
     }
 
-    private void intializeItemList() {
+    void intializeItemList() {
         items = ItemsFactory.getItems(type, character);
         items.sort(new ItemComparator(null));
     }
@@ -123,122 +123,7 @@ public class ItemChooser extends Dialog {
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
 
-        tblclmnName = new TableColumn(table, SWT.LEFT);
-        tblclmnName.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(null));
-            }
-        });
-        tblclmnName.setResizable(false);
-        tblclmnName.setWidth(200);
-        tblclmnName.setText("Name");
-
-        tblclmnTier = new TableColumn(table, SWT.LEFT);
-        tblclmnTier.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Tier.NULL));
-            }
-        });
-        tblclmnTier.setResizable(false);
-        tblclmnTier.setWidth(70);
-        tblclmnTier.setText("Tier");
-
-        tblclmnType = new TableColumn(table, SWT.LEFT);
-        tblclmnType.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(MasterWork.NULL));
-            }
-        });
-        tblclmnType.setResizable(false);
-        tblclmnType.setWidth(45);
-        tblclmnType.setText("Type");
-
-        tblclmnStat = new TableColumn(table, SWT.CENTER);
-        tblclmnStat.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.MOBILITY));
-            }
-        });
-        tblclmnStat.setToolTipText("Mobility");
-        tblclmnStat.setImage(GUI.loadImage(getParent().getDisplay(), "mobility.png"));
-        tblclmnStat.setResizable(false);
-        tblclmnStat.setWidth(26);
-
-        tblclmnStat_1 = new TableColumn(table, SWT.CENTER);
-        tblclmnStat_1.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.RESILIENCE));
-            }
-        });
-        tblclmnStat_1.setToolTipText("Resilience");
-        tblclmnStat_1.setImage(GUI.loadImage(getParent().getDisplay(), "resiliance.png"));
-        tblclmnStat_1.setResizable(false);
-        tblclmnStat_1.setWidth(26);
-
-        tblclmnStat_2 = new TableColumn(table, SWT.CENTER);
-        tblclmnStat_2.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.RECOVERY));
-            }
-        });
-        tblclmnStat_2.setToolTipText("Recovery");
-        tblclmnStat_2.setImage(GUI.loadImage(getParent().getDisplay(), "recovery.png"));
-        tblclmnStat_2.setResizable(false);
-        tblclmnStat_2.setWidth(26);
-
-        tblclmnStat_3 = new TableColumn(table, SWT.CENTER);
-        tblclmnStat_3.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.DISCIPLINE));
-            }
-        });
-        tblclmnStat_3.setToolTipText("Discipline");
-        tblclmnStat_3.setImage(GUI.loadImage(getParent().getDisplay(), "discipline.png"));
-        tblclmnStat_3.setResizable(false);
-        tblclmnStat_3.setWidth(26);
-
-        tblclmnStat_4 = new TableColumn(table, SWT.CENTER);
-        tblclmnStat_4.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.INTELLECT));
-            }
-        });
-        tblclmnStat_4.setToolTipText("Intellect");
-        tblclmnStat_4.setImage(GUI.loadImage(getParent().getDisplay(), "intellect.png"));
-        tblclmnStat_4.setResizable(false);
-        tblclmnStat_4.setWidth(26);
-
-        tblclmnStat_5 = new TableColumn(table, SWT.CENTER);
-        tblclmnStat_5.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.STRENGTH));
-            }
-        });
-        tblclmnStat_5.setToolTipText("Strength");
-        tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
-        tblclmnStat_5.setResizable(false);
-        tblclmnStat_5.setWidth(26);
-
-        tblclmnMWTier = new TableColumn(table, SWT.CENTER);
-        tblclmnMWTier.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resortTable(new ItemComparator(Stat.MASTER_WORK));
-            }
-        });
-        tblclmnMWTier.setToolTipText("Masterwork Tier");
-        tblclmnMWTier.setResizable(false);
-        tblclmnMWTier.setWidth(26);
-        tblclmnMWTier.setText("M");
+        intializeColumns();
 
         grpSearch = new Group(shlChooseItem, SWT.NONE);
         grpSearch.setLayout(new GridLayout(12, false));
@@ -479,15 +364,8 @@ public class ItemChooser extends Dialog {
 
         /* CUSTOM CODE: START */
         populateTable();
-        GUI.scaleColumnDisplay(display, tblclmnName);
-        GUI.scaleColumnDisplay(display, tblclmnTier);
-        GUI.scaleColumnDisplay(display, tblclmnType);
-        GUI.scaleColumnDisplay(display, tblclmnStat);
-        GUI.scaleColumnDisplay(display, tblclmnStat_1);
-        GUI.scaleColumnDisplay(display, tblclmnStat_2);
-        GUI.scaleColumnDisplay(display, tblclmnStat_3);
-        GUI.scaleColumnDisplay(display, tblclmnStat_4);
-        GUI.scaleColumnDisplay(display, tblclmnStat_5);
+        for (TableColumn tableColumn : table.getColumns())
+            GUI.scaleColumnDisplay(display, tableColumn);
         GUI.scaleWindowDisplay(display, shlChooseItem);
         GUI.shellCenter(display, shlChooseItem);
         /* CUSTOM CODE: END */
@@ -502,7 +380,126 @@ public class ItemChooser extends Dialog {
         return result;
     }
 
-    private void resortTable(Comparator<Item> comparator) {
+    void intializeColumns() {
+        tblclmnName = new TableColumn(table, SWT.LEFT);
+        tblclmnName.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(null));
+            }
+        });
+        tblclmnName.setResizable(false);
+        tblclmnName.setWidth(200);
+        tblclmnName.setText("Name");
+
+        tblclmnTier = new TableColumn(table, SWT.LEFT);
+        tblclmnTier.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Tier.NULL));
+            }
+        });
+        tblclmnTier.setResizable(false);
+        tblclmnTier.setWidth(70);
+        tblclmnTier.setText("Tier");
+
+        tblclmnType = new TableColumn(table, SWT.LEFT);
+        tblclmnType.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(MasterWork.NULL));
+            }
+        });
+        tblclmnType.setResizable(false);
+        tblclmnType.setWidth(45);
+        tblclmnType.setText("Type");
+
+        tblclmnStat = new TableColumn(table, SWT.CENTER);
+        tblclmnStat.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.MOBILITY));
+            }
+        });
+        tblclmnStat.setToolTipText("Mobility");
+        tblclmnStat.setImage(GUI.loadImage(getParent().getDisplay(), "mobility.png"));
+        tblclmnStat.setResizable(false);
+        tblclmnStat.setWidth(26);
+
+        tblclmnStat_1 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_1.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.RESILIENCE));
+            }
+        });
+        tblclmnStat_1.setToolTipText("Resilience");
+        tblclmnStat_1.setImage(GUI.loadImage(getParent().getDisplay(), "resiliance.png"));
+        tblclmnStat_1.setResizable(false);
+        tblclmnStat_1.setWidth(26);
+
+        tblclmnStat_2 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_2.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.RECOVERY));
+            }
+        });
+        tblclmnStat_2.setToolTipText("Recovery");
+        tblclmnStat_2.setImage(GUI.loadImage(getParent().getDisplay(), "recovery.png"));
+        tblclmnStat_2.setResizable(false);
+        tblclmnStat_2.setWidth(26);
+
+        tblclmnStat_3 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_3.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.DISCIPLINE));
+            }
+        });
+        tblclmnStat_3.setToolTipText("Discipline");
+        tblclmnStat_3.setImage(GUI.loadImage(getParent().getDisplay(), "discipline.png"));
+        tblclmnStat_3.setResizable(false);
+        tblclmnStat_3.setWidth(26);
+
+        tblclmnStat_4 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_4.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.INTELLECT));
+            }
+        });
+        tblclmnStat_4.setToolTipText("Intellect");
+        tblclmnStat_4.setImage(GUI.loadImage(getParent().getDisplay(), "intellect.png"));
+        tblclmnStat_4.setResizable(false);
+        tblclmnStat_4.setWidth(26);
+
+        tblclmnStat_5 = new TableColumn(table, SWT.CENTER);
+        tblclmnStat_5.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.STRENGTH));
+            }
+        });
+        tblclmnStat_5.setToolTipText("Strength");
+        tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
+        tblclmnStat_5.setResizable(false);
+        tblclmnStat_5.setWidth(26);
+
+        tblclmnMWTier = new TableColumn(table, SWT.CENTER);
+        tblclmnMWTier.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.MASTER_WORK));
+            }
+        });
+        tblclmnMWTier.setToolTipText("Masterwork Tier");
+        tblclmnMWTier.setResizable(false);
+        tblclmnMWTier.setWidth(26);
+        tblclmnMWTier.setText("M");
+    }
+
+    void resortTable(Comparator<Item> comparator) {
         items.sort(comparator);
         populateTable();
     }
@@ -524,7 +521,7 @@ public class ItemChooser extends Dialog {
     }
 
     // http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/CreateaSWTtablecolumnsheaderslines.htm
-    private void addTableEntry(Item i) {
+    void addTableEntry(Item i) {
         TableItem tableItem = new TableItem(table, SWT.NONE);
         tableItem.setText(0, i.name);
         tableItem.setText(1, i.tier.getString());
@@ -589,12 +586,11 @@ public class ItemChooser extends Dialog {
     /**
      * Create contents of the dialog.
      */
-    private void createContents() {
+    void createContents() {
         shlChooseItem = new Shell(getParent(), getStyle());
         shlChooseItem.setMinimumSize(new Point(544, 470));
         shlChooseItem.setImage(GUI.loadImage(getParent().getDisplay(), "destiny-2.ico"));
-        shlChooseItem.setSize(540, 470);
-        shlChooseItem.setText("Choose an item");
-
+        shlChooseItem.setSize(544, 470);
+        shlChooseItem.setText("Choose " + type.getString());
     }
 }

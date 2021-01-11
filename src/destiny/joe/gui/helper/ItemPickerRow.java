@@ -8,18 +8,22 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolItem;
 
 import destiny.joe.gui.ItemChooser;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
+import destiny.joe.utils.GUI;
 
 public class ItemPickerRow extends Observable {
 
     private Item item;
     private boolean mw;
+
     private final Type type;
+    private final ToolItem favorite;
 
     /**
      * [0]: clear. [1]: master-work.
@@ -32,21 +36,39 @@ public class ItemPickerRow extends Observable {
      */
     private final Label[] labels;
 
-    public ItemPickerRow(Type type, Button[] buttons, Label[] labels) {
+    public ItemPickerRow(Type type, Button[] buttons, Label[] labels, ToolItem favorite, Shell shell) {
         this.buttons = buttons;
         this.labels = labels;
         this.type = type;
+        this.favorite = favorite;
         clearItem();
         buttons[0].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 clearItem();
+                shell.forceFocus();
             }
         });
         buttons[1].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 masterworkToggle(buttons[1].getSelection());
+                shell.forceFocus();
+            }
+        });
+        // TODO
+        favorite.addSelectionListener(new SelectionAdapter() {
+            boolean on = false;
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                on = !on;
+                if (on)
+                    favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
+                else
+                    favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-off.png"));
+
+                shell.forceFocus();
             }
         });
     }
@@ -70,7 +92,9 @@ public class ItemPickerRow extends Observable {
         return total + (mw ? 12 : 0);
     }
 
-    private void updateItem(Item item) {
+    public void updateItem(Item item) {
+        if (item == null)
+            return;
         this.item = item;
 
         labels[0].setText(item.name);
@@ -98,6 +122,7 @@ public class ItemPickerRow extends Observable {
         labels[17].setText(masterwork + "/ 10");
 
         buttons[0].setEnabled(item != Item.NULL);
+        favorite.getParent().setVisible(item != Item.NULL);
 
         masterworkToggle(masterwork >= 10);
         buttons[1].setEnabled(masterwork < 10);

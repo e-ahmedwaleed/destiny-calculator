@@ -95,4 +95,9 @@ public class ItemsFactory {
         }
     }
 
+    public static List<Item> getFavorites(Character character) {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
+    }
+
 }

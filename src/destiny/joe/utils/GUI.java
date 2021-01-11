@@ -69,13 +69,14 @@ public class GUI {
         int x = (int) (Math.sqrt((double) dpi.x / DEFAULT_DPI.x) * size.x);
         int y = (int) (Math.sqrt((double) dpi.y / DEFAULT_DPI.y) * size.y);
 
-        y = uglyHeightFix(y, dpi.x - DEFAULT_DPI.x);
+        x = uglyFix(x, dpi.x - DEFAULT_DPI.x);
+        y = uglyFix(y, dpi.y - DEFAULT_DPI.y);
 
         shell.setSize(new Point(x, y));
     }
 
-    private static int uglyHeightFix(int height, int dpiDiff) {
-        return (int) (height + 5 + (dpiDiff * .85));
+    private static int uglyFix(int dim, int dpiDiff) {
+        return (int) (dim + 8 + (dpiDiff * .8));
     }
 
     /**

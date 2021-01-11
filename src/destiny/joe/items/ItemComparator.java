@@ -6,6 +6,7 @@ import destiny.joe.items.enums.ItemProperty;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
+import destiny.joe.items.enums.Type;
 
 public class ItemComparator implements Comparator<Item> {
 
@@ -23,6 +24,8 @@ public class ItemComparator implements Comparator<Item> {
             return -1 * Integer.compare(o1.tier.ordinal(), o2.tier.ordinal());
         else if (property instanceof Stat)
             return -1 * Integer.compare(o1.stats.get(property), o2.stats.get(property));
+        else if (property instanceof Type)
+            return Integer.compare(o1.type.ordinal(), o2.type.ordinal());
         else
             return o1.name.compareTo(o2.name);
     }
