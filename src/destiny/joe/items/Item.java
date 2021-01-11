@@ -44,7 +44,7 @@ public class Item {
     }
 
     private Item() {
-        name = "";
+        name = "Item name";
 
         tier = Tier.NULL;
         type = Type.NULL;

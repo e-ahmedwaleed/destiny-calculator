@@ -55,7 +55,7 @@ public class ItemChooser extends Dialog {
     private TableColumn tblclmnStat_3;
     private TableColumn tblclmnStat_4;
     private TableColumn tblclmnStat_5;
-    private Group grpFilter;
+    private Group grpSearch;
     private Combo comboTier;
     private Combo comboType;
     private Label lblStat;
@@ -227,50 +227,50 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.setResizable(false);
         tblclmnStat_5.setWidth(26);
 
-        grpFilter = new Group(shlChooseItem, SWT.NONE);
-        grpFilter.setLayout(new GridLayout(12, false));
-        GridData gd_grpFilter = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-        gd_grpFilter.widthHint = 486;
-        grpFilter.setLayoutData(gd_grpFilter);
-        grpFilter.setText("Filter");
-        new Label(grpFilter, SWT.NONE);
-        new Label(grpFilter, SWT.NONE);
-        new Label(grpFilter, SWT.NONE);
-        new Label(grpFilter, SWT.NONE);
-        new Label(grpFilter, SWT.NONE);
-        new Label(grpFilter, SWT.NONE);
+        grpSearch = new Group(shlChooseItem, SWT.NONE);
+        grpSearch.setLayout(new GridLayout(12, false));
+        GridData gd_grpSearch = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+        gd_grpSearch.widthHint = 486;
+        grpSearch.setLayoutData(gd_grpSearch);
+        grpSearch.setText("Search");
+        new Label(grpSearch, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
 
-        lblStat = new Label(grpFilter, SWT.NONE);
+        lblStat = new Label(grpSearch, SWT.NONE);
         lblStat.setToolTipText("Mobility");
         lblStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat.setImage(GUI.loadImage(getParent().getDisplay(), "mobility.png"));
 
-        lblStat_1 = new Label(grpFilter, SWT.NONE);
+        lblStat_1 = new Label(grpSearch, SWT.NONE);
         lblStat_1.setToolTipText("Resilience");
         lblStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_1.setImage(GUI.loadImage(getParent().getDisplay(), "resiliance.png"));
 
-        lblStat_2 = new Label(grpFilter, SWT.NONE);
+        lblStat_2 = new Label(grpSearch, SWT.NONE);
         lblStat_2.setToolTipText("Recovery");
         lblStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_2.setImage(GUI.loadImage(getParent().getDisplay(), "recovery.png"));
 
-        lblStat_3 = new Label(grpFilter, SWT.NONE);
+        lblStat_3 = new Label(grpSearch, SWT.NONE);
         lblStat_3.setToolTipText("Discipline");
         lblStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_3.setImage(GUI.loadImage(getParent().getDisplay(), "discipline.png"));
 
-        lblStat_4 = new Label(grpFilter, SWT.NONE);
+        lblStat_4 = new Label(grpSearch, SWT.NONE);
         lblStat_4.setToolTipText("Intellect");
         lblStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_4.setImage(GUI.loadImage(getParent().getDisplay(), "intellect.png"));
 
-        lblStat_5 = new Label(grpFilter, SWT.NONE);
+        lblStat_5 = new Label(grpSearch, SWT.NONE);
         lblStat_5.setToolTipText("Strength");
         lblStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
 
-        txtItemName = new Text(grpFilter, SWT.BORDER);
+        txtItemName = new Text(grpSearch, SWT.BORDER);
         txtItemName.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (txtItemName.getText().isEmpty() || txtItemName.getText().contains("Item name"))
@@ -292,9 +292,9 @@ public class ItemChooser extends Dialog {
         });
         txtItemName.setText("Item name");
         txtItemName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        new Label(grpFilter, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
 
-        comboTier = new Combo(grpFilter, SWT.NONE);
+        comboTier = new Combo(grpSearch, SWT.NONE);
         comboTier.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (contained(comboTier.getText(), comboTier.getItems()))
@@ -308,11 +308,11 @@ public class ItemChooser extends Dialog {
                     comboTier.setText("Tier");
             }
         });
-        comboTier.setItems(new String[] { "Any", "Rare", "Legendary", "Exotic" });
+        comboTier.setItems(new String[] {"Any", "Exotic", "Legendary", "Rare"});
         comboTier.setText("Tier");
-        new Label(grpFilter, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
 
-        comboType = new Combo(grpFilter, SWT.NONE);
+        comboType = new Combo(grpSearch, SWT.NONE);
         comboType.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (contained(comboType.getText(), comboType.getItems()))
@@ -328,9 +328,9 @@ public class ItemChooser extends Dialog {
         });
         comboType.setItems(new String[] { "Any", "Arc", "Solar", "Void" });
         comboType.setText("Type");
-        new Label(grpFilter, SWT.NONE);
+        new Label(grpSearch, SWT.NONE);
 
-        textStat = new Text(grpFilter, SWT.BORDER);
+        textStat = new Text(grpSearch, SWT.BORDER);
         textStat.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat.getText().isEmpty() && parseInt(textStat) > -1)
@@ -352,7 +352,7 @@ public class ItemChooser extends Dialog {
         textStat.setText("00");
         textStat.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-        textStat_1 = new Text(grpFilter, SWT.BORDER);
+        textStat_1 = new Text(grpSearch, SWT.BORDER);
         textStat_1.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat_1.getText().isEmpty() && parseInt(textStat_1) > -1)
@@ -374,7 +374,7 @@ public class ItemChooser extends Dialog {
         textStat_1.setText("00");
         textStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-        textStat_2 = new Text(grpFilter, SWT.BORDER);
+        textStat_2 = new Text(grpSearch, SWT.BORDER);
         textStat_2.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat_2.getText().isEmpty() && parseInt(textStat_2) > -1)
@@ -396,7 +396,7 @@ public class ItemChooser extends Dialog {
         textStat_2.setText("00");
         textStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-        textStat_3 = new Text(grpFilter, SWT.BORDER);
+        textStat_3 = new Text(grpSearch, SWT.BORDER);
         textStat_3.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat_3.getText().isEmpty() && parseInt(textStat_3) > -1)
@@ -418,7 +418,7 @@ public class ItemChooser extends Dialog {
         textStat_3.setText("00");
         textStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-        textStat_4 = new Text(grpFilter, SWT.BORDER);
+        textStat_4 = new Text(grpSearch, SWT.BORDER);
         textStat_4.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat_4.getText().isEmpty() && parseInt(textStat_4) > -1)
@@ -440,7 +440,7 @@ public class ItemChooser extends Dialog {
         textStat_4.setText("00");
         textStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 
-        textStat_5 = new Text(grpFilter, SWT.BORDER);
+        textStat_5 = new Text(grpSearch, SWT.BORDER);
         textStat_5.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent e) {
                 if (!textStat_5.getText().isEmpty() && parseInt(textStat_5) > -1)
