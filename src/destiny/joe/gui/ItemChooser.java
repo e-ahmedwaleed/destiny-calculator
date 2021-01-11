@@ -71,6 +71,7 @@ public class ItemChooser extends Dialog {
     private Text textStat_4;
     private Text textStat_5;
     private Text txtItemName;
+    private TableColumn tblclmnMWTier;
 
     /**
      * Create the dialog.
@@ -130,10 +131,10 @@ public class ItemChooser extends Dialog {
             }
         });
         tblclmnName.setResizable(false);
-        tblclmnName.setWidth(205);
+        tblclmnName.setWidth(200);
         tblclmnName.setText("Name");
 
-        tblclmnTier = new TableColumn(table, SWT.NONE);
+        tblclmnTier = new TableColumn(table, SWT.LEFT);
         tblclmnTier.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -141,10 +142,10 @@ public class ItemChooser extends Dialog {
             }
         });
         tblclmnTier.setResizable(false);
-        tblclmnTier.setWidth(75);
+        tblclmnTier.setWidth(70);
         tblclmnTier.setText("Tier");
 
-        tblclmnType = new TableColumn(table, SWT.NONE);
+        tblclmnType = new TableColumn(table, SWT.LEFT);
         tblclmnType.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -152,7 +153,7 @@ public class ItemChooser extends Dialog {
             }
         });
         tblclmnType.setResizable(false);
-        tblclmnType.setWidth(55);
+        tblclmnType.setWidth(45);
         tblclmnType.setText("Type");
 
         tblclmnStat = new TableColumn(table, SWT.CENTER);
@@ -226,6 +227,18 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
         tblclmnStat_5.setResizable(false);
         tblclmnStat_5.setWidth(26);
+
+        tblclmnMWTier = new TableColumn(table, SWT.CENTER);
+        tblclmnMWTier.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.MASTER_WORK));
+            }
+        });
+        tblclmnMWTier.setToolTipText("Masterwork Tier");
+        tblclmnMWTier.setResizable(false);
+        tblclmnMWTier.setWidth(26);
+        tblclmnMWTier.setText("M");
 
         grpSearch = new Group(shlChooseItem, SWT.NONE);
         grpSearch.setLayout(new GridLayout(12, false));
@@ -522,6 +535,7 @@ public class ItemChooser extends Dialog {
         tableItem.setText(6, i.stats.get(Stat.DISCIPLINE).toString());
         tableItem.setText(7, i.stats.get(Stat.INTELLECT).toString());
         tableItem.setText(8, i.stats.get(Stat.STRENGTH).toString());
+        tableItem.setText(9, i.stats.get(Stat.MASTER_WORK).toString());
     }
 
     private boolean toBeFiltered(Item item) {
@@ -577,7 +591,7 @@ public class ItemChooser extends Dialog {
      */
     private void createContents() {
         shlChooseItem = new Shell(getParent(), getStyle());
-        shlChooseItem.setMinimumSize(new Point(540, 470));
+        shlChooseItem.setMinimumSize(new Point(544, 470));
         shlChooseItem.setImage(GUI.loadImage(getParent().getDisplay(), "destiny-2.ico"));
         shlChooseItem.setSize(540, 470);
         shlChooseItem.setText("Choose an item");
