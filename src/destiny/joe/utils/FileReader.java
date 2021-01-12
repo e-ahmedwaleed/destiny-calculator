@@ -18,12 +18,14 @@ public class FileReader {
         this.delimiter = delimiter;
     }
 
-    public String[][] read() throws IOException {
-        int dataRowsCount = lineCounter();
-        Scanner inputScanner = new Scanner(new File(fileLocation));
-        String[][] data = readFile(inputScanner, dataRowsCount);
-        inputScanner.close();
-        return data;
+    public String[][] read() {
+        try (Scanner inputScanner = new Scanner(new File(fileLocation))) {
+            int dataRowsCount = lineCounter();
+            return readFile(inputScanner, dataRowsCount);
+        } catch (Exception e) {
+            String[][] empty = { {} };
+            return empty;
+        }
     }
 
     private int lineCounter() throws IOException {

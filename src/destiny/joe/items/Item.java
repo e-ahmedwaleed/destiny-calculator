@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.ItemProperty.Column;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
@@ -14,14 +14,14 @@ public class Item {
 
     public static final Item NULL = new Item();
 
-    public final String name;
+    public String name;
 
-    public final Tier tier;
-    public final Type type;
-    public final Character character;
-    public final MasterWork masterWork;
+    public Tier tier;
+    public Type type;
+    public Character character;
+    public MasterWork masterWork;
 
-    public final Map<Stat, Integer> stats;
+    public Map<Stat, Integer> stats;
 
     public Item(String itemName, Column[] itemProperties, int[] itemStats) {
 
@@ -43,7 +43,7 @@ public class Item {
 
     }
 
-    private Item() {
+    public Item() {
         name = "Item name";
 
         tier = Tier.NULL;
@@ -62,8 +62,40 @@ public class Item {
         stats.put(Stat.MASTER_WORK, 0);
     }
 
+    @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (!(o instanceof Item))
+            return false;
+
+        Item oItem = (Item) o;
+
+        if (!oItem.name.equals(name))
+            return false;
+        if (!oItem.tier.equals(tier))
+            return false;
+        if (!oItem.type.equals(type))
+            return false;
+        if (!oItem.character.equals(character))
+            return false;
+        if (!oItem.masterWork.equals(masterWork))
+            return false;
+        for (Stat s : Stat.values())
+            if (s != Stat.NULL && !oItem.stats.get(s).equals(stats.get(s)))
+                return false;
+
+        return true;
+    }
+
+    @Override
+    // "equals(Object obj)" and "hashCode()" should be overridden in pairs.
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

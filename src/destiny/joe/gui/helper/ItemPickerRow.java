@@ -6,12 +6,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolItem;
 
 import destiny.joe.gui.ItemChooser;
 import destiny.joe.items.Item;
+import destiny.joe.items.ItemsManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
@@ -56,18 +58,16 @@ public class ItemPickerRow extends Observable {
                 shell.forceFocus();
             }
         });
-        // TODO
         favorite.addSelectionListener(new SelectionAdapter() {
-            boolean on = false;
-
             @Override
             public void widgetSelected(SelectionEvent e) {
-                on = !on;
-                if (on)
-                    favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
-                else
+                if (item != null && ItemsManager.isFavorite(item)) {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-off.png"));
-
+                    ItemsManager.deleteFromFavorites(item);
+                } else {
+                    favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
+                    ItemsManager.addToFavorites(item);
+                }
                 shell.forceFocus();
             }
         });
@@ -116,16 +116,23 @@ public class ItemPickerRow extends Observable {
         }
         labels[15].setText(mwTotal.toString());
 
-        labels[16].setText(item.masterWork.type);
+        labels[16].setText(item.masterWork.getFirstString());
 
         int masterwork = item.stats.get(Stat.MASTER_WORK);
         labels[17].setText(masterwork + "/ 10");
 
         buttons[0].setEnabled(item != Item.NULL);
-        favorite.getParent().setVisible(item != Item.NULL);
 
         masterworkToggle(masterwork >= 10);
         buttons[1].setEnabled(masterwork < 10);
+
+        favorite.getParent().setVisible(item != Item.NULL);
+
+        if (item != Item.NULL && ItemsManager.isFavorite(item)) {
+            favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-on.png"));
+        } else {
+            favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-off.png"));
+        }
     }
 
     private void masterworkToggle(boolean on) {

@@ -7,32 +7,60 @@ import java.util.List;
 import java.util.Map;
 
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.ItemProperty.Column;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileReader;
+import destiny.joe.utils.XMLSerializer;
 
-public class ItemsFactory {
+public class ItemsManager {
 
     private static final String[] REQUIRED = { "Name", "Tier", "Type", "Equippable", "Masterwork Type",
             "Mobility (Base)", "Resilience (Base)", "Recovery (Base)", "Discipline (Base)", "Intellect (Base)",
             "Strength (Base)", "Masterwork Tier" };
 
+    private static Map<Character, List<Item>> favoriteItems;
     private static Map<Character, Map<Type, List<Item>>> availableItems;
+
     static {
         try {
-            availableItems = ItemsFactory.parseItems(new FileReader("destinyArmor.csv", ",").read());
+            favoriteItems = XMLSerializer.loadObject("destiny-calculator_data/favorites.xml");
         } catch (Exception e) {
-            e.printStackTrace();
+            favoriteItems = new EnumMap<>(Character.class);
+            for (Character c : Character.values()) {
+                if (c == Character.NULL)
+                    continue;
+                favoriteItems.put(c, new ArrayList<>());
+            }
+            XMLSerializer.saveObject(favoriteItems, "destiny-calculator_data/favorites.xml");
         }
+        availableItems = parseItems(new FileReader("destinyArmor.csv", ",").read());
     }
 
-    private ItemsFactory() {
+    private ItemsManager() {
     }
 
     public static List<Item> getItems(Type type, Character character) {
-        return new ArrayList<>(availableItems.get(character).get(type));
+        return nullCheck(availableItems.get(character).get(type));
+    }
+
+    public static List<Item> getFavorites(Character character) {
+        return nullCheck(favoriteItems.get(character));
+    }
+
+    public static boolean isFavorite(Item item) {
+        return favoriteItems.get(item.character).contains(item);
+    }
+
+    public static void addToFavorites(Item item) {
+        favoriteItems.get(item.character).add(item);
+        XMLSerializer.saveObject(favoriteItems, "destiny-calculator_data/favorites.xml");
+    }
+
+    public static void deleteFromFavorites(Item item) {
+        favoriteItems.get(item.character).remove(item);
+        XMLSerializer.saveObject(favoriteItems, "destiny-calculator_data/favorites.xml");
     }
 
     private static Map<Character, Map<Type, List<Item>>> parseItems(String[][] dataFile) {
@@ -95,9 +123,11 @@ public class ItemsFactory {
         }
     }
 
-    public static List<Item> getFavorites(Character character) {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+    private static List<Item> nullCheck(List<Item> list) {
+        if (list == null)
+            return new ArrayList<>();
+        else
+            return new ArrayList<>(list);
     }
 
 }

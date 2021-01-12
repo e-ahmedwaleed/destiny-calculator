@@ -1,6 +1,14 @@
 package destiny.joe.gui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -13,6 +21,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.gui.helper.ItemPickerRow;
@@ -20,18 +30,10 @@ import destiny.joe.gui.helper.ModsRow;
 import destiny.joe.gui.helper.StatTotal;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.Column;
+import destiny.joe.items.enums.ItemProperty.Column;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.GUI;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
 
 public class MainWindow {
 
@@ -50,12 +52,6 @@ public class MainWindow {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
         Shell shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
-        shlDestinyCalculator.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println(e.keyCode);
-            }
-        });
         shlDestinyCalculator.setMinimumSize(new Point(680, 560));
         shlDestinyCalculator.setImage(GUI.loadImage(display, "destiny-2.ico"));
         shlDestinyCalculator.setSize(680, 560);
@@ -63,6 +59,12 @@ public class MainWindow {
         shlDestinyCalculator.setLayout(new FormLayout());
 
         Group grpItemPicker = new Group(shlDestinyCalculator, SWT.NONE);
+        grpItemPicker.addMouseTrackListener(new MouseTrackAdapter() {
+            @Override
+            public void mouseEnter(MouseEvent e) {
+                shlDestinyCalculator.forceFocus();
+            }
+        });
         grpItemPicker.setEnabled(false);
         FormData fd_grpItemPicker = new FormData();
         fd_grpItemPicker.top = new FormAttachment(0, 10);
@@ -143,7 +145,9 @@ public class MainWindow {
         btnHelmet.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                shlDestinyCalculator.setEnabled(false);
                 helmet.pickItem(shlDestinyCalculator, selectedChar);
+                shlDestinyCalculator.setEnabled(true);
                 shlDestinyCalculator.forceFocus();
             }
         });
@@ -300,7 +304,9 @@ public class MainWindow {
         btnGauntlets.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                shlDestinyCalculator.setEnabled(false);
                 gauntlets.pickItem(shlDestinyCalculator, selectedChar);
+                shlDestinyCalculator.setEnabled(true);
                 shlDestinyCalculator.forceFocus();
             }
         });
@@ -457,7 +463,9 @@ public class MainWindow {
         btnChest.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                shlDestinyCalculator.setEnabled(false);
                 chest.pickItem(shlDestinyCalculator, selectedChar);
+                shlDestinyCalculator.setEnabled(true);
                 shlDestinyCalculator.forceFocus();
             }
         });
@@ -614,7 +622,9 @@ public class MainWindow {
         btnLeg.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
+                shlDestinyCalculator.setEnabled(false);
                 leg.pickItem(shlDestinyCalculator, selectedChar);
+                shlDestinyCalculator.setEnabled(true);
                 shlDestinyCalculator.forceFocus();
             }
         });
@@ -817,13 +827,6 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
 
         Combo comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
-        comboCharacter.addModifyListener(new ModifyListener() {
-            public void modifyText(ModifyEvent e) {
-                selectedChar = (Character) Column.identifyColumn(comboCharacter.getText(), Character.NULL);
-                grpItemPicker.setEnabled(selectedChar != Character.NULL);
-                shlDestinyCalculator.forceFocus();
-            }
-        });
         fd_grpItemPicker.right = new FormAttachment(100, 100, -114);
         FormData fd_comboCharacter = new FormData();
         fd_comboCharacter.right = new FormAttachment(100, -10);
@@ -1223,25 +1226,7 @@ public class MainWindow {
         tltmFavorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
-                if (item != null)
-                    switch (item.type) {
-                    case HELMET:
-                        helmet.updateItem(item);
-                        break;
-                    case GAUNTLETS:
-                        gauntlets.updateItem(item);
-                        break;
-                    case CHEST_ARMOR:
-                        chest.updateItem(item);
-                        break;
-                    case LEG_ARMOR:
-                        leg.updateItem(item);
-                        break;
-                    default:
-                        break;
-                    }
-                shlDestinyCalculator.forceFocus();
+                openFavoritesDialog(shlDestinyCalculator);
             }
         });
         tltmFavorite.setImage(GUI.loadImage(display, "favorite-on.png"));
@@ -1322,18 +1307,34 @@ public class MainWindow {
         btnReset_1.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                for (ItemPickerRow item : items)
-                    item.clearItem();
-                for (ModsRow mod : mods)
-                    mod.clearMod();
+                resetToDefault(items, mods);
                 shlDestinyCalculator.forceFocus();
+            }
+        });
+
+        comboCharacter.addModifyListener(new ModifyListener() {
+            @Override
+            public void modifyText(ModifyEvent e) {
+                selectedChar = (Character) Column.identifyColumn(comboCharacter.getText(), Character.NULL);
+                grpItemPicker.setEnabled(selectedChar != Character.NULL);
+                // TODO: save previous state.
+                resetToDefault(items, mods);
+            }
+        });
+
+        shlDestinyCalculator.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
+                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd'))
+                    openFavoritesDialog(shlDestinyCalculator);
             }
         });
 
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };
 
-        uglyFastFixes(lblClass);
+        uglyFastFixes(lblClass, comboCharacter);
         /* CUSTOM CODE: END */
 
         shlDestinyCalculator.open();
@@ -1346,10 +1347,42 @@ public class MainWindow {
 
     }
 
-    private static void uglyFastFixes(Label[] lblClass) {
+    private static void uglyFastFixes(Label[] lblClass, Combo comboCharacter) {
         for (int i = 0; i < 6; i++)
             lblClass[i].setText("2");
         lblClass[6].setText("12");
         helmet.notifyObservers();
+        comboCharacter.forceFocus();
+    }
+
+    private static void openFavoritesDialog(Shell shlDestinyCalculator) {
+        shlDestinyCalculator.setEnabled(false);
+        Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
+        if (item != null)
+            switch (item.type) {
+            case HELMET:
+                helmet.updateItem(item);
+                break;
+            case GAUNTLETS:
+                gauntlets.updateItem(item);
+                break;
+            case CHEST_ARMOR:
+                chest.updateItem(item);
+                break;
+            case LEG_ARMOR:
+                leg.updateItem(item);
+                break;
+            default:
+                break;
+            }
+        shlDestinyCalculator.setEnabled(true);
+        shlDestinyCalculator.forceFocus();
+    }
+
+    private static void resetToDefault(ItemPickerRow[] items, ModsRow[] mods) {
+        for (ItemPickerRow item : items)
+            item.clearItem();
+        for (ModsRow mod : mods)
+            mod.clearMod();
     }
 }

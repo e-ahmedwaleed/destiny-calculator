@@ -1,27 +1,39 @@
 package destiny.joe.items.enums;
 
-public enum MasterWork implements Column {
-    NULL("-", "-"), ARC("Arc Energy Capacity", "Arc"), SOLAR("Solar Energy Capacity", "Solar"),
-    VOID("Void Energy Capacity", "Void");
+public enum MasterWork implements ItemProperty.Column, ItemProperty.MultiWords, ItemProperty.HasIgnored {
+    NULL("-"), ARC("Arc Energy Capacity"), SOLAR("Solar Energy Capacity"), VOID("Void Energy Capacity");
 
-    public final String type;
+    private static final String[] IGNORED = { "Type", "Any" };
+
     private final String string;
 
-    MasterWork(String string, String type) {
-        this.type = type;
+    MasterWork(String string) {
         this.string = string;
     }
 
+    @Override
     public String getString() {
         return string;
     }
 
+    @Override
     public Column[] getValues() {
         return MasterWork.values();
     }
 
+    @Override
     public Column getNull() {
         return NULL;
+    }
+
+    @Override
+    public String getFirstString() {
+        return getString().split(" ")[0];
+    }
+
+    @Override
+    public String[] getIgnoredValues() {
+        return IGNORED;
     }
 
 }
