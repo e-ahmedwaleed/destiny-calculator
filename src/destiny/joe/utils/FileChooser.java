@@ -1,66 +1,38 @@
 package destiny.joe.utils;
 
-import java.awt.Component;
-import java.awt.HeadlessException;
-import java.io.File;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Shell;
 
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+// http://www.java2s.com/Code/Java/SWT-JFace-Eclipse/FileDialogpromptforafilenametosave.htm
+public class FileChooser extends Dialog {
 
-// https://www.geeksforgeeks.org/java-swing-jfilechooser/
-public class FileChooser {
-
-    private final String title;
-
-    public FileChooser(String title) {
-        this.title = title;
+    public FileChooser(Shell parent, int style) {
+        super(parent, style);
     }
 
     public String open(boolean isSave) {
 
-        // create an object of JFileChooser class
-        JFileChooser j = new JFileChooser(new File(GUI.getAbsolutePath("destiny-calculator_sets/"))) {
-            private static final long serialVersionUID = 1L;
-
-            // https://stackoverflow.com/questions/6994772/how-to-change-default-java-icon-in-jfilechooser
-            @Override
-            protected JDialog createDialog(Component parent) throws HeadlessException {
-                JDialog dialog = super.createDialog(parent);
-                if (isSave)
-                    dialog.setIconImage(GUI.loadImage("save.png"));
-                else
-                    dialog.setIconImage(GUI.loadImage("load.png"));
-                return dialog;
-            }
-        };
-
-        // Restrict the user to select files of all types
-        j.setAcceptAllFileFilterUsed(false);
-
-        // set a title for the dialog
-        j.setDialogTitle(title);
-
-        // only allow files of .txt extension
-        FileNameExtensionFilter restrict = new FileNameExtensionFilter(".xml", "xml");
-        j.addChoosableFileFilter(restrict);
-
-        int r;
+        FileDialog dialog;
 
         if (isSave)
-            r = j.showSaveDialog(null);
+            dialog = new FileDialog(getParent(), SWT.SAVE);
         else
-            r = j.showOpenDialog(null);
+            dialog = new FileDialog(getParent(), SWT.OPEN);
 
-        // if the user selects a file
-        if (r == JFileChooser.APPROVE_OPTION) {
-            // set the label to the path of the selected file
-            String path = j.getSelectedFile().getAbsolutePath();
+        dialog.setFilterNames(new String[] { "Serialized Files (.xml)", "All Files (*.*)" });
+        dialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+
+        dialog.setFilterPath(GUI.getAbsolutePath("destiny-calculator_sets/"));
+
+        String path = dialog.open();
+
+        if (path != null)
             return path.contains(".xml") ? path : path + ".xml";
-        }
-        // if the user cancelled the operation
-        else
-            return null;
+
+        return null;
+
     }
 
 }

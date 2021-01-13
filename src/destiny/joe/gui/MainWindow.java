@@ -1361,19 +1361,21 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 loadSet(items, mods);
+                shlDestinyCalculator.forceFocus();
             }
         });
         tltmSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 saveSet(tltmSave, items, mods);
+                shlDestinyCalculator.forceFocus();
             }
         });
     }
 
     private static void saveSet(ToolItem tltmSave, ItemPickerRow[] items, ModsRow[] mods) {
         if (tltmSave.getEnabled()) {
-            String path = new FileChooser("Save current set").open(true);
+            String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(true);
             if (path != null) {
                 StateMomento stateMomento = new StateMomento(items, mods, selectedChar);
                 XMLSerializer.saveObject(stateMomento, path);
@@ -1382,7 +1384,7 @@ public class MainWindow {
     }
 
     private static void loadSet(ItemPickerRow[] items, ModsRow[] mods) {
-        String path = new FileChooser("Load a set file").open(false);
+        String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(false);
         if (path != null)
             try {
                 StateMomento stateMomento = XMLSerializer.loadObject(path);
