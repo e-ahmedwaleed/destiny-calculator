@@ -9,11 +9,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class ModsRow implements Observer {
+import destiny.joe.items.enums.Stat;
+
+public class ModsRow extends Observable implements Observer {
 
     private Integer p5 = 0;
     private Integer p10 = 0;
 
+    private final Stat type;
     private final StatTotal stat;
 
     /**
@@ -26,7 +29,8 @@ public class ModsRow implements Observer {
      */
     private final Button[] buttons;
 
-    public ModsRow(StatTotal stat, Label[] labels, Button[] buttons, Shell shell) {
+    public ModsRow(Stat type, StatTotal stat, Label[] labels, Button[] buttons, Shell shell) {
+        this.type = type;
         this.stat = stat;
         this.labels = labels;
         this.buttons = buttons;
@@ -56,6 +60,17 @@ public class ModsRow implements Observer {
         });
     }
 
+    public void updateMod(int p5, int p10) {
+        this.p5 = p5;
+        this.p10 = p10;
+        update(null, null);
+    }
+
+    public int[] getMod() {
+        int[] mods = { p5, p10 };
+        return mods;
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         Integer total = stat.getValue();
@@ -71,12 +86,17 @@ public class ModsRow implements Observer {
         labels[2].setText(p10.toString());
 
         buttons[2].setEnabled(p5 + p10 != 0);
+
+        setChanged();
+        notifyObservers();
     }
 
     public void clearMod() {
-        p5 = 0;
-        p10 = 0;
-        update(null, null);
+        updateMod(0, 0);
+    }
+
+    public Stat getType() {
+        return type;
     }
 
 }

@@ -17,7 +17,7 @@ public class FileChooser {
         this.title = title;
     }
 
-    public String open() {
+    public String open(boolean isSave) {
 
         // create an object of JFileChooser class
         JFileChooser j = new JFileChooser(new File(GUI.getAbsolutePath("destiny-calculator_sets/"))) {
@@ -27,7 +27,10 @@ public class FileChooser {
             @Override
             protected JDialog createDialog(Component parent) throws HeadlessException {
                 JDialog dialog = super.createDialog(parent);
-                dialog.setIconImage(GUI.loadImage("load.png"));
+                if (isSave)
+                    dialog.setIconImage(GUI.loadImage("save.png"));
+                else
+                    dialog.setIconImage(GUI.loadImage("load.png"));
                 return dialog;
             }
         };
@@ -42,13 +45,18 @@ public class FileChooser {
         FileNameExtensionFilter restrict = new FileNameExtensionFilter(".xml", "xml");
         j.addChoosableFileFilter(restrict);
 
-        // invoke the showsOpenDialog function to show the save dialog
-        int r = j.showOpenDialog(null);
+        int r;
+
+        if (isSave)
+            r = j.showSaveDialog(null);
+        else
+            r = j.showOpenDialog(null);
 
         // if the user selects a file
         if (r == JFileChooser.APPROVE_OPTION) {
             // set the label to the path of the selected file
-            return j.getSelectedFile().getAbsolutePath();
+            String path = j.getSelectedFile().getAbsolutePath();
+            return path.contains(".xml") ? path : path + ".xml";
         }
         // if the user cancelled the operation
         else

@@ -28,6 +28,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import destiny.joe.gui.helper.ItemPickerRow;
 import destiny.joe.gui.helper.ModsRow;
 import destiny.joe.gui.helper.StatTotal;
+import destiny.joe.gui.helper.StateMomento;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.ItemProperty.Column;
@@ -35,6 +36,7 @@ import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileChooser;
 import destiny.joe.utils.GUI;
+import destiny.joe.utils.XMLSerializer;
 
 public class MainWindow {
 
@@ -47,6 +49,7 @@ public class MainWindow {
     private static Button btnOptimal;
     private static Group grpItemPicker;
     private static Combo comboCharacter;
+    private static Shell shlDestinyCalculator;
 
     /**
      * Launch the application.
@@ -56,7 +59,7 @@ public class MainWindow {
     public static void main(String[] args) {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
-        Shell shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
+        shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
         shlDestinyCalculator.setMinimumSize(new Point(680, 560));
         shlDestinyCalculator.setImage(GUI.loadImage(display, "destiny-2.ico"));
         shlDestinyCalculator.setSize(680, 560);
@@ -829,11 +832,11 @@ public class MainWindow {
 
         comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
         fd_grpItemPicker.right = new FormAttachment(100, 100, -114);
-        FormData fd_comboCharacter_1 = new FormData();
-        fd_comboCharacter_1.right = new FormAttachment(100, -10);
-        fd_comboCharacter_1.left = new FormAttachment(grpItemPicker, 8);
-        fd_comboCharacter_1.top = new FormAttachment(grpItemPicker, 0, SWT.TOP);
-        comboCharacter.setLayoutData(fd_comboCharacter_1);
+        FormData fd_comboCharacter = new FormData();
+        fd_comboCharacter.right = new FormAttachment(100, -10);
+        fd_comboCharacter.left = new FormAttachment(grpItemPicker, 8);
+        fd_comboCharacter.top = new FormAttachment(grpItemPicker, 0, SWT.TOP);
+        comboCharacter.setLayoutData(fd_comboCharacter);
         comboCharacter.setItems(new String[] { "Hunter", "Titan", "Warlock" });
         comboCharacter.setText("Character");
 
@@ -1203,27 +1206,12 @@ public class MainWindow {
 
         ToolItem tltmLoad = new ToolItem(toolBarMain, SWT.NONE);
         tltmLoad.setToolTipText("Load (Ctrl+L)");
-        tltmLoad.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                toggleInterrupt(false);
-                System.out.println(new FileChooser("Load a set file").open());
-                toggleInterrupt(true);
-            }
-        });
         tltmLoad.setImage(GUI.loadImage(display, "load.png"));
 
         ToolItem tltmSave = new ToolItem(toolBarMain, SWT.NONE);
         tltmSave.setToolTipText("Save (Ctrl+S)");
-        tltmSave.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                toggleInterrupt(false);
-                System.out.println(new FileChooser("Save current set").open());
-                toggleInterrupt(true);
-            }
-        });
-        tltmSave.setEnabled(false);
+        // TODO: it should be false
+        tltmSave.setEnabled(true);
         tltmSave.setImage(GUI.loadImage(display, "save.png"));
 
         ToolItem tltmFavorite = new ToolItem(toolBarMain, SWT.NONE);
@@ -1231,7 +1219,7 @@ public class MainWindow {
         tltmFavorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
+                openFavoritesDialog();
             }
         });
         tltmFavorite.setImage(GUI.loadImage(display, "favorite-on.png"));
@@ -1308,7 +1296,7 @@ public class MainWindow {
 
         ModsRow[] mods = new ModsRow[6];
         for (int i = 0; i < 6; i++)
-            mods[i] = new ModsRow(statTotal[i], lblMods[i], modsBtns[i], shlDestinyCalculator);
+            mods[i] = new ModsRow(Stat.values()[i + 1], statTotal[i], lblMods[i], modsBtns[i], shlDestinyCalculator);
 
         btnReset_1.addSelectionListener(new SelectionAdapter() {
             @Override
@@ -1319,16 +1307,37 @@ public class MainWindow {
         });
 
         comboCharacter.addModifyListener(new ModifyListener() {
+            Character prevSelectedChar = selectedChar;
+
             @Override
             public void modifyText(ModifyEvent e) {
                 selectedChar = (Character) Column.identifyColumn(comboCharacter.getText(), Character.NULL);
                 grpItemPicker.setEnabled(selectedChar != Character.NULL);
-                // TODO: save previous state.
-                resetToDefault(items, mods);
+                if (prevSelectedChar != selectedChar)
+                    resetToDefault(items, mods);
+                prevSelectedChar = selectedChar;
             }
         });
 
-        addShortCuts(shlDestinyCalculator, tltmFavorite);
+        intializeSaveAndLoad(tltmLoad, tltmSave, items, mods);
+
+        // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
+        KeyAdapter shortCuts = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (grpItemPicker.getEnabled()) {
+                    if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd'))
+                        openFavoritesDialog();
+                    else if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'l'))
+                        loadSet(items, mods);
+                    else if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 's'))
+                        saveSet(tltmSave, items, mods);
+                }
+            }
+        };
+
+        comboCharacter.addKeyListener(shortCuts);
+        shlDestinyCalculator.addKeyListener(shortCuts);
 
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };
@@ -1346,22 +1355,41 @@ public class MainWindow {
 
     }
 
-    // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
-    private static void addShortCuts(Shell shlDestinyCalculator, ToolItem tltmFavorite) {
-        comboCharacter.addKeyListener(new KeyAdapter() {
+    private static void intializeSaveAndLoad(ToolItem tltmLoad, ToolItem tltmSave, ItemPickerRow[] items,
+            ModsRow[] mods) {
+        tltmLoad.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd') && grpItemPicker.getEnabled())
-                    openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
+            public void widgetSelected(SelectionEvent e) {
+                loadSet(items, mods);
             }
         });
-        shlDestinyCalculator.addKeyListener(new KeyAdapter() {
+        tltmSave.addSelectionListener(new SelectionAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd') && grpItemPicker.getEnabled())
-                    openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
+            public void widgetSelected(SelectionEvent e) {
+                saveSet(tltmSave, items, mods);
             }
         });
+    }
+
+    private static void saveSet(ToolItem tltmSave, ItemPickerRow[] items, ModsRow[] mods) {
+        if (tltmSave.getEnabled()) {
+            String path = new FileChooser("Save current set").open(true);
+            if (path != null) {
+                StateMomento stateMomento = new StateMomento(items, mods, selectedChar);
+                XMLSerializer.saveObject(stateMomento, path);
+            }
+        }
+    }
+
+    private static void loadSet(ItemPickerRow[] items, ModsRow[] mods) {
+        String path = new FileChooser("Load a set file").open(false);
+        if (path != null)
+            try {
+                StateMomento stateMomento = XMLSerializer.loadObject(path);
+                stateMomento.loadMomento(items, mods, comboCharacter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
     private static void uglyFastFixes(Label[] lblClass, Combo comboCharacter) {
@@ -1372,34 +1400,27 @@ public class MainWindow {
         comboCharacter.forceFocus();
     }
 
-    private static void openFavoritesDialog(ToolItem btn, Shell shlDestinyCalculator) {
-
-        Display.getDefault().asyncExec(new Runnable() {
-            public void run() {
-                btn.setEnabled(false);
-                Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
-                if (item != null)
-                    switch (item.type) {
-                    case HELMET:
-                        helmet.updateItem(item);
-                        break;
-                    case GAUNTLETS:
-                        gauntlets.updateItem(item);
-                        break;
-                    case CHEST_ARMOR:
-                        chest.updateItem(item);
-                        break;
-                    case LEG_ARMOR:
-                        leg.updateItem(item);
-                        break;
-                    default:
-                        break;
-                    }
-                btn.setEnabled(true);
+    private static void openFavoritesDialog() {
+        toggleInterrupt(false);
+        Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
+        if (item != null)
+            switch (item.type) {
+            case HELMET:
+                helmet.updateItem(item);
+                break;
+            case GAUNTLETS:
+                gauntlets.updateItem(item);
+                break;
+            case CHEST_ARMOR:
+                chest.updateItem(item);
+                break;
+            case LEG_ARMOR:
+                leg.updateItem(item);
+                break;
+            default:
+                break;
             }
-        });
-
-        shlDestinyCalculator.forceFocus();
+        toggleInterrupt(true);
     }
 
     private static void resetToDefault(ItemPickerRow[] items, ModsRow[] mods) {
@@ -1414,5 +1435,8 @@ public class MainWindow {
         btnOptimal.setEnabled(false);
         grpItemPicker.setEnabled(b);
         comboCharacter.setEnabled(b);
+
+        if (b)
+            shlDestinyCalculator.forceFocus();
     }
 }

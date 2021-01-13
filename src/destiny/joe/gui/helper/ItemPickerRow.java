@@ -61,12 +61,12 @@ public class ItemPickerRow extends Observable {
         favorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if (item != null && ItemsManager.isFavorite(item)) {
+                if (getItem() != null && ItemsManager.isFavorite(getItem())) {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-off.png"));
-                    ItemsManager.deleteFromFavorites(item);
+                    ItemsManager.deleteFromFavorites(getItem());
                 } else {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
-                    ItemsManager.addToFavorites(item);
+                    ItemsManager.addToFavorites(getItem());
                 }
                 shell.forceFocus();
             }
@@ -74,7 +74,7 @@ public class ItemPickerRow extends Observable {
     }
 
     public void pickItem(Shell shell, Character selectedChar) {
-        updateItem(new ItemChooser(shell, SWT.CLOSE, type, selectedChar).open());
+        updateItem(new ItemChooser(shell, SWT.CLOSE, getType(), selectedChar).open());
     }
 
     public void clearItem() {
@@ -82,11 +82,11 @@ public class ItemPickerRow extends Observable {
     }
 
     public int getStat(Stat stat) {
-        return item.stats.get(stat) + (mw ? 2 : 0);
+        return getItem().stats.get(stat) + (mw ? 2 : 0);
     }
 
     public int getTotalStats() {
-        return item.getTotalStats() + (mw ? 12 : 0);
+        return getItem().getTotalStats() + (mw ? 12 : 0);
     }
 
     public void updateItem(Item item) {
@@ -118,14 +118,14 @@ public class ItemPickerRow extends Observable {
         int masterwork = item.stats.get(Stat.MASTER_WORK);
         labels[17].setText(masterwork + "/ 10");
 
-        buttons[0].setEnabled(item != Item.NULL);
+        buttons[0].setEnabled(!item.equals(Item.NULL));
 
         masterworkToggle(masterwork >= 10);
         buttons[1].setEnabled(masterwork < 10);
 
-        favorite.getParent().setVisible(item != Item.NULL);
+        favorite.getParent().setVisible(!item.equals(Item.NULL));
 
-        if (item != Item.NULL && ItemsManager.isFavorite(item)) {
+        if (!item.equals(Item.NULL) && ItemsManager.isFavorite(item)) {
             favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-on.png"));
         } else {
             favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-off.png"));
@@ -148,6 +148,14 @@ public class ItemPickerRow extends Observable {
     public void notifyObservers() {
         setChanged();
         super.notifyObservers();
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public Type getType() {
+        return type;
     }
 
 }
