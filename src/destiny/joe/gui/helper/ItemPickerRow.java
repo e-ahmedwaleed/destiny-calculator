@@ -86,10 +86,7 @@ public class ItemPickerRow extends Observable {
     }
 
     public int getTotalStats() {
-        int total = 0;
-        for (int i = 1; i < 7; i++)
-            total += item.stats.get(Stat.values()[i]);
-        return total + (mw ? 12 : 0);
+        return item.getTotalStats() + (mw ? 12 : 0);
     }
 
     public void updateItem(Item item) {

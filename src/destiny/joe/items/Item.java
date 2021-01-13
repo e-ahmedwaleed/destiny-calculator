@@ -62,6 +62,13 @@ public class Item {
         stats.put(Stat.MASTER_WORK, 0);
     }
 
+    public Integer getTotalStats() {
+        int total = 0;
+        for (int i = 1; i < 7; i++)
+            total += stats.get(Stat.values()[i]);
+        return total;
+    }
+
     @Override
     public String toString() {
         return name;

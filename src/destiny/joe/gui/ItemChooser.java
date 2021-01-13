@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
@@ -74,6 +75,7 @@ public class ItemChooser extends Dialog {
     private Text textStat_5;
     private Text txtItemName;
     private TableColumn tblclmnMWTier;
+    private TableColumn tblclmnTotalStat;
 
     /**
      * Create the dialog.
@@ -147,9 +149,9 @@ public class ItemChooser extends Dialog {
 
     void createContents() {
         shlChooseItem = new Shell(getParent(), getStyle());
-        shlChooseItem.setMinimumSize(new Point(544, 470));
+        shlChooseItem.setMinimumSize(new Point(561, 470));
         shlChooseItem.setImage(GUI.loadImage(getParent().getDisplay(), "destiny-2.ico"));
-        shlChooseItem.setSize(544, 470);
+        shlChooseItem.setSize(561, 470);
         shlChooseItem.setText("Choose " + type.getString() + " (" + character.getString() + ")");
     }
 
@@ -168,8 +170,7 @@ public class ItemChooser extends Dialog {
                 resortTable(new ItemComparator(null));
             }
         });
-        tblclmnName.setResizable(false);
-        tblclmnName.setWidth(200);
+        tblclmnName.setWidth(170);
         tblclmnName.setText("Name");
 
         tblclmnTier = new TableColumn(table, SWT.LEFT);
@@ -180,7 +181,7 @@ public class ItemChooser extends Dialog {
             }
         });
         tblclmnTier.setResizable(false);
-        tblclmnTier.setWidth(70);
+        tblclmnTier.setWidth(75);
         tblclmnTier.setText("Tier");
 
         tblclmnType = new TableColumn(table, SWT.LEFT);
@@ -204,7 +205,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat.setToolTipText("Mobility");
         tblclmnStat.setImage(GUI.loadImage(getParent().getDisplay(), "mobility.png"));
         tblclmnStat.setResizable(false);
-        tblclmnStat.setWidth(26);
+        tblclmnStat.setWidth(28);
 
         tblclmnStat_1 = new TableColumn(table, SWT.CENTER);
         tblclmnStat_1.addSelectionListener(new SelectionAdapter() {
@@ -216,7 +217,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_1.setToolTipText("Resilience");
         tblclmnStat_1.setImage(GUI.loadImage(getParent().getDisplay(), "resiliance.png"));
         tblclmnStat_1.setResizable(false);
-        tblclmnStat_1.setWidth(26);
+        tblclmnStat_1.setWidth(28);
 
         tblclmnStat_2 = new TableColumn(table, SWT.CENTER);
         tblclmnStat_2.addSelectionListener(new SelectionAdapter() {
@@ -228,7 +229,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_2.setToolTipText("Recovery");
         tblclmnStat_2.setImage(GUI.loadImage(getParent().getDisplay(), "recovery.png"));
         tblclmnStat_2.setResizable(false);
-        tblclmnStat_2.setWidth(26);
+        tblclmnStat_2.setWidth(28);
 
         tblclmnStat_3 = new TableColumn(table, SWT.CENTER);
         tblclmnStat_3.addSelectionListener(new SelectionAdapter() {
@@ -240,7 +241,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_3.setToolTipText("Discipline");
         tblclmnStat_3.setImage(GUI.loadImage(getParent().getDisplay(), "discipline.png"));
         tblclmnStat_3.setResizable(false);
-        tblclmnStat_3.setWidth(26);
+        tblclmnStat_3.setWidth(28);
 
         tblclmnStat_4 = new TableColumn(table, SWT.CENTER);
         tblclmnStat_4.addSelectionListener(new SelectionAdapter() {
@@ -252,7 +253,7 @@ public class ItemChooser extends Dialog {
         tblclmnStat_4.setToolTipText("Intellect");
         tblclmnStat_4.setImage(GUI.loadImage(getParent().getDisplay(), "intellect.png"));
         tblclmnStat_4.setResizable(false);
-        tblclmnStat_4.setWidth(26);
+        tblclmnStat_4.setWidth(28);
 
         tblclmnStat_5 = new TableColumn(table, SWT.CENTER);
         tblclmnStat_5.addSelectionListener(new SelectionAdapter() {
@@ -264,7 +265,19 @@ public class ItemChooser extends Dialog {
         tblclmnStat_5.setToolTipText("Strength");
         tblclmnStat_5.setImage(GUI.loadImage(getParent().getDisplay(), "strength.png"));
         tblclmnStat_5.setResizable(false);
-        tblclmnStat_5.setWidth(26);
+        tblclmnStat_5.setWidth(28);
+
+        tblclmnTotalStat = new TableColumn(table, SWT.CENTER);
+        tblclmnTotalStat.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resortTable(new ItemComparator(Stat.NULL));
+            }
+        });
+        tblclmnTotalStat.setWidth(28);
+        tblclmnTotalStat.setToolTipText("Total Stats");
+        tblclmnTotalStat.setText("T");
+        tblclmnTotalStat.setResizable(false);
 
         tblclmnMWTier = new TableColumn(table, SWT.CENTER);
         tblclmnMWTier.addSelectionListener(new SelectionAdapter() {
@@ -275,7 +288,7 @@ public class ItemChooser extends Dialog {
         });
         tblclmnMWTier.setToolTipText("Masterwork Tier");
         tblclmnMWTier.setResizable(false);
-        tblclmnMWTier.setWidth(26);
+        tblclmnMWTier.setWidth(28);
         tblclmnMWTier.setText("M");
     }
 
@@ -553,7 +566,11 @@ public class ItemChooser extends Dialog {
         tableItem.setText(6, i.stats.get(Stat.DISCIPLINE).toString());
         tableItem.setText(7, i.stats.get(Stat.INTELLECT).toString());
         tableItem.setText(8, i.stats.get(Stat.STRENGTH).toString());
-        tableItem.setText(9, i.stats.get(Stat.MASTER_WORK).toString());
+        tableItem.setText(9, i.getTotalStats().toString());
+        tableItem.setText(10, i.stats.get(Stat.MASTER_WORK).toString());
+
+        if (ItemsManager.isFavorite(i))
+            tableItem.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
     }
 
     void filterTable() {

@@ -1,5 +1,7 @@
 package destiny.joe.utils;
 
+import javax.swing.ImageIcon;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -15,14 +17,24 @@ public class GUI {
     private GUI() {
     }
 
-    public static Image loadImage(Display display, String file) {
+    public static org.eclipse.swt.graphics.Image loadImage(Display display, String file) {
 
-        String jarDir = MainWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
+        String jarPath = getAbsolutePath("destiny-calculator_media/");
+        return new Image(display, jarPath + file);
+    }
 
-        if (jarDir.contains("destiny-calculator.jar"))
-            jarDir = jarDir.replace("destiny-calculator.jar", "destiny-calculator_media/");
+    public static java.awt.Image loadImage(String file) {
 
-        return new Image(display, jarDir + file);
+        String jarPath = getAbsolutePath("destiny-calculator_media/");
+        return new ImageIcon(jarPath + file).getImage();
+    }
+
+    public static String getAbsolutePath(String path) {
+        String jarPath = MainWindow.class.getProtectionDomain().getCodeSource().getLocation().toString().substring(6);
+
+        if (jarPath.contains("destiny-calculator.jar"))
+            jarPath = jarPath.replace("destiny-calculator.jar", path);
+        return jarPath;
     }
 
     // http://www.java2s.com/Tutorial/Java/0280__SWT/Centerashellontheprimarymonitor.htm
@@ -42,9 +54,6 @@ public class GUI {
     /***
      * Scale the shell by dpi/96. It is needed to fit UI to the scaled text.
      * https://stackoverflow.com/questions/19900033/how-to-compute-swt-widget-size-according-to-windows-dpi/43003186
-     * 
-     * @param display
-     * @param shell
      */
     public static void scaleWindowDisplay(Display display, Shell shell) {
         Point dpi = display.getDPI();
@@ -58,9 +67,6 @@ public class GUI {
 
     /***
      * Scale the shell by sqr(dpi/96). It is needed to keep the design structure.
-     * 
-     * @param display
-     * @param shell
      */
     public static void scaleSQRWindowDisplay(Display display, Shell shell) {
         Point dpi = display.getDPI();
@@ -81,9 +87,6 @@ public class GUI {
 
     /**
      * Used with scaleWindowDisplay.
-     * 
-     * @param display
-     * @param col
      */
     public static void scaleColumnDisplay(Display display, TableColumn col) {
         Point dpi = display.getDPI();

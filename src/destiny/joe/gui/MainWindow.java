@@ -33,6 +33,7 @@ import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.ItemProperty.Column;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
+import destiny.joe.utils.FileChooser;
 import destiny.joe.utils.GUI;
 
 public class MainWindow {
@@ -42,6 +43,10 @@ public class MainWindow {
     private static ItemPickerRow chest;
     private static ItemPickerRow leg;
     private static Character selectedChar = Character.NULL;
+
+    private static Button btnOptimal;
+    private static Group grpItemPicker;
+    private static Combo comboCharacter;
 
     /**
      * Launch the application.
@@ -58,7 +63,7 @@ public class MainWindow {
         shlDestinyCalculator.setText("Destiny Calculator");
         shlDestinyCalculator.setLayout(new FormLayout());
 
-        Group grpItemPicker = new Group(shlDestinyCalculator, SWT.NONE);
+        grpItemPicker = new Group(shlDestinyCalculator, SWT.NONE);
         grpItemPicker.addMouseTrackListener(new MouseTrackAdapter() {
             @Override
             public void mouseEnter(MouseEvent e) {
@@ -89,35 +94,35 @@ public class MainWindow {
 
         Label lblRes = new Label(grpItemPicker, SWT.NONE);
         lblRes.setAlignment(SWT.CENTER);
-        lblRes.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblRes.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblRes.setToolTipText("Resilience");
         lblRes.setImage(GUI.loadImage(display, "resiliance.png"));
         lblRes.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Label lblRec = new Label(grpItemPicker, SWT.NONE);
         lblRec.setAlignment(SWT.CENTER);
-        lblRec.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblRec.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblRec.setToolTipText("Recovery");
         lblRec.setImage(GUI.loadImage(display, "recovery.png"));
         lblRec.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Label lblDis = new Label(grpItemPicker, SWT.NONE);
         lblDis.setAlignment(SWT.CENTER);
-        lblDis.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblDis.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblDis.setToolTipText("Discipline");
         lblDis.setImage(GUI.loadImage(display, "discipline.png"));
         lblDis.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Label lblInt = new Label(grpItemPicker, SWT.NONE);
         lblInt.setAlignment(SWT.CENTER);
-        lblInt.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblInt.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblInt.setToolTipText("Intellect");
         lblInt.setImage(GUI.loadImage(display, "intellect.png"));
         lblInt.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
 
         Label lblStr = new Label(grpItemPicker, SWT.NONE);
         lblStr.setAlignment(SWT.CENTER);
-        lblStr.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblStr.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblStr.setToolTipText("Strength");
         lblStr.setImage(GUI.loadImage(display, "strength.png"));
         lblStr.setFont(SWTResourceManager.getFont("Consolas", 8, SWT.NORMAL));
@@ -145,10 +150,9 @@ public class MainWindow {
         btnHelmet.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.setEnabled(false);
+                toggleInterrupt(false);
                 helmet.pickItem(shlDestinyCalculator, selectedChar);
-                shlDestinyCalculator.setEnabled(true);
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(true);
             }
         });
         btnHelmet.setToolTipText("Choose item.");
@@ -162,31 +166,31 @@ public class MainWindow {
 
         Label lblHelmetStat_1 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStat_1.setAlignment(SWT.CENTER);
-        lblHelmetStat_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStat_1.setText("000");
         lblHelmetStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblHelmetStat_2 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStat_2.setAlignment(SWT.CENTER);
-        lblHelmetStat_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStat_2.setText("000");
         lblHelmetStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblHelmetStat_3 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStat_3.setAlignment(SWT.CENTER);
-        lblHelmetStat_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStat_3.setText("000");
         lblHelmetStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblHelmetStat_4 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStat_4.setAlignment(SWT.CENTER);
-        lblHelmetStat_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStat_4.setText("000");
         lblHelmetStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblHelmetStat_5 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStat_5.setAlignment(SWT.CENTER);
-        lblHelmetStat_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStat_5.setText("000");
         lblHelmetStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         new Label(grpItemPicker, SWT.NONE);
@@ -236,35 +240,35 @@ public class MainWindow {
 
         Label lblHelmetStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStatMW_1.setAlignment(SWT.CENTER);
-        lblHelmetStatMW_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStatMW_1.setText("002");
         lblHelmetStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblHelmetStatMW_1.setEnabled(false);
 
         Label lblHelmetStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStatMW_2.setAlignment(SWT.CENTER);
-        lblHelmetStatMW_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStatMW_2.setText("002");
         lblHelmetStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblHelmetStatMW_2.setEnabled(false);
 
         Label lblHelmetStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStatMW_3.setAlignment(SWT.CENTER);
-        lblHelmetStatMW_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStatMW_3.setText("002");
         lblHelmetStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblHelmetStatMW_3.setEnabled(false);
 
         Label lblHelmetStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStatMW_4.setAlignment(SWT.CENTER);
-        lblHelmetStatMW_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStatMW_4.setText("002");
         lblHelmetStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblHelmetStatMW_4.setEnabled(false);
 
         Label lblHelmetStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblHelmetStatMW_5.setAlignment(SWT.CENTER);
-        lblHelmetStatMW_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblHelmetStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblHelmetStatMW_5.setText("002");
         lblHelmetStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblHelmetStatMW_5.setEnabled(false);
@@ -304,10 +308,9 @@ public class MainWindow {
         btnGauntlets.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.setEnabled(false);
+                toggleInterrupt(false);
                 gauntlets.pickItem(shlDestinyCalculator, selectedChar);
-                shlDestinyCalculator.setEnabled(true);
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(true);
             }
         });
         btnGauntlets.setToolTipText("Choose item.");
@@ -321,31 +324,31 @@ public class MainWindow {
 
         Label lblGauntletsStat_1 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStat_1.setAlignment(SWT.CENTER);
-        lblGauntletsStat_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStat_1.setText("000");
         lblGauntletsStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblGauntletsStat_2 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStat_2.setAlignment(SWT.CENTER);
-        lblGauntletsStat_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStat_2.setText("000");
         lblGauntletsStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblGauntletsStat_3 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStat_3.setAlignment(SWT.CENTER);
-        lblGauntletsStat_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStat_3.setText("000");
         lblGauntletsStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblGauntletsStat_4 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStat_4.setAlignment(SWT.CENTER);
-        lblGauntletsStat_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStat_4.setText("000");
         lblGauntletsStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblGauntletsStat_5 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStat_5.setAlignment(SWT.CENTER);
-        lblGauntletsStat_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStat_5.setText("000");
         lblGauntletsStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         new Label(grpItemPicker, SWT.NONE);
@@ -395,35 +398,35 @@ public class MainWindow {
 
         Label lblGauntletsStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStatMW_1.setAlignment(SWT.CENTER);
-        lblGauntletsStatMW_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStatMW_1.setText("002");
         lblGauntletsStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblGauntletsStatMW_1.setEnabled(false);
 
         Label lblGauntletsStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStatMW_2.setAlignment(SWT.CENTER);
-        lblGauntletsStatMW_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStatMW_2.setText("002");
         lblGauntletsStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblGauntletsStatMW_2.setEnabled(false);
 
         Label lblGauntletsStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStatMW_3.setAlignment(SWT.CENTER);
-        lblGauntletsStatMW_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStatMW_3.setText("002");
         lblGauntletsStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblGauntletsStatMW_3.setEnabled(false);
 
         Label lblGauntletsStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStatMW_4.setAlignment(SWT.CENTER);
-        lblGauntletsStatMW_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStatMW_4.setText("002");
         lblGauntletsStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblGauntletsStatMW_4.setEnabled(false);
 
         Label lblGauntletsStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblGauntletsStatMW_5.setAlignment(SWT.CENTER);
-        lblGauntletsStatMW_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblGauntletsStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblGauntletsStatMW_5.setText("002");
         lblGauntletsStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblGauntletsStatMW_5.setEnabled(false);
@@ -463,10 +466,9 @@ public class MainWindow {
         btnChest.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.setEnabled(false);
+                toggleInterrupt(false);
                 chest.pickItem(shlDestinyCalculator, selectedChar);
-                shlDestinyCalculator.setEnabled(true);
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(true);
             }
         });
         btnChest.setToolTipText("Choose item.");
@@ -480,31 +482,31 @@ public class MainWindow {
 
         Label lblChestStat_1 = new Label(grpItemPicker, SWT.NONE);
         lblChestStat_1.setAlignment(SWT.CENTER);
-        lblChestStat_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStat_1.setText("000");
         lblChestStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblChestStat_2 = new Label(grpItemPicker, SWT.NONE);
         lblChestStat_2.setAlignment(SWT.CENTER);
-        lblChestStat_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStat_2.setText("000");
         lblChestStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblChestStat_3 = new Label(grpItemPicker, SWT.NONE);
         lblChestStat_3.setAlignment(SWT.CENTER);
-        lblChestStat_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStat_3.setText("000");
         lblChestStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblChestStat_4 = new Label(grpItemPicker, SWT.NONE);
         lblChestStat_4.setAlignment(SWT.CENTER);
-        lblChestStat_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStat_4.setText("000");
         lblChestStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblChestStat_5 = new Label(grpItemPicker, SWT.NONE);
         lblChestStat_5.setAlignment(SWT.CENTER);
-        lblChestStat_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStat_5.setText("000");
         lblChestStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         new Label(grpItemPicker, SWT.NONE);
@@ -554,35 +556,35 @@ public class MainWindow {
 
         Label lblChestStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblChestStatMW_1.setAlignment(SWT.CENTER);
-        lblChestStatMW_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStatMW_1.setText("002");
         lblChestStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblChestStatMW_1.setEnabled(false);
 
         Label lblChestStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblChestStatMW_2.setAlignment(SWT.CENTER);
-        lblChestStatMW_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStatMW_2.setText("002");
         lblChestStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblChestStatMW_2.setEnabled(false);
 
         Label lblChestStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblChestStatMW_3.setAlignment(SWT.CENTER);
-        lblChestStatMW_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStatMW_3.setText("002");
         lblChestStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblChestStatMW_3.setEnabled(false);
 
         Label lblChestStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblChestStatMW_4.setAlignment(SWT.CENTER);
-        lblChestStatMW_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStatMW_4.setText("002");
         lblChestStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblChestStatMW_4.setEnabled(false);
 
         Label lblChestStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblChestStatMW_5.setAlignment(SWT.CENTER);
-        lblChestStatMW_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblChestStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblChestStatMW_5.setText("002");
         lblChestStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblChestStatMW_5.setEnabled(false);
@@ -622,10 +624,9 @@ public class MainWindow {
         btnLeg.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.setEnabled(false);
+                toggleInterrupt(false);
                 leg.pickItem(shlDestinyCalculator, selectedChar);
-                shlDestinyCalculator.setEnabled(true);
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(true);
             }
         });
         btnLeg.setToolTipText("Choose item.");
@@ -639,31 +640,31 @@ public class MainWindow {
 
         Label lblLegStat_1 = new Label(grpItemPicker, SWT.NONE);
         lblLegStat_1.setAlignment(SWT.CENTER);
-        lblLegStat_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStat_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStat_1.setText("000");
         lblLegStat_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblLegStat_2 = new Label(grpItemPicker, SWT.NONE);
         lblLegStat_2.setAlignment(SWT.CENTER);
-        lblLegStat_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStat_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStat_2.setText("000");
         lblLegStat_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblLegStat_3 = new Label(grpItemPicker, SWT.NONE);
         lblLegStat_3.setAlignment(SWT.CENTER);
-        lblLegStat_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStat_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStat_3.setText("000");
         lblLegStat_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblLegStat_4 = new Label(grpItemPicker, SWT.NONE);
         lblLegStat_4.setAlignment(SWT.CENTER);
-        lblLegStat_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStat_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStat_4.setText("000");
         lblLegStat_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblLegStat_5 = new Label(grpItemPicker, SWT.NONE);
         lblLegStat_5.setAlignment(SWT.CENTER);
-        lblLegStat_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStat_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStat_5.setText("000");
         lblLegStat_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         new Label(grpItemPicker, SWT.NONE);
@@ -713,35 +714,35 @@ public class MainWindow {
 
         Label lblLegStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblLegStatMW_1.setAlignment(SWT.CENTER);
-        lblLegStatMW_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStatMW_1.setText("002");
         lblLegStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblLegStatMW_1.setEnabled(false);
 
         Label lblLegStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblLegStatMW_2.setAlignment(SWT.CENTER);
-        lblLegStatMW_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStatMW_2.setText("002");
         lblLegStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblLegStatMW_2.setEnabled(false);
 
         Label lblLegStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblLegStatMW_3.setAlignment(SWT.CENTER);
-        lblLegStatMW_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStatMW_3.setText("002");
         lblLegStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblLegStatMW_3.setEnabled(false);
 
         Label lblLegStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblLegStatMW_4.setAlignment(SWT.CENTER);
-        lblLegStatMW_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStatMW_4.setText("002");
         lblLegStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblLegStatMW_4.setEnabled(false);
 
         Label lblLegStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblLegStatMW_5.setAlignment(SWT.CENTER);
-        lblLegStatMW_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblLegStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblLegStatMW_5.setText("002");
         lblLegStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblLegStatMW_5.setEnabled(false);
@@ -789,31 +790,31 @@ public class MainWindow {
 
         Label lblExtraStatMW_1 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_1.setAlignment(SWT.CENTER);
-        lblExtraStatMW_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblExtraStatMW_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStatMW_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_1.setText("002");
 
         Label lblExtraStatMW_2 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_2.setAlignment(SWT.CENTER);
-        lblExtraStatMW_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblExtraStatMW_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStatMW_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_2.setText("002");
 
         Label lblExtraStatMW_3 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_3.setAlignment(SWT.CENTER);
-        lblExtraStatMW_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblExtraStatMW_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStatMW_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_3.setText("002");
 
         Label lblExtraStatMW_4 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_4.setAlignment(SWT.CENTER);
-        lblExtraStatMW_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblExtraStatMW_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStatMW_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_4.setText("002");
 
         Label lblExtraStatMW_5 = new Label(grpItemPicker, SWT.NONE);
         lblExtraStatMW_5.setAlignment(SWT.CENTER);
-        lblExtraStatMW_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblExtraStatMW_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblExtraStatMW_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         lblExtraStatMW_5.setText("002");
         new Label(grpItemPicker, SWT.NONE);
@@ -826,13 +827,13 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
 
-        Combo comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
+        comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
         fd_grpItemPicker.right = new FormAttachment(100, 100, -114);
-        FormData fd_comboCharacter = new FormData();
-        fd_comboCharacter.right = new FormAttachment(100, -10);
-        fd_comboCharacter.left = new FormAttachment(grpItemPicker, 8);
-        fd_comboCharacter.top = new FormAttachment(grpItemPicker, 0, SWT.TOP);
-        comboCharacter.setLayoutData(fd_comboCharacter);
+        FormData fd_comboCharacter_1 = new FormData();
+        fd_comboCharacter_1.right = new FormAttachment(100, -10);
+        fd_comboCharacter_1.left = new FormAttachment(grpItemPicker, 8);
+        fd_comboCharacter_1.top = new FormAttachment(grpItemPicker, 0, SWT.TOP);
+        comboCharacter.setLayoutData(fd_comboCharacter_1);
         comboCharacter.setItems(new String[] { "Hunter", "Titan", "Warlock" });
         comboCharacter.setText("Character");
 
@@ -1146,31 +1147,31 @@ public class MainWindow {
 
         Label lblTotalStats_1 = new Label(grpItemPicker, SWT.NONE);
         lblTotalStats_1.setAlignment(SWT.CENTER);
-        lblTotalStats_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblTotalStats_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblTotalStats_1.setText("000");
         lblTotalStats_1.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblTotalStats_2 = new Label(grpItemPicker, SWT.NONE);
         lblTotalStats_2.setAlignment(SWT.CENTER);
-        lblTotalStats_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblTotalStats_2.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblTotalStats_2.setText("000");
         lblTotalStats_2.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblTotalStats_3 = new Label(grpItemPicker, SWT.NONE);
         lblTotalStats_3.setAlignment(SWT.CENTER);
-        lblTotalStats_3.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblTotalStats_3.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblTotalStats_3.setText("000");
         lblTotalStats_3.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblTotalStats_4 = new Label(grpItemPicker, SWT.NONE);
         lblTotalStats_4.setAlignment(SWT.CENTER);
-        lblTotalStats_4.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblTotalStats_4.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblTotalStats_4.setText("000");
         lblTotalStats_4.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
 
         Label lblTotalStats_5 = new Label(grpItemPicker, SWT.NONE);
         lblTotalStats_5.setAlignment(SWT.CENTER);
-        lblTotalStats_5.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblTotalStats_5.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         lblTotalStats_5.setText("000");
         lblTotalStats_5.setFont(SWTResourceManager.getFont("Consolas", 9, SWT.NORMAL));
         new Label(grpItemPicker, SWT.NONE);
@@ -1205,7 +1206,9 @@ public class MainWindow {
         tltmLoad.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(false);
+                System.out.println(new FileChooser("Load a set file").open());
+                toggleInterrupt(true);
             }
         });
         tltmLoad.setImage(GUI.loadImage(display, "load.png"));
@@ -1215,7 +1218,9 @@ public class MainWindow {
         tltmSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(false);
+                System.out.println(new FileChooser("Save current set").open());
+                toggleInterrupt(true);
             }
         });
         tltmSave.setEnabled(false);
@@ -1226,17 +1231,18 @@ public class MainWindow {
         tltmFavorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                openFavoritesDialog(shlDestinyCalculator);
+                openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
             }
         });
         tltmFavorite.setImage(GUI.loadImage(display, "favorite-on.png"));
 
-        Button btnOptimal = new Button(shlDestinyCalculator, SWT.NONE);
+        btnOptimal = new Button(shlDestinyCalculator, SWT.NONE);
         btnOptimal.setToolTipText("Find your optimal build.");
         btnOptimal.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                shlDestinyCalculator.forceFocus();
+                toggleInterrupt(false);
+                toggleInterrupt(true);
             }
         });
         btnOptimal.setEnabled(false);
@@ -1322,14 +1328,7 @@ public class MainWindow {
             }
         });
 
-        shlDestinyCalculator.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
-                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd'))
-                    openFavoritesDialog(shlDestinyCalculator);
-            }
-        });
+        addShortCuts(shlDestinyCalculator, tltmFavorite);
 
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };
@@ -1347,6 +1346,24 @@ public class MainWindow {
 
     }
 
+    // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
+    private static void addShortCuts(Shell shlDestinyCalculator, ToolItem tltmFavorite) {
+        comboCharacter.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd') && grpItemPicker.getEnabled())
+                    openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
+            }
+        });
+        shlDestinyCalculator.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd') && grpItemPicker.getEnabled())
+                    openFavoritesDialog(tltmFavorite, shlDestinyCalculator);
+            }
+        });
+    }
+
     private static void uglyFastFixes(Label[] lblClass, Combo comboCharacter) {
         for (int i = 0; i < 6; i++)
             lblClass[i].setText("2");
@@ -1355,27 +1372,33 @@ public class MainWindow {
         comboCharacter.forceFocus();
     }
 
-    private static void openFavoritesDialog(Shell shlDestinyCalculator) {
-        shlDestinyCalculator.setEnabled(false);
-        Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
-        if (item != null)
-            switch (item.type) {
-            case HELMET:
-                helmet.updateItem(item);
-                break;
-            case GAUNTLETS:
-                gauntlets.updateItem(item);
-                break;
-            case CHEST_ARMOR:
-                chest.updateItem(item);
-                break;
-            case LEG_ARMOR:
-                leg.updateItem(item);
-                break;
-            default:
-                break;
+    private static void openFavoritesDialog(ToolItem btn, Shell shlDestinyCalculator) {
+
+        Display.getDefault().asyncExec(new Runnable() {
+            public void run() {
+                btn.setEnabled(false);
+                Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
+                if (item != null)
+                    switch (item.type) {
+                    case HELMET:
+                        helmet.updateItem(item);
+                        break;
+                    case GAUNTLETS:
+                        gauntlets.updateItem(item);
+                        break;
+                    case CHEST_ARMOR:
+                        chest.updateItem(item);
+                        break;
+                    case LEG_ARMOR:
+                        leg.updateItem(item);
+                        break;
+                    default:
+                        break;
+                    }
+                btn.setEnabled(true);
             }
-        shlDestinyCalculator.setEnabled(true);
+        });
+
         shlDestinyCalculator.forceFocus();
     }
 
@@ -1384,5 +1407,12 @@ public class MainWindow {
             item.clearItem();
         for (ModsRow mod : mods)
             mod.clearMod();
+    }
+
+    private static void toggleInterrupt(boolean b) {
+        // TODO
+        btnOptimal.setEnabled(false);
+        grpItemPicker.setEnabled(b);
+        comboCharacter.setEnabled(b);
     }
 }

@@ -14,19 +14,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
 import destiny.joe.items.ItemsManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.ItemProperty.Column;
-import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 
 public class FavoriteItemChooser extends ItemChooser {
 
     private Combo comboItemType;
-    private final int columnWidth = 64;
+    private final int columnWidth = 68;
 
     public FavoriteItemChooser(Shell parent, int style, Character character) {
         super(parent, style, Type.NULL, character);
@@ -41,18 +41,10 @@ public class FavoriteItemChooser extends ItemChooser {
 
     @Override
     void addTableEntry(Item i) {
-        TableItem tableItem = new TableItem(table, SWT.NONE);
-        tableItem.setText(0, i.name);
-        tableItem.setText(1, i.tier.getString());
-        tableItem.setText(2, i.masterWork.getFirstString());
-        tableItem.setText(3, i.stats.get(Stat.MOBILITY).toString());
-        tableItem.setText(4, i.stats.get(Stat.RESILIENCE).toString());
-        tableItem.setText(5, i.stats.get(Stat.RECOVERY).toString());
-        tableItem.setText(6, i.stats.get(Stat.DISCIPLINE).toString());
-        tableItem.setText(7, i.stats.get(Stat.INTELLECT).toString());
-        tableItem.setText(8, i.stats.get(Stat.STRENGTH).toString());
-        tableItem.setText(9, i.stats.get(Stat.MASTER_WORK).toString());
-        tableItem.setText(10, i.type.getFirstString());
+        super.addTableEntry(i);
+        TableItem tableItem = table.getItems()[table.getItemCount() - 1];
+        tableItem.setText(11, i.type.getFirstString());
+        tableItem.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.NORMAL));
     }
 
     @Override
@@ -71,7 +63,7 @@ public class FavoriteItemChooser extends ItemChooser {
     @Override
     void createContents() {
         super.createContents();
-        shlChooseItem.setText("Favorite items (" + character.getString() +")");
+        shlChooseItem.setText("Favorite items (" + character.getString() + ")");
 
         Point size = shlChooseItem.getSize();
         size.x += columnWidth;
