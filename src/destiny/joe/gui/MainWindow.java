@@ -1,5 +1,8 @@
 package destiny.joe.gui;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -29,7 +32,6 @@ import destiny.joe.gui.helper.ItemPickerRow;
 import destiny.joe.gui.helper.ModsRow;
 import destiny.joe.gui.helper.StatTotal;
 import destiny.joe.gui.helper.StateMomento;
-import destiny.joe.gui.helper.StateOriginator;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
@@ -40,6 +42,7 @@ import destiny.joe.utils.XMLSerializer;
 public class MainWindow {
 
     private static ModsRow[] mods;
+    private static CooldownsTable cdTable;
     private static CharacterChooser selectedChar;
 
     private static ItemPickerRow helmet;
@@ -62,9 +65,9 @@ public class MainWindow {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
         shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
-        shlDestinyCalculator.setMinimumSize(new Point(680, 565));
+        shlDestinyCalculator.setMinimumSize(new Point(690, 565));
         shlDestinyCalculator.setImage(GUI.loadImage(display, "destiny-2.ico"));
-        shlDestinyCalculator.setSize(680, 560);
+        shlDestinyCalculator.setSize(690, 565);
         shlDestinyCalculator.setText("Destiny Calculator");
         shlDestinyCalculator.setLayout(new FormLayout());
 
@@ -82,7 +85,6 @@ public class MainWindow {
         grpItemPicker.setLayoutData(fd_grpItemPicker);
         grpItemPicker.setText("Item Picker");
         grpItemPicker.setLayout(new GridLayout(18, false));
-        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -137,6 +139,7 @@ public class MainWindow {
         GridData gd_v_bar = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
         gd_v_bar.heightHint = 14;
         v_bar.setLayoutData(gd_v_bar);
+        new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -1311,7 +1314,6 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
-        new Label(grpItemPicker, SWT.NONE);
 
         Button btnReset_1 = new Button(grpItemPicker, SWT.NONE);
         btnReset_1.addSelectionListener(new SelectionAdapter() {
@@ -1322,7 +1324,7 @@ public class MainWindow {
             }
         });
         btnReset_1.setToolTipText("Reset all fields.");
-        btnReset_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        btnReset_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
         btnReset_1.setText("Reset");
         new Label(grpItemPicker, SWT.NONE);
         new Label(grpItemPicker, SWT.NONE);
@@ -1342,6 +1344,7 @@ public class MainWindow {
         tltmLoad.setImage(GUI.loadImage(display, "load.png"));
 
         ToolItem tltmSave = new ToolItem(toolBarMain, SWT.NONE);
+        tltmSave.setEnabled(false);
         tltmSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
@@ -1350,8 +1353,6 @@ public class MainWindow {
             }
         });
         tltmSave.setToolTipText("Save (Ctrl+S)");
-        // TODO: it should be false
-        tltmSave.setEnabled(true);
         tltmSave.setImage(GUI.loadImage(display, "save.png"));
 
         ToolItem tltmFavorite = new ToolItem(toolBarMain, SWT.NONE);
@@ -1468,9 +1469,20 @@ public class MainWindow {
         shlDestinyCalculator.addKeyListener(shortCuts);
 
         Label[] cds = { lblClassCD, lblGrenadeCD, lblSuperCD, lblMeleeCD };
-        CooldownsTable cdTable = new CooldownsTable(selectedChar, mods, cds, lblAbility);
-        
-        StateOriginator historyManager = new StateOriginator(cdTable, items, mods, comboCharacter);
+        cdTable = new CooldownsTable(selectedChar, mods, cds, lblAbility);
+
+        Observer unlockSave = new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
+                for (ItemPickerRow r : items)
+                    if (!r.getDataValue().equals(Item.NULL)) {
+                        tltmSave.setEnabled(true);
+                        return;
+                    }
+                tltmSave.setEnabled(false);
+            }
+        };
+        cdTable.addObserver(unlockSave);
 
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };
@@ -1494,6 +1506,7 @@ public class MainWindow {
             if (path != null) {
                 StateMomento stateMomento = new StateMomento(items, mods, selectedChar.getCharacter());
                 XMLSerializer.saveObject(stateMomento, path);
+                tltmSave.setEnabled(false);
             }
         }
     }

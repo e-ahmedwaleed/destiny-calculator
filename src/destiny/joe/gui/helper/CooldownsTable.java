@@ -96,7 +96,7 @@ public class CooldownsTable extends Observable implements Observer {
 
             cds[index].setText(s);
             if (tier < 10)
-                cds[index].setToolTipText("Next tier " + getTierCooldown(stat, tier + 1) + ".");
+                cds[index].setToolTipText("Next tier " + getTierCooldown(stat, tier + 1));
             else
                 cds[index].setToolTipText("Max tier.");
         }
