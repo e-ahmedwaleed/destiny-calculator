@@ -1,6 +1,6 @@
 package destiny.joe.gui.helper;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Combo;
@@ -17,8 +17,8 @@ public class StateMomento {
     public Map<Stat, int[]> mods;
 
     public StateMomento() {
-        mods = new HashMap<>();
-        items = new HashMap<>();
+        mods = new EnumMap<>(Stat.class);
+        items = new EnumMap<>(Type.class);
         selectedChar = Character.NULL;
     }
 

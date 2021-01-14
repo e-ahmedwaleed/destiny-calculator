@@ -1,7 +1,9 @@
 package destiny.joe.items.enums;
 
-public enum Character implements ItemProperty.Categorial {
+public enum Character implements ItemProperty.Categorial, ItemProperty.HasIgnored {
     NULL("-"), HUNTER("Hunter"), TITAN("Titan"), WARLOCK("Warlock");
+
+    private static final String[] IGNORED = { "Character", "" };
 
     private final String string;
 
@@ -22,6 +24,11 @@ public enum Character implements ItemProperty.Categorial {
     @Override
     public Categorial getNull() {
         return NULL;
+    }
+
+    @Override
+    public String[] getIgnoredValues() {
+        return IGNORED;
     }
 
 }

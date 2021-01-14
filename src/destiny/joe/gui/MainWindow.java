@@ -41,14 +41,13 @@ import destiny.joe.utils.XMLSerializer;
 public class MainWindow {
 
     private static ModsRow[] mods;
-    private static KeyAdapter shortCuts;
     private static Character selectedChar = Character.NULL;
 
     private static ItemPickerRow helmet;
     private static ItemPickerRow gauntlets;
     private static ItemPickerRow chest;
     private static ItemPickerRow leg;
-    private static ItemPickerRow[] items = { helmet, gauntlets, chest, leg };
+    private static ItemPickerRow[] items;
 
     private static Button btnOptimal;
     private static Group grpItemPicker;
@@ -64,7 +63,6 @@ public class MainWindow {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
         shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
-        shlDestinyCalculator.addKeyListener(shortCuts);
         shlDestinyCalculator.setMinimumSize(new Point(680, 560));
         shlDestinyCalculator.setImage(GUI.loadImage(display, "destiny-2.ico"));
         shlDestinyCalculator.setSize(680, 560);
@@ -836,7 +834,6 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
 
         comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
-        comboCharacter.addKeyListener(shortCuts);
         comboCharacter.addModifyListener(new ModifyListener() {
             Character prevSelectedChar = selectedChar;
 
@@ -1317,6 +1314,9 @@ public class MainWindow {
 
         StatTotal[] statTotal = new StatTotal[7];
 
+        ItemPickerRow[] items = { helmet, gauntlets, chest, leg };
+        MainWindow.items = items;
+
         for (int i = 1; i < 8; i++)
             statTotal[i - 1] = new StatTotal(Stat.values()[i % 7], lblstatTotals[i - 1], items);
 
@@ -1337,7 +1337,7 @@ public class MainWindow {
             mods[i] = new ModsRow(Stat.values()[i + 1], statTotal[i], lblMods[i], modsBtns[i], shlDestinyCalculator);
 
         // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
-        shortCuts = new KeyAdapter() {
+        KeyAdapter shortCuts = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (grpItemPicker.getEnabled()) {
@@ -1350,6 +1350,9 @@ public class MainWindow {
                 }
             }
         };
+
+        comboCharacter.addKeyListener(shortCuts);
+        shlDestinyCalculator.addKeyListener(shortCuts);
 
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };

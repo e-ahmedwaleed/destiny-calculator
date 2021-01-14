@@ -3,18 +3,905 @@
  <object class="java.util.EnumMap">
   <class>destiny.joe.items.enums.Character</class>
   <void method="put">
-   <object class="java.lang.Enum" method="valueOf">
+   <object class="java.lang.Enum" id="Character0" method="valueOf">
     <class>destiny.joe.items.enums.Character</class>
     <string>HUNTER</string>
    </object>
-   <object class="java.util.ArrayList"/>
+   <object class="java.util.ArrayList">
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item0">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item0"/>
+        <string>Cowl of Righteousness</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item0"/>
+        <object class="java.lang.Enum" id="Tier0" method="valueOf">
+         <class>destiny.joe.items.enums.Tier</class>
+         <string>LEGENDARY</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item0"/>
+        <object class="java.lang.Enum" id="Type0" method="valueOf">
+         <class>destiny.joe.items.enums.Type</class>
+         <string>HELMET</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item0"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item0"/>
+        <object class="java.lang.Enum" id="MasterWork0" method="valueOf">
+         <class>destiny.joe.items.enums.MasterWork</class>
+         <string>VOID</string>
+        </object>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item1">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item1"/>
+        <string>Dreambane Vest</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item1"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item1"/>
+        <object class="java.lang.Enum" id="Type1" method="valueOf">
+         <class>destiny.joe.items.enums.Type</class>
+         <string>CHEST_ARMOR</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item1"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item1"/>
+        <object idref="MasterWork0"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item2">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item2"/>
+        <string>Holdfast Strides</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item2"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item2"/>
+        <object class="java.lang.Enum" id="Type2" method="valueOf">
+         <class>destiny.joe.items.enums.Type</class>
+         <string>LEG_ARMOR</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item2"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item2"/>
+        <object idref="MasterWork0"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item3">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item3"/>
+        <string>Dreambane Vest</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item3"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item3"/>
+        <object idref="Type1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item3"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item3"/>
+        <object class="java.lang.Enum" id="MasterWork1" method="valueOf">
+         <class>destiny.joe.items.enums.MasterWork</class>
+         <string>ARC</string>
+        </object>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item4">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item4"/>
+        <string>Dreambane Grips</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item4"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item4"/>
+        <object class="java.lang.Enum" id="Type3" method="valueOf">
+         <class>destiny.joe.items.enums.Type</class>
+         <string>GAUNTLETS</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item4"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item4"/>
+        <object class="java.lang.Enum" id="MasterWork2" method="valueOf">
+         <class>destiny.joe.items.enums.MasterWork</class>
+         <string>SOLAR</string>
+        </object>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item5">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item5"/>
+        <string>Cinder Pinion Cowl</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item5"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item5"/>
+        <object idref="Type0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item5"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item5"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item6">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item6"/>
+        <string>Fr0st-EE5</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item6"/>
+        <object class="java.lang.Enum" id="Tier1" method="valueOf">
+         <class>destiny.joe.items.enums.Tier</class>
+         <string>EXOTIC</string>
+        </object>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item6"/>
+        <object idref="Type2"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item6"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item6"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item7">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item7"/>
+        <string>Dreambane Vest</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item7"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item7"/>
+        <object idref="Type1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item7"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item7"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item8">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item8"/>
+        <string>Cinder Pinion Grasps</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item8"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item8"/>
+        <object idref="Type3"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item8"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item8"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item9">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item9"/>
+        <string>Celestial Nighthawk</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item9"/>
+        <object idref="Tier1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item9"/>
+        <object idref="Type0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item9"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item9"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item10">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item10"/>
+        <string>Dreambane Vest</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item10"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item10"/>
+        <object idref="Type1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item10"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item10"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item11">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item11"/>
+        <string>Holdfast Grips</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item11"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item11"/>
+        <object idref="Type3"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item11"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item11"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item12">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item12"/>
+        <string>Dreambane Cowl</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item12"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item12"/>
+        <object idref="Type0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item12"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item12"/>
+        <object idref="MasterWork0"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item13">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item13"/>
+        <string>Holdfast Strides</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item13"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item13"/>
+        <object idref="Type2"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item13"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item13"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item14">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item14"/>
+        <string>Holdfast Strides</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item14"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item14"/>
+        <object idref="Type2"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item14"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item14"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item15">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item15"/>
+        <string>Gwisin Vest</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item15"/>
+        <object idref="Tier1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item15"/>
+        <object idref="Type1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item15"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item15"/>
+        <object idref="MasterWork0"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item16">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item16"/>
+        <string>Holdfast Grips</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item16"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item16"/>
+        <object idref="Type3"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item16"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item16"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item17">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item17"/>
+        <string>Celestial Nighthawk</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item17"/>
+        <object idref="Tier1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item17"/>
+        <object idref="Type0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item17"/>
+        <object idref="Character0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item17"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+   </object>
   </void>
   <void method="put">
-   <object class="java.lang.Enum" method="valueOf">
+   <object class="java.lang.Enum" id="Character1" method="valueOf">
     <class>destiny.joe.items.enums.Character</class>
     <string>TITAN</string>
    </object>
-   <object class="java.util.ArrayList"/>
+   <object class="java.util.ArrayList">
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item18">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item18"/>
+        <string>Holdfast Greaves</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item18"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item18"/>
+        <object idref="Type2"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item18"/>
+        <object idref="Character1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item18"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item19">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item19"/>
+        <string>Dunemarchers</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item19"/>
+        <object idref="Tier1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item19"/>
+        <object idref="Type2"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item19"/>
+        <object idref="Character1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item19"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item20">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item20"/>
+        <string>Dreambane Gauntlets</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item20"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item20"/>
+        <object idref="Type3"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item20"/>
+        <object idref="Character1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item20"/>
+        <object idref="MasterWork1"/>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="destiny.joe.items.Item" id="Item21">
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>name</string>
+       <void method="set">
+        <object idref="Item21"/>
+        <string>Ancient Apocalypse Helm</string>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>tier</string>
+       <void method="set">
+        <object idref="Item21"/>
+        <object idref="Tier0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>type</string>
+       <void method="set">
+        <object idref="Item21"/>
+        <object idref="Type0"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>character</string>
+       <void method="set">
+        <object idref="Item21"/>
+        <object idref="Character1"/>
+       </void>
+      </void>
+      <void class="destiny.joe.items.Item" method="getField">
+       <string>masterWork</string>
+       <void method="set">
+        <object idref="Item21"/>
+        <object idref="MasterWork2"/>
+       </void>
+      </void>
+     </object>
+    </void>
+   </object>
   </void>
   <void method="put">
    <object class="java.lang.Enum" method="valueOf">
@@ -24,4 +911,795 @@
    <object class="java.util.ArrayList"/>
   </void>
  </object>
+<void class="destiny.joe.items.Item" id="Field0" method="getField">
+ <string>stats</string>
+ <void id="EnumMap0" method="get">
+  <object idref="Item12"/>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat0" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>RESILIENCE</string>
+   </object>
+   <int>8</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat1" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>RECOVERY</string>
+   </object>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat2" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>DISCIPLINE</string>
+   </object>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat3" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>INTELLECT</string>
+   </object>
+   <int>8</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat4" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>STRENGTH</string>
+   </object>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat5" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>MASTER_WORK</string>
+   </object>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object class="java.lang.Enum" id="Stat6" method="valueOf">
+    <class>destiny.joe.items.enums.Stat</class>
+    <string>MOBILITY</string>
+   </object>
+   <int>11</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap0"/>
+<void class="destiny.joe.items.Item" id="Field1" method="getField">
+ <string>stats</string>
+ <void id="EnumMap1" method="get">
+  <object idref="Item14"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>9</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>14</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap1"/>
+<void class="destiny.joe.items.Item" id="Field2" method="getField">
+ <string>stats</string>
+ <void id="EnumMap2" method="get">
+  <object idref="Item9"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>3</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>21</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>26</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>9</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>8</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap2"/>
+<void class="destiny.joe.items.Item" id="Field3" method="getField">
+ <string>stats</string>
+ <void id="EnumMap3" method="get">
+  <object idref="Item17"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>15</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>1</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>10</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap3"/>
+<void class="destiny.joe.items.Item" id="Field4" method="getField">
+ <string>stats</string>
+ <void id="EnumMap4" method="get">
+  <object idref="Item13"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>15</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>5</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>12</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap4"/>
+<void class="destiny.joe.items.Item" id="Field5" method="getField">
+ <string>stats</string>
+ <void id="EnumMap5" method="get">
+  <object idref="Item11"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>9</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>8</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>14</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap5"/>
+<void class="destiny.joe.items.Item" id="Field6" method="getField">
+ <string>stats</string>
+ <void id="EnumMap6" method="get">
+  <object idref="Item10"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>22</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>12</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap6"/>
+<void class="destiny.joe.items.Item" id="Field7" method="getField">
+ <string>stats</string>
+ <void id="EnumMap7" method="get">
+  <object idref="Item18"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>16</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>3</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>6</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap7"/>
+<void class="destiny.joe.items.Item" id="Field8" method="getField">
+ <string>stats</string>
+ <void id="EnumMap8" method="get">
+  <object idref="Item0"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>15</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>15</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>1</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>2</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap8"/>
+<void class="destiny.joe.items.Item" id="Field9" method="getField">
+ <string>stats</string>
+ <void id="EnumMap9" method="get">
+  <object idref="Item7"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>8</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap9"/>
+<void class="destiny.joe.items.Item" id="Field10" method="getField">
+ <string>stats</string>
+ <void id="EnumMap10" method="get">
+  <object idref="Item2"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>17</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>8</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>11</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap10"/>
+<void class="destiny.joe.items.Item" id="Field11" method="getField">
+ <string>stats</string>
+ <void id="EnumMap11" method="get">
+  <object idref="Item8"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>26</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>2</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap11"/>
+<void class="destiny.joe.items.Item" id="Field12" method="getField">
+ <string>stats</string>
+ <void id="EnumMap12" method="get">
+  <object idref="Item6"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>23</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>9</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>8</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>9</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap12"/>
+<void class="destiny.joe.items.Item" id="Field13" method="getField">
+ <string>stats</string>
+ <void id="EnumMap13" method="get">
+  <object idref="Item3"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>15</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>13</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap13"/>
+<void class="destiny.joe.items.Item" id="Field14" method="getField">
+ <string>stats</string>
+ <void id="EnumMap14" method="get">
+  <object idref="Item16"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>11</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>5</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>22</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap14"/>
+<void class="destiny.joe.items.Item" id="Field15" method="getField">
+ <string>stats</string>
+ <void id="EnumMap15" method="get">
+  <object idref="Item21"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>24</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>3</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>2</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap15"/>
+<void class="destiny.joe.items.Item" id="Field16" method="getField">
+ <string>stats</string>
+ <void id="EnumMap16" method="get">
+  <object idref="Item19"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>19</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>9</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>11</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap16"/>
+<void class="destiny.joe.items.Item" id="Field17" method="getField">
+ <string>stats</string>
+ <void id="EnumMap17" method="get">
+  <object idref="Item5"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>20</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>13</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>5</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>9</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap17"/>
+<void class="destiny.joe.items.Item" id="Field18" method="getField">
+ <string>stats</string>
+ <void id="EnumMap18" method="get">
+  <object idref="Item20"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>21</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap18"/>
+<void class="destiny.joe.items.Item" id="Field19" method="getField">
+ <string>stats</string>
+ <void id="EnumMap19" method="get">
+  <object idref="Item4"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>7</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>7</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap19"/>
+<void class="destiny.joe.items.Item" id="Field20" method="getField">
+ <string>stats</string>
+ <void id="EnumMap20" method="get">
+  <object idref="Item1"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>10</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>12</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap20"/>
+<void class="destiny.joe.items.Item" id="Field21" method="getField">
+ <string>stats</string>
+ <void id="EnumMap21" method="get">
+  <object idref="Item15"/>
+  <void method="put">
+   <object idref="Stat0"/>
+   <int>18</int>
+  </void>
+  <void method="put">
+   <object idref="Stat1"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat2"/>
+   <int>12</int>
+  </void>
+  <void method="put">
+   <object idref="Stat3"/>
+   <int>6</int>
+  </void>
+  <void method="put">
+   <object idref="Stat4"/>
+   <int>14</int>
+  </void>
+  <void method="put">
+   <object idref="Stat5"/>
+   <int>2</int>
+  </void>
+  <void method="put">
+   <object idref="Stat6"/>
+   <int>15</int>
+  </void>
+ </void>
+</void>
+<void idref="EnumMap21"/>
 </java>
