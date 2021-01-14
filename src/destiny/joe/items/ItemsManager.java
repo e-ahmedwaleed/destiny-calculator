@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.ItemProperty.Column;
+import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Tier;
 import destiny.joe.items.enums.Type;
@@ -42,11 +42,11 @@ public class ItemsManager {
     }
 
     public static List<Item> getItems(Type type, Character character) {
-        return nullCheck(availableItems.get(character).get(type));
+        return getNewList(availableItems.get(character).get(type));
     }
 
     public static List<Item> getFavorites(Character character) {
-        return nullCheck(favoriteItems.get(character));
+        return getNewList(favoriteItems.get(character));
     }
 
     public static boolean isFavorite(Item item) {
@@ -101,11 +101,11 @@ public class ItemsManager {
         try {
             String itemName = data[indices.get("Name")];
 
-            Column[] itemProperties = new Column[4];
-            itemProperties[0] = Column.identifyColumn(data[indices.get("Tier")], Tier.NULL);
-            itemProperties[1] = Column.identifyColumn(data[indices.get("Type")], Type.NULL);
-            itemProperties[2] = Column.identifyColumn(data[indices.get("Equippable")], Character.NULL);
-            itemProperties[3] = Column.identifyColumn(data[indices.get("Masterwork Type")], MasterWork.NULL);
+            Categorial[] itemProperties = new Categorial[4];
+            itemProperties[0] = Categorial.identify(data[indices.get("Tier")], Tier.NULL);
+            itemProperties[1] = Categorial.identify(data[indices.get("Type")], Type.NULL);
+            itemProperties[2] = Categorial.identify(data[indices.get("Equippable")], Character.NULL);
+            itemProperties[3] = Categorial.identify(data[indices.get("Masterwork Type")], MasterWork.NULL);
 
             int[] itemStats = new int[7];
             itemStats[0] = Integer.parseInt(data[indices.get("Mobility (Base)")]);
@@ -123,7 +123,7 @@ public class ItemsManager {
         }
     }
 
-    private static List<Item> nullCheck(List<Item> list) {
+    private static List<Item> getNewList(List<Item> list) {
         if (list == null)
             return new ArrayList<>();
         else

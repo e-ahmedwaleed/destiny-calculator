@@ -19,7 +19,7 @@ import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.GUI;
 
-public class ItemPickerRow extends Observable {
+public class ItemPickerRow extends Observable implements Savable<Type, Item> {
 
     private Item item;
     private boolean mw;
@@ -43,11 +43,11 @@ public class ItemPickerRow extends Observable {
         this.labels = labels;
         this.type = type;
         this.favorite = favorite;
-        clearItem();
+        setLoadedData(Item.NULL);
         buttons[0].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                clearItem();
+                setLoadedData(Item.NULL);
                 shell.forceFocus();
             }
         });
@@ -61,12 +61,12 @@ public class ItemPickerRow extends Observable {
         favorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if (getItem() != null && ItemsManager.isFavorite(getItem())) {
+                if (getDataValue() != null && ItemsManager.isFavorite(getDataValue())) {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-off.png"));
-                    ItemsManager.deleteFromFavorites(getItem());
+                    ItemsManager.deleteFromFavorites(getDataValue());
                 } else {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
-                    ItemsManager.addToFavorites(getItem());
+                    ItemsManager.addToFavorites(getDataValue());
                 }
                 shell.forceFocus();
             }
@@ -74,22 +74,26 @@ public class ItemPickerRow extends Observable {
     }
 
     public void pickItem(Shell shell, Character selectedChar) {
-        updateItem(new ItemChooser(shell, SWT.CLOSE, getType(), selectedChar).open());
-    }
-
-    public void clearItem() {
-        updateItem(Item.NULL);
+        setLoadedData(new ItemChooser(shell, SWT.CLOSE, getDataKey(), selectedChar).open());
     }
 
     public int getStat(Stat stat) {
-        return getItem().stats.get(stat) + (mw ? 2 : 0);
+        return getDataValue().stats.get(stat) + (mw ? 2 : 0);
     }
 
     public int getTotalStats() {
-        return getItem().getTotalStats() + (mw ? 12 : 0);
+        return getDataValue().getTotalStats() + (mw ? 12 : 0);
     }
 
-    public void updateItem(Item item) {
+    public Type getDataKey() {
+        return type;
+    }
+
+    public Item getDataValue() {
+        return item;
+    }
+
+    public void setLoadedData(Item item) {
         if (item == null)
             return;
         this.item = item;
@@ -148,14 +152,6 @@ public class ItemPickerRow extends Observable {
     public void notifyObservers() {
         setChanged();
         super.notifyObservers();
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public Type getType() {
-        return type;
     }
 
 }

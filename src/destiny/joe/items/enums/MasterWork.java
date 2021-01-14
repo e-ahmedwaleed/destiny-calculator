@@ -1,6 +1,6 @@
 package destiny.joe.items.enums;
 
-public enum MasterWork implements ItemProperty.Column, ItemProperty.MultiWords, ItemProperty.HasIgnored {
+public enum MasterWork implements ItemProperty.Categorial, ItemProperty.MultiWords, ItemProperty.HasIgnored {
     NULL("-"), ARC("Arc Energy Capacity"), SOLAR("Solar Energy Capacity"), VOID("Void Energy Capacity");
 
     private static final String[] IGNORED = { "Type", "Any" };
@@ -17,12 +17,12 @@ public enum MasterWork implements ItemProperty.Column, ItemProperty.MultiWords, 
     }
 
     @Override
-    public Column[] getValues() {
+    public Categorial[] getValues() {
         return MasterWork.values();
     }
 
     @Override
-    public Column getNull() {
+    public Categorial getNull() {
         return NULL;
     }
 

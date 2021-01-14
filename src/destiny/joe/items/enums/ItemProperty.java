@@ -10,16 +10,16 @@ public interface ItemProperty {
         String getFirstString();
     }
 
-    public interface Column extends ItemProperty {
+    public interface Categorial extends ItemProperty {
 
-        Column getNull();
+        Categorial getNull();
 
         String getString();
 
-        Column[] getValues();
+        Categorial[] getValues();
 
-        public static Column identifyColumn(String s, Column enumType) {
-            for (Column c : enumType.getValues()) {
+        static Categorial identify(String s, Categorial enumType) {
+            for (Categorial c : enumType.getValues()) {
                 if ((c.getString().compareTo(s.trim()) == 0) || (enumType instanceof MultiWords
                         && ((MultiWords) c).getFirstString().compareTo(s.trim()) == 0))
                     return c;
@@ -29,7 +29,7 @@ public interface ItemProperty {
             return enumType.getNull();
         }
 
-        static boolean isIgnored(String s, Column enumType) {
+        static boolean isIgnored(String s, Categorial enumType) {
             if (enumType instanceof HasIgnored)
                 for (String ignored : ((HasIgnored) enumType).getIgnoredValues())
                     if (s.equals(ignored))

@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.ItemProperty.Column;
+import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
@@ -22,26 +22,6 @@ public class Item {
     public MasterWork masterWork;
 
     public Map<Stat, Integer> stats;
-
-    public Item(String itemName, Column[] itemProperties, int[] itemStats) {
-
-        name = itemName;
-
-        tier = (Tier) itemProperties[0];
-        type = (Type) itemProperties[1];
-        character = (Character) itemProperties[2];
-        masterWork = (MasterWork) itemProperties[3];
-
-        stats = new EnumMap<>(Stat.class);
-        stats.put(Stat.MOBILITY, itemStats[0]);
-        stats.put(Stat.RESILIENCE, itemStats[1]);
-        stats.put(Stat.RECOVERY, itemStats[2]);
-        stats.put(Stat.DISCIPLINE, itemStats[3]);
-        stats.put(Stat.INTELLECT, itemStats[4]);
-        stats.put(Stat.STRENGTH, itemStats[5]);
-        stats.put(Stat.MASTER_WORK, itemStats[6]);
-
-    }
 
     public Item() {
         name = "Item name";
@@ -62,16 +42,29 @@ public class Item {
         stats.put(Stat.MASTER_WORK, 0);
     }
 
+    public Item(String itemName, Categorial[] itemProperties, int[] itemStats) {
+        name = itemName;
+
+        tier = (Tier) itemProperties[0];
+        type = (Type) itemProperties[1];
+        character = (Character) itemProperties[2];
+        masterWork = (MasterWork) itemProperties[3];
+
+        stats = new EnumMap<>(Stat.class);
+        stats.put(Stat.MOBILITY, itemStats[0]);
+        stats.put(Stat.RESILIENCE, itemStats[1]);
+        stats.put(Stat.RECOVERY, itemStats[2]);
+        stats.put(Stat.DISCIPLINE, itemStats[3]);
+        stats.put(Stat.INTELLECT, itemStats[4]);
+        stats.put(Stat.STRENGTH, itemStats[5]);
+        stats.put(Stat.MASTER_WORK, itemStats[6]);
+    }
+
     public Integer getTotalStats() {
         int total = 0;
         for (int i = 1; i < 7; i++)
             total += stats.get(Stat.values()[i]);
         return total;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 
     @Override

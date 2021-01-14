@@ -1,6 +1,6 @@
 package destiny.joe.items.enums;
 
-public enum Character implements ItemProperty.Column {
+public enum Character implements ItemProperty.Categorial {
     NULL("-"), HUNTER("Hunter"), TITAN("Titan"), WARLOCK("Warlock");
 
     private final String string;
@@ -15,12 +15,12 @@ public enum Character implements ItemProperty.Column {
     }
 
     @Override
-    public Column[] getValues() {
+    public Categorial[] getValues() {
         return Character.values();
     }
 
     @Override
-    public Column getNull() {
+    public Categorial getNull() {
         return NULL;
     }
 

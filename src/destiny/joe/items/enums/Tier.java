@@ -1,6 +1,6 @@
 package destiny.joe.items.enums;
 
-public enum Tier implements ItemProperty.Column, ItemProperty.HasIgnored {
+public enum Tier implements ItemProperty.Categorial, ItemProperty.HasIgnored {
     NULL("-"), RARE("Rare"), LEGENDARY("Legendary"), EXOTIC("Exotic");
 
     private static final String[] IGNORED = { "Tier", "Any" };
@@ -17,12 +17,12 @@ public enum Tier implements ItemProperty.Column, ItemProperty.HasIgnored {
     }
 
     @Override
-    public Column[] getValues() {
+    public Categorial[] getValues() {
         return Tier.values();
     }
 
     @Override
-    public Column getNull() {
+    public Categorial getNull() {
         return NULL;
     }
 

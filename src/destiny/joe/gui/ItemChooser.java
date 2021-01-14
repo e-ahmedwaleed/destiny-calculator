@@ -31,7 +31,7 @@ import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
 import destiny.joe.items.ItemsManager;
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.ItemProperty.Column;
+import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.MasterWork;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Tier;
@@ -106,7 +106,6 @@ public class ItemChooser extends Dialog {
         table = new Table(shlChooseItem, SWT.BORDER | SWT.FULL_SELECTION);
         // https://stackoverflow.com/questions/18966169/showing-a-right-click-menu-for-a-swt-tableitem
         table.addListener(SWT.MouseDown, new Listener() {
-
             @Override
             public void handleEvent(Event event) {
                 int index = table.getSelectionIndex();
@@ -116,7 +115,6 @@ public class ItemChooser extends Dialog {
                 result = items.get(index);
                 close();
             }
-
         });
 
         intializeColumns();
@@ -589,11 +587,11 @@ public class ItemChooser extends Dialog {
                 && !item.name.toLowerCase().contains(txtItemName.getText().toLowerCase()))
             return true;
 
-        MasterWork filterType = (MasterWork) Column.identifyColumn(comboType.getText(), MasterWork.NULL);
+        MasterWork filterType = (MasterWork) Categorial.identify(comboType.getText(), MasterWork.NULL);
         if (filterType != MasterWork.NULL && filterType != item.masterWork)
             return true;
 
-        Tier filterTier = (Tier) Column.identifyColumn(comboTier.getText(), Tier.NULL);
+        Tier filterTier = (Tier) Categorial.identify(comboTier.getText(), Tier.NULL);
         if (filterTier != Tier.NULL && filterTier != item.tier)
             return true;
 

@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import destiny.joe.items.enums.Stat;
 
-public class ModsRow extends Observable implements Observer {
+public class ModsRow extends Observable implements Savable<Stat, int[]>, Observer {
 
     private Integer p5 = 0;
     private Integer p10 = 0;
@@ -29,46 +29,50 @@ public class ModsRow extends Observable implements Observer {
      */
     private final Button[] buttons;
 
-    public ModsRow(Stat type, StatTotal stat, Label[] labels, Button[] buttons, Shell shell) {
+    public ModsRow(Stat type, StatTotal stat, Label[] labels, Button[] buttons, Shell parent) {
         this.type = type;
         this.stat = stat;
         this.labels = labels;
         this.buttons = buttons;
+
         stat.addObserver(this);
+
         buttons[0].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                p5++;
-                update(null, null);
-                shell.forceFocus();
+                increment(5);
+                parent.forceFocus();
             }
         });
         buttons[1].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                p10++;
-                update(null, null);
-                shell.forceFocus();
+                increment(10);
+                parent.forceFocus();
             }
         });
         buttons[2].addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 clearMod();
-                shell.forceFocus();
+                parent.forceFocus();
             }
         });
     }
 
-    public void updateMod(int p5, int p10) {
-        this.p5 = p5;
-        this.p10 = p10;
-        update(null, null);
+    public Stat getDataKey() {
+        return type;
     }
 
-    public int[] getMod() {
+    public int[] getDataValue() {
         int[] mods = { p5, p10 };
         return mods;
+    }
+
+    public void setLoadedData(int[] p) {
+        this.p5 = p[0];
+        this.p10 = p[1];
+        update(null, null);
     }
 
     @Override
@@ -91,12 +95,17 @@ public class ModsRow extends Observable implements Observer {
         notifyObservers();
     }
 
-    public void clearMod() {
-        updateMod(0, 0);
+    private void increment(int n) {
+        if (n == 5)
+            p5++;
+        if (n == 10)
+            p10++;
+        update(null, null);
     }
 
-    public Stat getType() {
-        return type;
+    private void clearMod() {
+        int[] nullMod = { 0, 0 };
+        setLoadedData(nullMod);
     }
 
 }

@@ -20,7 +20,7 @@ import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
 import destiny.joe.items.ItemsManager;
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.ItemProperty.Column;
+import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.Type;
 
 public class FavoriteItemChooser extends ItemChooser {
@@ -53,7 +53,7 @@ public class FavoriteItemChooser extends ItemChooser {
         if (comboItemType == null)
             return super.toBeFiltered(item);
 
-        Type filterType = (Type) Column.identifyColumn(comboItemType.getText(), Type.NULL);
+        Type filterType = (Type) Categorial.identify(comboItemType.getText(), Type.NULL);
         if (filterType != Type.NULL && filterType != item.type)
             return true;
 

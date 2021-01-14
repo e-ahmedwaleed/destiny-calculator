@@ -22,28 +22,28 @@ public class StateMomento {
         selectedChar = Character.NULL;
     }
 
-    public StateMomento(ItemPickerRow[] itemRows, ModsRow[] modRows, Character selectedChar) {
+    public StateMomento(Savable<Type, Item>[] itemRows, Savable<Stat, int[]>[] modRows, Character selectedChar) {
         this();
 
         this.selectedChar = selectedChar;
 
-        for (ItemPickerRow iRow : itemRows)
-            items.put(iRow.getType(), iRow.getItem());
+        for (Savable<Type, Item> iRow : itemRows)
+            items.put(iRow.getDataKey(), iRow.getDataValue());
 
-        for (ModsRow mRow : modRows)
-            mods.put(mRow.getType(), mRow.getMod());
+        for (Savable<Stat, int[]> mRow : modRows)
+            mods.put(mRow.getDataKey(), mRow.getDataValue());
 
     }
 
-    public void loadMomento(ItemPickerRow[] itemRows, ModsRow[] modRows, Combo comboCharacter) {
+    public void loadMomento(Savable<Type, Item>[] itemRows, Savable<Stat, int[]>[] modRows, Combo comboCharacter) {
 
         comboCharacter.setText(selectedChar.getString());
 
         for (Type t : items.keySet())
-            itemRows[t.ordinal() - 1].updateItem(items.get(t));
+            itemRows[t.ordinal() - 1].setLoadedData(items.get(t));
 
         for (Stat s : mods.keySet())
-            modRows[s.ordinal() - 1].updateMod(mods.get(s)[0], mods.get(s)[1]);
+            modRows[s.ordinal() - 1].setLoadedData(mods.get(s));
 
     }
 

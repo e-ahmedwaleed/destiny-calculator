@@ -31,7 +31,7 @@ import destiny.joe.gui.helper.StatTotal;
 import destiny.joe.gui.helper.StateMomento;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Character;
-import destiny.joe.items.enums.ItemProperty.Column;
+import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileChooser;
@@ -40,11 +40,15 @@ import destiny.joe.utils.XMLSerializer;
 
 public class MainWindow {
 
+    private static ModsRow[] mods;
+    private static KeyAdapter shortCuts;
+    private static Character selectedChar = Character.NULL;
+
     private static ItemPickerRow helmet;
     private static ItemPickerRow gauntlets;
     private static ItemPickerRow chest;
     private static ItemPickerRow leg;
-    private static Character selectedChar = Character.NULL;
+    private static ItemPickerRow[] items = { helmet, gauntlets, chest, leg };
 
     private static Button btnOptimal;
     private static Group grpItemPicker;
@@ -60,6 +64,7 @@ public class MainWindow {
         Display display = Display.getDefault();
         // https://www.eclipse.org/forums/index.php/t/146112/
         shlDestinyCalculator = new Shell(SWT.CLOSE | SWT.MIN);
+        shlDestinyCalculator.addKeyListener(shortCuts);
         shlDestinyCalculator.setMinimumSize(new Point(680, 560));
         shlDestinyCalculator.setImage(GUI.loadImage(display, "destiny-2.ico"));
         shlDestinyCalculator.setSize(680, 560);
@@ -831,6 +836,19 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
 
         comboCharacter = new Combo(shlDestinyCalculator, SWT.NONE);
+        comboCharacter.addKeyListener(shortCuts);
+        comboCharacter.addModifyListener(new ModifyListener() {
+            Character prevSelectedChar = selectedChar;
+
+            @Override
+            public void modifyText(ModifyEvent e) {
+                selectedChar = (Character) Categorial.identify(comboCharacter.getText(), Character.NULL);
+                grpItemPicker.setEnabled(selectedChar != Character.NULL);
+                if (prevSelectedChar != selectedChar)
+                    resetToDefault();
+                prevSelectedChar = selectedChar;
+            }
+        });
         fd_grpItemPicker.right = new FormAttachment(100, 100, -114);
         FormData fd_comboCharacter = new FormData();
         fd_comboCharacter.right = new FormAttachment(100, -10);
@@ -1197,6 +1215,13 @@ public class MainWindow {
         new Label(grpItemPicker, SWT.NONE);
 
         Button btnReset_1 = new Button(grpItemPicker, SWT.NONE);
+        btnReset_1.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                resetToDefault();
+                shlDestinyCalculator.forceFocus();
+            }
+        });
         btnReset_1.setToolTipText("Reset all fields.");
         btnReset_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         btnReset_1.setText("Reset");
@@ -1205,10 +1230,24 @@ public class MainWindow {
         toolBarMain.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 11, 1));
 
         ToolItem tltmLoad = new ToolItem(toolBarMain, SWT.NONE);
+        tltmLoad.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                loadSet();
+                shlDestinyCalculator.forceFocus();
+            }
+        });
         tltmLoad.setToolTipText("Load (Ctrl+L)");
         tltmLoad.setImage(GUI.loadImage(display, "load.png"));
 
         ToolItem tltmSave = new ToolItem(toolBarMain, SWT.NONE);
+        tltmSave.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                saveSet(tltmSave);
+                shlDestinyCalculator.forceFocus();
+            }
+        });
         tltmSave.setToolTipText("Save (Ctrl+S)");
         // TODO: it should be false
         tltmSave.setEnabled(true);
@@ -1273,7 +1312,6 @@ public class MainWindow {
                 lblLegStatMW_4, lblLegStatMW_5, lblLegStatMW_6, lblLegMW, lblLegMWTier };
         leg = new ItemPickerRow(Type.LEG_ARMOR, legBtns, legLabels, tltmFavoriteLeg, shlDestinyCalculator);
 
-        ItemPickerRow[] items = { helmet, gauntlets, chest, leg };
         Label[] lblstatTotals = { lblTotalStats, lblTotalStats_1, lblTotalStats_2, lblTotalStats_3, lblTotalStats_4,
                 lblTotalStats_5, lblTotalStats_6 };
 
@@ -1294,55 +1332,29 @@ public class MainWindow {
                 { btnAddMinorMod_3, btnAddMod_3, btnClearMods_3 }, { btnAddMinorMod_4, btnAddMod_4, btnClearMods_4 },
                 { btnAddMinorMod_5, btnAddMod_5, btnClearMods_5 } };
 
-        ModsRow[] mods = new ModsRow[6];
+        mods = new ModsRow[6];
         for (int i = 0; i < 6; i++)
             mods[i] = new ModsRow(Stat.values()[i + 1], statTotal[i], lblMods[i], modsBtns[i], shlDestinyCalculator);
 
-        btnReset_1.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                resetToDefault(items, mods);
-                shlDestinyCalculator.forceFocus();
-            }
-        });
-
-        comboCharacter.addModifyListener(new ModifyListener() {
-            Character prevSelectedChar = selectedChar;
-
-            @Override
-            public void modifyText(ModifyEvent e) {
-                selectedChar = (Character) Column.identifyColumn(comboCharacter.getText(), Character.NULL);
-                grpItemPicker.setEnabled(selectedChar != Character.NULL);
-                if (prevSelectedChar != selectedChar)
-                    resetToDefault(items, mods);
-                prevSelectedChar = selectedChar;
-            }
-        });
-
-        intializeSaveAndLoad(tltmLoad, tltmSave, items, mods);
-
         // https://stackoverflow.com/questions/5842190/how-to-detect-ctrl-f-in-my-swt-application
-        KeyAdapter shortCuts = new KeyAdapter() {
+        shortCuts = new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (grpItemPicker.getEnabled()) {
                     if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'd'))
                         openFavoritesDialog();
                     else if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 'l'))
-                        loadSet(items, mods);
+                        loadSet();
                     else if (((e.stateMask & SWT.CTRL) == SWT.CTRL) && (e.keyCode == 's'))
-                        saveSet(tltmSave, items, mods);
+                        saveSet(tltmSave);
                 }
             }
         };
 
-        comboCharacter.addKeyListener(shortCuts);
-        shlDestinyCalculator.addKeyListener(shortCuts);
-
         Label[] lblClass = { lblExtraStatMW, lblExtraStatMW_1, lblExtraStatMW_2, lblExtraStatMW_3, lblExtraStatMW_4,
                 lblExtraStatMW_5, lblExtraStatMW_6 };
 
-        uglyFastFixes(lblClass, comboCharacter);
+        lateUglyFixes(lblClass);
         /* CUSTOM CODE: END */
 
         shlDestinyCalculator.open();
@@ -1355,25 +1367,7 @@ public class MainWindow {
 
     }
 
-    private static void intializeSaveAndLoad(ToolItem tltmLoad, ToolItem tltmSave, ItemPickerRow[] items,
-            ModsRow[] mods) {
-        tltmLoad.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                loadSet(items, mods);
-                shlDestinyCalculator.forceFocus();
-            }
-        });
-        tltmSave.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                saveSet(tltmSave, items, mods);
-                shlDestinyCalculator.forceFocus();
-            }
-        });
-    }
-
-    private static void saveSet(ToolItem tltmSave, ItemPickerRow[] items, ModsRow[] mods) {
+    private static void saveSet(ToolItem tltmSave) {
         if (tltmSave.getEnabled()) {
             String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(true);
             if (path != null) {
@@ -1383,7 +1377,7 @@ public class MainWindow {
         }
     }
 
-    private static void loadSet(ItemPickerRow[] items, ModsRow[] mods) {
+    private static void loadSet() {
         String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(false);
         if (path != null)
             try {
@@ -1394,30 +1388,22 @@ public class MainWindow {
             }
     }
 
-    private static void uglyFastFixes(Label[] lblClass, Combo comboCharacter) {
-        for (int i = 0; i < 6; i++)
-            lblClass[i].setText("2");
-        lblClass[6].setText("12");
-        helmet.notifyObservers();
-        comboCharacter.forceFocus();
-    }
-
     private static void openFavoritesDialog() {
         toggleInterrupt(false);
         Item item = new FavoriteItemChooser(shlDestinyCalculator, SWT.CLOSE, selectedChar).open();
         if (item != null)
             switch (item.type) {
             case HELMET:
-                helmet.updateItem(item);
+                helmet.setLoadedData(item);
                 break;
             case GAUNTLETS:
-                gauntlets.updateItem(item);
+                gauntlets.setLoadedData(item);
                 break;
             case CHEST_ARMOR:
-                chest.updateItem(item);
+                chest.setLoadedData(item);
                 break;
             case LEG_ARMOR:
-                leg.updateItem(item);
+                leg.setLoadedData(item);
                 break;
             default:
                 break;
@@ -1425,20 +1411,31 @@ public class MainWindow {
         toggleInterrupt(true);
     }
 
-    private static void resetToDefault(ItemPickerRow[] items, ModsRow[] mods) {
+    private static void resetToDefault() {
         for (ItemPickerRow item : items)
-            item.clearItem();
+            item.setLoadedData(Item.NULL);
+
+        int[] nullMod = { 0, 0 };
         for (ModsRow mod : mods)
-            mod.clearMod();
+            mod.setLoadedData(nullMod);
     }
 
-    private static void toggleInterrupt(boolean b) {
+    private static void toggleInterrupt(boolean enable) {
         // TODO
         btnOptimal.setEnabled(false);
-        grpItemPicker.setEnabled(b);
-        comboCharacter.setEnabled(b);
+        grpItemPicker.setEnabled(enable);
+        comboCharacter.setEnabled(enable);
 
-        if (b)
+        if (enable)
             shlDestinyCalculator.forceFocus();
     }
+
+    private static void lateUglyFixes(Label[] lblClass) {
+        for (int i = 0; i < 6; i++)
+            lblClass[i].setText("2");
+        lblClass[6].setText("12");
+        helmet.notifyObservers();
+        comboCharacter.forceFocus();
+    }
+
 }

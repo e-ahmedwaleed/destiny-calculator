@@ -1,6 +1,6 @@
 package destiny.joe.items.enums;
 
-public enum Type implements ItemProperty.Column, ItemProperty.MultiWords, ItemProperty.HasIgnored {
+public enum Type implements ItemProperty.Categorial, ItemProperty.MultiWords, ItemProperty.HasIgnored {
     NULL("-"), HELMET("Helmet"), GAUNTLETS("Gauntlets"), CHEST_ARMOR("Chest Armor"), LEG_ARMOR("Leg Armor");
 
     private static final String[] IGNORED = { "Hunter Cloak", "Titan Mark", "Warlock Bond", "Item", "Any" };
@@ -17,12 +17,12 @@ public enum Type implements ItemProperty.Column, ItemProperty.MultiWords, ItemPr
     }
 
     @Override
-    public Column[] getValues() {
+    public Categorial[] getValues() {
         return Type.values();
     }
 
     @Override
-    public Column getNull() {
+    public Categorial getNull() {
         return NULL;
     }
 
