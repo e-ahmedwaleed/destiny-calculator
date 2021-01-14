@@ -22,12 +22,15 @@ public class StateOriginator implements Observer {
     private final Savable<Type, Item>[] itemRows;
     private final Savable<Stat, int[]>[] modRows;
 
-    public StateOriginator(Savable<Type, Item>[] itemRows, Savable<Stat, int[]>[] modRows, Combo comboCharacter) {
+    public StateOriginator(Observable cdTable, Savable<Type, Item>[] itemRows, Savable<Stat, int[]>[] modRows,
+            Combo comboCharacter) {
         undoHistory = new LinkedList<>();
         redoHistory = new LinkedList<>();
         this.modRows = modRows;
         this.itemRows = itemRows;
         this.comboCharacter = comboCharacter;
+
+        //cdTable.addObserver(this);
     }
 
     private boolean externalChange = true;
@@ -49,10 +52,12 @@ public class StateOriginator implements Observer {
         if (externalChange) {
             redoHistory.clear();
             Character selectedChar = (Character) Categorial.identify(comboCharacter.getText(), Character.NULL);
-            if (selectedChar != Character.NULL)
+            if (selectedChar != Character.NULL) {
                 undoHistory.push(new StateMomento(itemRows, modRows, selectedChar));
+            }
         }
         externalChange = true;
+        System.out.println(undoHistory);
     }
 
 }

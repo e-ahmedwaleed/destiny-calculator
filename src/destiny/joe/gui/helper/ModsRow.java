@@ -86,13 +86,29 @@ public class ModsRow extends Observable implements Savable<Stat, int[]>, Observe
             total += 10;
 
         labels[0].setText(total.toString());
+        labels[0].setToolTipText(getTierRatio(total) + "%");
         labels[1].setText(p5.toString());
         labels[2].setText(p10.toString());
 
         buttons[2].setEnabled(p5 + p10 != 0);
 
         setChanged();
-        notifyObservers();
+        notifyObservers(getTier(total));
+    }
+
+    static int[][] tierRatios = { { 0, 0, 0, 0, 0, 0 }, { 4, 1, 3, 10, 49, 10 }, { 8, 2, 6, 17, 86, 17 },
+            { 12, 3, 9, 20, 128, 20 }, { 16, 4, 11, 34, 143, 34 }, { 20, 6, 14, 43, 156, 43 },
+            { 24, 8, 17, 50, 169, 50 }, { 28, 10, 23, 56, 180, 56 }, { 32, 11, 29, 60, 186, 60 },
+            { 36, 12, 34, 64, 194, 64 }, { 40, 13, 43, 69, 198, 69 } };
+
+    private int getTierRatio(Integer total) {
+        int index = getTier(total);
+        return tierRatios[index][type.ordinal() - 1];
+    }
+
+    private int getTier(Integer total) {
+        int index = total < 100 ? (total / 10) : 10;
+        return index;
     }
 
     private void increment(int n) {
