@@ -62,7 +62,7 @@ public class ItemSetBuilder extends Loadable {
         try (FileWriter out = new FileWriter(
                 GUI.getAbsolutePath("destiny-calculator_analysis/") + character.getString().toLowerCase() + ".csv")) {
             out.write("Total,Mob,Res,Rec,Dis,Int,Str,");
-            out.write("Helmet,Tier,HType,HMob,HRes,HRec,HDis,HInt,HStr,");
+            out.write("Helmet,HTier,HType,HMob,HRes,HRec,HDis,HInt,HStr,");
             out.write("Gauntlets,GTier,GType,GMob,GRes,GRec,GDis,GInt,GStr,");
             out.write("Chest,Tier,CType,CMob,CRes,CRec,CDis,CInt,CStr,");
             out.write("Leg,LTier,LType,LMob,LRes,LRec,LDis,LInt,LStr\n");
@@ -96,7 +96,7 @@ public class ItemSetBuilder extends Loadable {
                     s.append(list.remove(i).toString() + "\n");
                 }
             if (deleted)
-                s.append(item.toString() + "\n,,,,,,\n");
+                s.append(item.toString() + "\n,,,,,,,,\n");
             index++;
         }
 
@@ -104,7 +104,7 @@ public class ItemSetBuilder extends Loadable {
             try (FileWriter out = new FileWriter(GUI.getAbsolutePath("destiny-calculator_analysis/")
                     + character.getString().toLowerCase() + "-" + type.getFirstString() + "-duplicates.csv")) {
 
-                out.write("Item,Mob,Res,Rec,Dis,Int,Str\n" + s.toString());
+                out.write("Item,Tier,Type,Mob,Res,Rec,Dis,Int,Str\n" + s.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
