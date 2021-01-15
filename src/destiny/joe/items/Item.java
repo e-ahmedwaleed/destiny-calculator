@@ -67,6 +67,15 @@ public class Item {
         return total;
     }
 
+    public boolean isSimilarTo(Item oItem) {
+        if (!oItem.character.equals(character))
+            return false;
+        for (Stat s : Stat.values())
+            if (s != Stat.NULL && s != Stat.MASTER_WORK && !oItem.stats.get(s).equals(stats.get(s)))
+                return false;
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -81,15 +90,24 @@ public class Item {
             return false;
         if (!oItem.type.equals(type))
             return false;
-        if (!oItem.character.equals(character))
-            return false;
         if (!oItem.masterWork.equals(masterWork))
             return false;
-        for (Stat s : Stat.values())
-            if (s != Stat.NULL && !oItem.stats.get(s).equals(stats.get(s)))
-                return false;
+        if (!oItem.stats.get(Stat.MASTER_WORK).equals(stats.get(Stat.MASTER_WORK)))
+            return false;
 
-        return true;
+        return isSimilarTo(oItem);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(name + ",");
+        s.append(tier.getString() + ",");
+        s.append(masterWork.getFirstString() + ",");
+        for (Stat stat : Stat.values())
+            if (stat.ordinal() % 7 != 0)
+                s.append(stats.get(stat) + ",");
+        return s.toString();
     }
 
     @Override

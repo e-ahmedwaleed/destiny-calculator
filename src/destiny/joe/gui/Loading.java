@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Label;
 public class Loading extends Dialog implements Observer {
 
     private Shell shlPleaseWait;
+
+    private Label lblStat;
     private ProgressBar progressBar;
 
     /**
@@ -78,8 +80,9 @@ public class Loading extends Dialog implements Observer {
         progressBar.setMaximum(10);
         progressBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-        Label lblStat = new Label(shlPleaseWait, SWT.NONE);
-        lblStat.setText("Loading ...");
+        lblStat = new Label(shlPleaseWait, SWT.NONE);
+        lblStat.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        lblStat.setText("Reading files ...");
     }
 
     @Override
@@ -87,5 +90,7 @@ public class Loading extends Dialog implements Observer {
         progressBar.setSelection(progressBar.getSelection() + 1);
         if (progressBar.getSelection() >= 10)
             shlPleaseWait.dispose();
+        else
+            lblStat.setText(arg.toString());
     }
 }

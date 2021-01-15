@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import org.eclipse.swt.widgets.Label;
 
+import destiny.joe.items.ItemTierStat;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Stat;
 
@@ -56,12 +57,6 @@ public class CooldownsTable extends Observable implements Observer {
         notifyObservers();
     }
 
-    private static int[][] cooldownTiers = { { -1, 32, 30, 29, 26, 24, 22, 19, 16, 14, 11 },
-            { -1, 46, 41, 37, 33, 30, 28, 25, 21, 17, 14 }, { -1, 143, 131, 122, 115, 108, 103, 59, 51, 46, 41 },
-            { 143, 133, 125, 122, 108, 59, 51, 45, 41, 37, 32 },
-            { 712, 622, 543, 500, 445, 431, 418, 407, 400, 352, 348 },
-            { 200, 149, 140, 136, 120, 109, 100, 53, 48, 44, 37 } };
-
     private void updateCooldowns(Stat stat, int tier) {
 
         int index = -1;
@@ -105,7 +100,7 @@ public class CooldownsTable extends Observable implements Observer {
     private String getTierCooldown(Stat stat, int tier) {
         String s = "-:--";
 
-        int cooldown = cooldownTiers[stat.ordinal() - 1][tier];
+        int cooldown = ItemTierStat.getCooldownTiers(stat.ordinal() - 1, tier);
         if (cooldown > 0)
             s = cooldown / 100 + ":" + String.format("%02d", cooldown % 100);
         return s;

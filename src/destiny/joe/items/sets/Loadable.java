@@ -6,9 +6,9 @@ public abstract class Loadable extends Observable {
 
     public abstract void load();
 
-    void madeProgress() {
+    void updateStatus(String status) {
         setChanged();
-        notifyObservers();
+        notifyObservers(status);
     }
 
 }

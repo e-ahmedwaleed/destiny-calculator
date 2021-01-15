@@ -42,13 +42,16 @@ public class ItemSet {
          * +20 Mod. same goes if there is anther ARC item.
          */
         int penalty = 0;
+        int penaltySTR = getStatScore(Stat.STRENGTH) - 8;
+        int penaltyMOB = getStatScore(Stat.MOBILITY) - 8;
         if (hasArc()) {
-            penalty = getStatScore(Stat.STRENGTH) + getStatScore(Stat.MOBILITY) - 16;
-        } else {
-            int penaltySTR = getStatScore(Stat.STRENGTH) - 8;
-            int penaltyMOB = getStatScore(Stat.MOBILITY) - 8;
+            if (penaltySTR > 0)
+                penalty += penaltySTR;
+            if (penaltyMOB > 0)
+                penalty += penaltyMOB;
+        } else
             penalty = penaltySTR < penaltyMOB ? penaltySTR : penaltyMOB;
-        }
+
         score -= penalty > 0 ? penalty : 0;
         return score;
     }
@@ -56,18 +59,14 @@ public class ItemSet {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
+
         s.append("T" + getSetTier() + ",");
-        for (int stat : stats) {
+
+        for (int stat : stats)
             s.append(stat + ",");
-        }
-        for (Item item : items.values()) {
-            s.append(item.name + ",");
-            for (Stat stat : Stat.values())
-                if (stat.ordinal() % 7 != 0)
-                    s.append(item.stats.get(stat) + ",");
-            s.append(item.tier.getString() + ",");
-            s.append(item.masterWork.getFirstString() + ",");
-        }
+
+        for (Item item : items.values())
+            s.append(item);
 
         return s.toString();
     }
@@ -76,6 +75,9 @@ public class ItemSet {
         stats = Arrays.copyOf(set.stats, set.stats.length);
         items = new EnumMap<>(set.items);
         addItem(item);
+        if (items.size() >= 4)
+            for (int i = 0; i < 6; i++)
+                stats[i] += 10;
     }
 
     private void addItem(Item item) {
@@ -101,7 +103,7 @@ public class ItemSet {
     }
 
     private int getStatScore(Stat stat) {
-        int value = stats[stat.ordinal() - 1] + 2 * (items.size() + 1);
+        int value = stats[stat.ordinal() - 1];
         value = value < 100 ? (value / 10) : 10;
         return value;
     }

@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import destiny.joe.items.ItemTierStat;
 import destiny.joe.items.enums.Stat;
 
 public class ModsRow extends Observable implements Savable<Stat, int[]>, Observer {
@@ -96,14 +97,9 @@ public class ModsRow extends Observable implements Savable<Stat, int[]>, Observe
         notifyObservers(getTier(total));
     }
 
-    static int[][] tierRatios = { { 0, 0, 0, 0, 0, 0 }, { 4, 1, 3, 10, 49, 10 }, { 8, 2, 6, 17, 86, 17 },
-            { 12, 3, 9, 20, 128, 20 }, { 16, 4, 11, 34, 143, 34 }, { 20, 6, 14, 43, 156, 43 },
-            { 24, 8, 17, 50, 169, 50 }, { 28, 10, 23, 56, 180, 56 }, { 32, 11, 29, 60, 186, 60 },
-            { 36, 12, 34, 64, 194, 64 }, { 40, 13, 43, 69, 198, 69 } };
-
     private int getTierRatio(Integer total) {
         int index = getTier(total);
-        return tierRatios[index][type.ordinal() - 1];
+        return ItemTierStat.getTierRatios(index, type.ordinal() - 1);
     }
 
     private int getTier(Integer total) {

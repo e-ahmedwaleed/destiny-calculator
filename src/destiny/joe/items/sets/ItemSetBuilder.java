@@ -19,13 +19,14 @@ public class ItemSetBuilder extends Loadable {
         Map<Type, List<Item>> items = new EnumMap<>(Type.class);
         for (Type t : Type.values())
             if (t != Type.NULL) {
-                items.put(t, ItemManager.getItems(t, character));
+                items.put(t, filterDuplicates(t, character));
             }
+
+        updateStatus(character.getString() + " duplicates filtered.");
 
         ItemSet set = new ItemSet();
         List<ItemSet> sets = new ArrayList<>();
 
-        madeProgress();
         for (Item helmet : items.get(Type.HELMET)) {
             ItemSet setH = set.append(helmet);
             for (Item gauntlets : items.get(Type.GAUNTLETS)) {
@@ -47,8 +48,8 @@ public class ItemSetBuilder extends Loadable {
                 }
             }
         }
+        updateStatus(character.getString() + " combinations generated.");
 
-        madeProgress();
         System.out.print(character.getString() + ": ");
         System.out.print(items.get(Type.HELMET).size() + ", ");
         System.out.print(items.get(Type.GAUNTLETS).size() + ", ");
@@ -58,15 +59,17 @@ public class ItemSetBuilder extends Loadable {
 
         sets.sort(new ItemSetComparator());
 
-        try (FileWriter out = new FileWriter(GUI.getAbsolutePath("") + character.getString().toLowerCase() + ".csv")) {
+        try (FileWriter out = new FileWriter(
+                GUI.getAbsolutePath("destiny-calculator_analysis/") + character.getString().toLowerCase() + ".csv")) {
             out.write("Total,Mob,Res,Rec,Dis,Int,Str,");
-            out.write("Helmet,Mob,Res,Rec,Dis,Int,Str,Tier,Type,");
-            out.write("Gauntlets,Mob,Res,Rec,Dis,Int,Str,Tier,Type,");
-            out.write("Chest,Mob,Res,Rec,Dis,Int,Str,Tier,Type,");
-            out.write("Leg,Mob,Res,Rec,Dis,Int,Str,Tier,Type\n");
+            out.write("Helmet,Tier,HType,HMob,HRes,HRec,HDis,HInt,HStr,");
+            out.write("Gauntlets,GTier,GType,GMob,GRes,GRec,GDis,GInt,GStr,");
+            out.write("Chest,Tier,CType,CMob,CRes,CRec,CDis,CInt,CStr,");
+            out.write("Leg,LTier,LType,LMob,LRes,LRec,LDis,LInt,LStr\n");
 
             for (ItemSet s : sets)
-                if (sets.get(0).getSetTier() - tolerance <= s.getSetTier())
+                // TODO
+                if (/* sets.get(0).getSetTier() - tolerance */ 30 <= s.getSetTier())
                     out.write(s.toString() + "\n");
                 else
                     break;
@@ -74,7 +77,39 @@ public class ItemSetBuilder extends Loadable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        madeProgress();
+
+        updateStatus(character.getString() + " done.");
+    }
+
+    private List<Item> filterDuplicates(Type type, Character character) {
+
+        List<Item> list = ItemManager.getItems(type, character);
+        StringBuilder s = new StringBuilder();
+
+        int index = 0;
+        while (index < list.size()) {
+            boolean deleted = false;
+            Item item = list.get(index);
+            for (int i = list.size() - 1; i > index; i--)
+                if (list.get(i).isSimilarTo(item)) {
+                    deleted = true;
+                    s.append(list.remove(i).toString() + "\n");
+                }
+            if (deleted)
+                s.append(item.toString() + "\n,,,,,,\n");
+            index++;
+        }
+
+        if (s.length() > 0)
+            try (FileWriter out = new FileWriter(GUI.getAbsolutePath("destiny-calculator_analysis/")
+                    + character.getString().toLowerCase() + "-" + type.getFirstString() + "-duplicates.csv")) {
+
+                out.write("Item,Mob,Res,Rec,Dis,Int,Str\n" + s.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return list;
     }
 
     @Override
@@ -82,7 +117,7 @@ public class ItemSetBuilder extends Loadable {
         generateCombinations(Character.HUNTER, 1);
         generateCombinations(Character.TITAN, 1);
         generateCombinations(Character.WARLOCK, 1);
-        madeProgress();
+        updateStatus("Closing ...");
     }
 
 }
