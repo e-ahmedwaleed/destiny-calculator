@@ -14,7 +14,7 @@ import destiny.joe.items.enums.Type;
 import destiny.joe.utils.FileReader;
 import destiny.joe.utils.XMLSerializer;
 
-public class ItemsManager {
+public class ItemManager {
 
     private static final String[] REQUIRED = { "Name", "Tier", "Type", "Equippable", "Masterwork Type",
             "Mobility (Base)", "Resilience (Base)", "Recovery (Base)", "Discipline (Base)", "Intellect (Base)",
@@ -38,7 +38,7 @@ public class ItemsManager {
         availableItems = parseItems(new FileReader("destinyArmor.csv", ",").read());
     }
 
-    private ItemsManager() {
+    private ItemManager() {
     }
 
     public static List<Item> getItems(Type type, Character character) {

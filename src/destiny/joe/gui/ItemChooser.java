@@ -29,7 +29,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
-import destiny.joe.items.ItemsManager;
+import destiny.joe.items.ItemManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.MasterWork;
@@ -141,7 +141,7 @@ public class ItemChooser extends Dialog {
     }
 
     void intializeItemList() {
-        items = ItemsManager.getItems(type, character);
+        items = ItemManager.getItems(type, character);
         items.sort(new ItemComparator(null));
     }
 
@@ -567,7 +567,7 @@ public class ItemChooser extends Dialog {
         tableItem.setText(9, i.getTotalStats().toString());
         tableItem.setText(10, i.stats.get(Stat.MASTER_WORK).toString());
 
-        if (ItemsManager.isFavorite(i))
+        if (ItemManager.isFavorite(i))
             tableItem.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
     }
 

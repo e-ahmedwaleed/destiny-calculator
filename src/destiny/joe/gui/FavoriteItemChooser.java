@@ -18,7 +18,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemComparator;
-import destiny.joe.items.ItemsManager;
+import destiny.joe.items.ItemManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.ItemProperty.Categorial;
 import destiny.joe.items.enums.Type;
@@ -34,7 +34,7 @@ public class FavoriteItemChooser extends ItemChooser {
 
     @Override
     void intializeItemList() {
-        items = ItemsManager.getFavorites(character);
+        items = ItemManager.getFavorites(character);
         items.sort(new ItemComparator(null));
         items.sort(new ItemComparator(Type.NULL));
     }

@@ -35,6 +35,7 @@ import destiny.joe.gui.helper.StateMomento;
 import destiny.joe.items.Item;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
+import destiny.joe.items.sets.ItemSetBuilder;
 import destiny.joe.utils.FileChooser;
 import destiny.joe.utils.GUI;
 import destiny.joe.utils.XMLSerializer;
@@ -42,7 +43,6 @@ import destiny.joe.utils.XMLSerializer;
 public class MainWindow {
 
     private static ModsRow[] mods;
-    private static CooldownsTable cdTable;
     private static CharacterChooser selectedChar;
 
     private static ItemPickerRow helmet;
@@ -51,7 +51,7 @@ public class MainWindow {
     private static ItemPickerRow leg;
     private static ItemPickerRow[] items;
 
-    private static Button btnOptimal;
+    private static Button btnAnalyze;
     private static Group grpItemPicker;
     private static Combo comboCharacter;
     private static Shell shlDestinyCalculator;
@@ -297,7 +297,7 @@ public class MainWindow {
         lblHelmetMWTier.setAlignment(SWT.CENTER);
         lblHelmetMWTier.setToolTipText("Masterwork Tier");
         lblHelmetMWTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-        lblHelmetMWTier.setText("0 / 10");
+        lblHelmetMWTier.setText("00 / 10");
         lblHelmetMWTier.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_1 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -455,7 +455,7 @@ public class MainWindow {
         lblGauntletsMWTier.setAlignment(SWT.CENTER);
         lblGauntletsMWTier.setToolTipText("Masterwork Tier");
         lblGauntletsMWTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-        lblGauntletsMWTier.setText("0 / 10");
+        lblGauntletsMWTier.setText("00 / 10");
         lblGauntletsMWTier.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_2 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -613,7 +613,7 @@ public class MainWindow {
         lblChestMWTier.setAlignment(SWT.CENTER);
         lblChestMWTier.setToolTipText("Masterwork Tier");
         lblChestMWTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-        lblChestMWTier.setText("0 / 10");
+        lblChestMWTier.setText("00 / 10");
         lblChestMWTier.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_3 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -771,7 +771,7 @@ public class MainWindow {
         lblLegMWTier.setAlignment(SWT.CENTER);
         lblLegMWTier.setToolTipText("Masterwork Tier");
         lblLegMWTier.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
-        lblLegMWTier.setText("0 / 10");
+        lblLegMWTier.setText("00 / 10");
         lblLegMWTier.setFont(SWTResourceManager.getFont("Consolas", 7, SWT.NORMAL));
 
         Label vLine_4 = new Label(grpItemPicker, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -1366,22 +1366,22 @@ public class MainWindow {
         });
         tltmFavorite.setImage(GUI.loadImage(display, "favorite-on.png"));
 
-        btnOptimal = new Button(shlDestinyCalculator, SWT.NONE);
-        btnOptimal.setToolTipText("Find your optimal build.");
-        btnOptimal.addSelectionListener(new SelectionAdapter() {
+        btnAnalyze = new Button(shlDestinyCalculator, SWT.NONE);
+        btnAnalyze.setToolTipText("Find your optimal build.");
+        btnAnalyze.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                toggleInterrupt(false);
-                toggleInterrupt(true);
+                shlDestinyCalculator.setEnabled(false);
+                new Loading(shlDestinyCalculator, SWT.NONE).open(new ItemSetBuilder());
+                shlDestinyCalculator.setEnabled(true);
             }
         });
-        btnOptimal.setEnabled(false);
-        btnOptimal.setText("Optimal");
-        FormData fd_btnOptimal = new FormData();
-        fd_btnOptimal.bottom = new FormAttachment(100, -10);
-        fd_btnOptimal.left = new FormAttachment(grpItemPicker, 6);
-        fd_btnOptimal.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
-        btnOptimal.setLayoutData(fd_btnOptimal);
+        btnAnalyze.setText("Analyze");
+        FormData fd_btnAnalyze = new FormData();
+        fd_btnAnalyze.bottom = new FormAttachment(100, -10);
+        fd_btnAnalyze.left = new FormAttachment(grpItemPicker, 6);
+        fd_btnAnalyze.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
+        btnAnalyze.setLayoutData(fd_btnAnalyze);
 
         /* CUSTOM CODE: START */
         GUI.scaleSQRWindowDisplay(display, shlDestinyCalculator);
@@ -1469,7 +1469,7 @@ public class MainWindow {
         shlDestinyCalculator.addKeyListener(shortCuts);
 
         Label[] cds = { lblClassCD, lblGrenadeCD, lblSuperCD, lblMeleeCD };
-        cdTable = new CooldownsTable(selectedChar, mods, cds, lblAbility);
+        CooldownsTable cdTable = new CooldownsTable(selectedChar, mods, cds, lblAbility);
 
         Observer unlockSave = new Observer() {
             @Override
@@ -1555,8 +1555,7 @@ public class MainWindow {
     }
 
     private static void toggleInterrupt(boolean enable) {
-        // TODO
-        btnOptimal.setEnabled(false);
+        btnAnalyze.setEnabled(enable);
         grpItemPicker.setEnabled(enable);
         comboCharacter.setEnabled(enable);
 

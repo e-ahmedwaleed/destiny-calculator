@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 import destiny.joe.gui.ItemChooser;
 import destiny.joe.items.Item;
-import destiny.joe.items.ItemsManager;
+import destiny.joe.items.ItemManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Stat;
 import destiny.joe.items.enums.Type;
@@ -61,12 +61,12 @@ public class ItemPickerRow extends Observable implements Savable<Type, Item> {
         favorite.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if (getDataValue() != null && ItemsManager.isFavorite(getDataValue())) {
+                if (getDataValue() != null && ItemManager.isFavorite(getDataValue())) {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-off.png"));
-                    ItemsManager.deleteFromFavorites(getDataValue());
+                    ItemManager.deleteFromFavorites(getDataValue());
                 } else {
                     favorite.setImage(GUI.loadImage(shell.getDisplay(), "favorite-on.png"));
-                    ItemsManager.addToFavorites(getDataValue());
+                    ItemManager.addToFavorites(getDataValue());
                 }
                 shell.forceFocus();
             }
@@ -120,16 +120,16 @@ public class ItemPickerRow extends Observable implements Savable<Type, Item> {
         labels[16].setText(item.masterWork.getFirstString());
 
         int masterwork = item.stats.get(Stat.MASTER_WORK);
-        labels[17].setText(masterwork + "/ 10");
+        labels[17].setText(masterwork + " / 10");
 
         buttons[0].setEnabled(!item.equals(Item.NULL));
 
-        masterworkToggle(masterwork >= 10);
+        masterworkToggle(!item.equals(Item.NULL));
         buttons[1].setEnabled(masterwork < 10);
 
         favorite.getParent().setVisible(!item.equals(Item.NULL));
 
-        if (!item.equals(Item.NULL) && ItemsManager.isFavorite(item)) {
+        if (!item.equals(Item.NULL) && ItemManager.isFavorite(item)) {
             favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-on.png"));
         } else {
             favorite.setImage(GUI.loadImage(Display.getDefault(), "favorite-off.png"));
