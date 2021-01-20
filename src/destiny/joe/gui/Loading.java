@@ -20,10 +20,11 @@ import org.eclipse.swt.widgets.Label;
 
 public class Loading extends Dialog implements Observer {
 
-    private Shell shlPleaseWait;
-
     private Label lblStat;
+    private Shell shlPleaseWait;
     private ProgressBar progressBar;
+
+    private final int steps;
 
     /**
      * Create the dialog.
@@ -31,8 +32,9 @@ public class Loading extends Dialog implements Observer {
      * @param parent
      * @param style
      */
-    public Loading(Shell parent, int style) {
+    public Loading(Shell parent, int style, int steps) {
         super(parent, style);
+        this.steps = steps;
     }
 
     /**
@@ -77,7 +79,7 @@ public class Loading extends Dialog implements Observer {
 
         progressBar = new ProgressBar(shlPleaseWait, SWT.NONE);
         progressBar.setMinimum(0);
-        progressBar.setMaximum(10);
+        progressBar.setMaximum(steps);
         progressBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
         lblStat = new Label(shlPleaseWait, SWT.NONE);
@@ -88,7 +90,7 @@ public class Loading extends Dialog implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         progressBar.setSelection(progressBar.getSelection() + 1);
-        if (progressBar.getSelection() >= 10)
+        if (progressBar.getSelection() >= steps)
             shlPleaseWait.dispose();
         else
             lblStat.setText(arg.toString());

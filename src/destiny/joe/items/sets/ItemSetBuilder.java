@@ -7,15 +7,35 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
+
 import destiny.joe.items.Item;
 import destiny.joe.items.ItemManager;
 import destiny.joe.items.enums.Character;
 import destiny.joe.items.enums.Type;
+import destiny.joe.utils.DataConvertionUtil;
+import destiny.joe.utils.FileChooser;
 import destiny.joe.utils.GUI;
 
 public class ItemSetBuilder extends Loadable {
 
-    private void generateCombinations(Character character, int tolerance) {
+    private static final int MAX_ROWS_PER_SHEET = 65535;
+    private final Shell parent;
+
+    public ItemSetBuilder(Shell parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public void load() {
+        int[] filesCount = { generateCombinations(Character.HUNTER, 2), generateCombinations(Character.TITAN, 2),
+                generateCombinations(Character.WARLOCK, 2) };
+        convertToExcel(filesCount);
+        updateStatus("You can't see me :)");
+    }
+
+    private int generateCombinations(Character character, int tolerance) {
         Map<Type, List<Item>> items = new EnumMap<>(Type.class);
         for (Type t : Type.values())
             if (t != Type.NULL) {
@@ -59,26 +79,35 @@ public class ItemSetBuilder extends Loadable {
 
         sets.sort(new ItemSetComparator());
 
-        try (FileWriter out = new FileWriter(
-                GUI.getAbsolutePath("destiny-calculator_analysis/") + character.getString().toLowerCase() + ".csv")) {
-            out.write("Total,Mob,Res,Rec,Dis,Int,Str,");
-            out.write("Helmet,HTier,HType,HMob,HRes,HRec,HDis,HInt,HStr,");
-            out.write("Gauntlets,GTier,GType,GMob,GRes,GRec,GDis,GInt,GStr,");
-            out.write("Chest,Tier,CType,CMob,CRes,CRec,CDis,CInt,CStr,");
-            out.write("Leg,LTier,LType,LMob,LRes,LRec,LDis,LInt,LStr\n");
+        int index = 0;
+        int maxTier = sets.get(0).getSetTier();
+        int currentTier = sets.get(0).getSetTier();
+        while (currentTier >= maxTier - tolerance && index * MAX_ROWS_PER_SHEET <= sets.size())
+            try (FileWriter out = new FileWriter(csvFilePath(character, index))) {
+                out.write("Total,Mob,Res,Rec,Dis,Int,Str,");
+                out.write("Helmet,HTier,HType,HMob,HRes,HRec,HDis,HInt,HStr,");
+                out.write("Gauntlets,GTier,GType,GMob,GRes,GRec,GDis,GInt,GStr,");
+                out.write("Chest,CTier,CType,CMob,CRes,CRec,CDis,CInt,CStr,");
+                out.write("Leg,LTier,LType,LMob,LRes,LRec,LDis,LInt,LStr\n");
 
-            for (ItemSet s : sets)
-                // TODO
-                if (/* sets.get(0).getSetTier() - tolerance */ 30 <= s.getSetTier())
-                    out.write(s.toString() + "\n");
-                else
-                    break;
+                for (int i = 0; i < MAX_ROWS_PER_SHEET; i++) {
+                    if (sets.get(i + index * MAX_ROWS_PER_SHEET).getSetTier() < currentTier)
+                        currentTier--;
+                    if (currentTier < maxTier - tolerance)
+                        break;
+                    out.write(sets.get(i + index * MAX_ROWS_PER_SHEET).toString() + "\n");
+                }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                index++;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
 
         updateStatus(character.getString() + " done.");
+
+        return index;
     }
 
     private List<Item> filterDuplicates(Type type, Character character) {
@@ -112,12 +141,25 @@ public class ItemSetBuilder extends Loadable {
         return list;
     }
 
-    @Override
-    public void load() {
-        generateCombinations(Character.HUNTER, 1);
-        generateCombinations(Character.TITAN, 1);
-        generateCombinations(Character.WARLOCK, 1);
-        updateStatus("Closing ...");
+    private void convertToExcel(int[] filesCount) {
+        updateStatus("Converting to excel ...");
+        String[] filters = { "Excel 97-2003 Wrokbook", ".xls", "destiny-calculator_analysis/" };
+        String excelPath = new FileChooser(parent, SWT.CLOSE).open(true, filters);
+
+        List<String> analysisCSV = new ArrayList<>();
+        for (Character c : Character.values()) {
+            if (c == Character.NULL)
+                continue;
+            for (int i = 0; i < filesCount[c.ordinal() - 1]; i++)
+                analysisCSV.add(csvFilePath(c, i));
+        }
+        if (excelPath != null)
+            DataConvertionUtil.csvToExcel(analysisCSV, excelPath);
+    }
+
+    private String csvFilePath(Character character, int index) {
+        return GUI.getAbsolutePath("destiny-calculator_analysis/") + character.getString().toLowerCase() + "-" + index
+                + ".csv";
     }
 
 }

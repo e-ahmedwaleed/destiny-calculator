@@ -12,7 +12,11 @@ public class FileChooser extends Dialog {
         super(parent, style);
     }
 
-    public String open(boolean isSave) {
+    /**
+     * @param isSave
+     * @param filters [0] Filter Name, [1] Filter Extension, [2] Filter Path.
+     */
+    public String open(boolean isSave, String[] filters) {
 
         FileDialog dialog;
 
@@ -21,15 +25,15 @@ public class FileChooser extends Dialog {
         else
             dialog = new FileDialog(getParent(), SWT.OPEN);
 
-        dialog.setFilterNames(new String[] { "Serialized Files (.xml)", "All Files (*.*)" });
-        dialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+        dialog.setFilterNames(new String[] { filters[0] + " (" + filters[1] + ")", "All Files (*.*)" });
+        dialog.setFilterExtensions(new String[] { "*" + filters[1], "*.*" });
 
-        dialog.setFilterPath(GUI.getAbsolutePath("destiny-calculator_sets/"));
+        dialog.setFilterPath(GUI.getAbsolutePath(filters[2]));
 
         String path = dialog.open();
 
         if (path != null)
-            return path.contains(".xml") ? path : path + ".xml";
+            return path.contains(filters[1]) ? path : path + filters[1];
 
         return null;
 

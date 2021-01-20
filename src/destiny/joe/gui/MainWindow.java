@@ -1372,7 +1372,7 @@ public class MainWindow {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 shlDestinyCalculator.setEnabled(false);
-                new Loading(shlDestinyCalculator, SWT.NONE).open(new ItemSetBuilder());
+                new Loading(shlDestinyCalculator, SWT.NONE, 11).open(new ItemSetBuilder(shlDestinyCalculator));
                 shlDestinyCalculator.setEnabled(true);
             }
         });
@@ -1382,6 +1382,15 @@ public class MainWindow {
         fd_btnAnalyze.left = new FormAttachment(grpItemPicker, 6);
         fd_btnAnalyze.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
         btnAnalyze.setLayoutData(fd_btnAnalyze);
+
+        Button btnAbout = new Button(shlDestinyCalculator, SWT.NONE);
+        btnAbout.setToolTipText("Find your optimal build.");
+        btnAbout.setText("About");
+        FormData fd_btnAbout = new FormData();
+        fd_btnAbout.left = new FormAttachment(grpItemPicker, 6);
+        fd_btnAbout.bottom = new FormAttachment(btnAnalyze, -6);
+        fd_btnAbout.right = new FormAttachment(comboCharacter, 0, SWT.RIGHT);
+        btnAbout.setLayoutData(fd_btnAbout);
 
         /* CUSTOM CODE: START */
         GUI.scaleSQRWindowDisplay(display, shlDestinyCalculator);
@@ -1502,7 +1511,8 @@ public class MainWindow {
 
     private static void saveSet(ToolItem tltmSave) {
         if (tltmSave.getEnabled()) {
-            String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(true);
+            String[] filters = { "Serialized Files", ".xml", "destiny-calculator_sets/" };
+            String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(true, filters);
             if (path != null) {
                 StateMomento stateMomento = new StateMomento(items, mods, selectedChar.getCharacter());
                 XMLSerializer.saveObject(stateMomento, path);
@@ -1512,7 +1522,8 @@ public class MainWindow {
     }
 
     private static void loadSet() {
-        String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(false);
+        String[] filters = { "Serialized Files", ".xml", "destiny-calculator_sets/" };
+        String path = new FileChooser(shlDestinyCalculator, SWT.CLOSE).open(false, filters);
         if (path != null)
             try {
                 StateMomento stateMomento = XMLSerializer.loadObject(path);
